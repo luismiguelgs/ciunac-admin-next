@@ -1,0 +1,18 @@
+npm install -S @toolpad/core
+npm install -S @mui/material @mui/icons-material @emotion/react @emotion/styled
+npm install @mui/material-nextjs @emotion/cache
+npm install zustand
+
+npm i firebase
+npm i exceljs
+npm i yup
+npm i @react-input/mask
+npm i formik
+npm install @mui/x-date-pickers
+npm install dayjs
+npm install @mui/x-data-grid
+npm install @react-pdf/renderer --save
+npm i qrcode
+npm i @types/qrcode --save-dev
+npm install @dnd-kit/core
+npm install @dnd-kit/sortable
