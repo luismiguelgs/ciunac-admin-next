@@ -1,6 +1,42 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid2';
+import CardChart from './(components)/CardChart';
+import MyPieChart from './(components)/MyPieChart';
+import SolicitudesService from '@/services/solicitudes.service';
+import MyLineChart from './(components)/MyLineChart';
+import MyBarChart from './(components)/MyBarChart';
 
-export default function Page() {
-  return <Typography>Welcome to a page in the dashboard!</Typography>;
+async function getData() {
+    const res = await SolicitudesService.fetchItemsWODate();
+    return res
+}
+
+export default async function Page() 
+{
+    const data = await getData()
+
+    return (
+        <Grid container spacing={2}>
+            <Grid size={{xs: 12, sm: 6}}>
+                <CardChart title='Solicitudes por Idioma'>
+                    <MyPieChart data={data}/>
+                </CardChart>
+            </Grid>
+            <Grid size={{xs:12, sm:6}}>
+                <CardChart title='Solicitudes por mes'>
+                    <MyLineChart data={data}/>
+                </CardChart>
+            </Grid>
+            <Grid size={{xs:12, sm:6}}>
+                <CardChart title='Solicitudes por facultad'>
+                    <MyBarChart data={data} horizontal={true}/>
+                </CardChart>
+            </Grid>
+            <Grid size={{xs:12, sm:6}}>
+                <CardChart title='Solicitudes por estado'>
+                    <MyBarChart data={data} horizontal={false}/>
+                </CardChart>
+            </Grid>
+        </Grid>
+    );
 }

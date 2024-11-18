@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import * as ExcelJS from 'exceljs';
 import { Isolicitud } from '@/interfaces/solicitud.interface';
+import { IUsuario } from "@/interfaces/usuario.interface";
 
 export function formatDate(fecha:any, whours=false):string{
     const date = new Date(fecha)
@@ -105,4 +106,36 @@ export function obtenerPeriodo()
     const mesFormateado = String(mes).padStart(2, '0');
 
     return `${String(año)}${mesFormateado}`
+}
+
+export function validateUser(item:IUsuario, setVal:React.Dispatch<React.SetStateAction<any>>):boolean{
+    let email:boolean
+    let password:boolean
+    let nombre:boolean
+
+    const emailRegex =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/ 
+  
+    if(item.email === '' || !emailRegex.test(item.email)){
+        email = false
+        setVal((prevBasicVal: any)=>({...prevBasicVal, email:true}))
+    }else{
+        email = true
+        setVal((prevBasicVal: any)=>({...prevBasicVal, email:false}))
+    }
+    if(item.password === '' || item.password.length <  6){
+        password = false
+        setVal((prevBasicVal: any)=>({...prevBasicVal, password:true}))
+    }else{
+        password = true
+        setVal((prevBasicVal: any)=>({...prevBasicVal, password:false}))
+    }
+    if(item.nombre === ''){
+        nombre = false
+        setVal((prevBasicVal: any)=>({...prevBasicVal, nombre:true}))
+    }else{
+        nombre = true
+        setVal((prevBasicVal: any)=>({...prevBasicVal, nombre:false}))
+    }
+
+  return email && password && nombre
 }

@@ -18,6 +18,8 @@ import CertificateDetail from "../(components)/CertificateDetail";
 import { MyDialog } from "@/components/MUI";
 import { PDFViewer } from "@react-pdf/renderer";
 import CertificateFormat from "../(components)/CertificateFormat";
+import ButtonSeeCertificate from "../(components)/ButtonSeeCertificate";
+import ButtonSave from "@/components/ButtonSave";
 
 export default function NewCertificatePage() 
 {
@@ -40,7 +42,7 @@ export default function NewCertificatePage()
             //alert(JSON.stringify(values,null, 2))
             const id = await CertificadosService.newItem(Collection.Certificados, formattedValues)
             setId(id as string)
-            navigate.push(`./certificados/${id}`)
+            navigate.push(`./${id}`)
         }
     })
 
@@ -61,40 +63,15 @@ export default function NewCertificatePage()
                         Asignar Solicitud
                     </Button>
 				</Grid>
-				<Grid size={{xs:12, md:3}} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
-					<Button
-                        fullWidth 
-                        onClick={()=>setOpen(true)}
-                        variant="contained" 
-                        color="error" 
-                        disabled={id === 'nuevo'}
-                        startIcon={<PreviewIcon />}>
-                        Ver Certificado
-                    </Button>
-				</Grid> 
+                <Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+                    <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
+				</Grid>
+                <Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+					<ButtonSeeCertificate formik={formik} id={id as string} data={[]} cursos={subjects}/>
+				</Grid>
 				<Grid size={{xs:12}}>
 					<CertificateDetail id_certificado={id} /> 
 				</Grid>
-				<MyDialog 
-					type="SIMPLE"
-					open={open} 
-					setOpen={setOpen}
-					title={'CERTIFICADO'}
-					content={<>
-						<PDFViewer width={800} height={500}>
-				            <CertificateFormat
-                                data={[]} 
-                                fecha_emision={dayjs(formik.values.fecha_emision).format('D [de] MMMM [de] YYYY' )}
-                                fecha_conclusion={dayjs(formik.values.fecha_conclusion).format('D [de] MMMM [de] YYYY' )} 
-                                idioma={subjects?.filter(item=>item.value === formik.values.idioma)[0]?.label}
-                                nivel={formik.values.nivel} 
-                                url={`https://ciunac.unac.edu.pe/validacion-certificado/?url=${id}`}
-                                alumno={formik.values.alumno} 
-                                horas={formik.values.horas}
-                                numero_folio={formik.values.numero_registro}/>
-			            </PDFViewer>
-                	</>}
-				/>
 			</Grid>
 		</Box>
 	)

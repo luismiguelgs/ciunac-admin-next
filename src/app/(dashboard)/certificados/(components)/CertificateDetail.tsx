@@ -7,21 +7,32 @@ import AddIcon from '@mui/icons-material/Add';
 import CertificadosService, { Collection } from '@/services/certificados.service'
 import EditableDataGrid from '@/components/MUI/EditableDataGrid'
 import { MyDialog } from '@/components/MUI'
+import { PROGRAMAS } from '@/lib/constants'
 
-const cols:GridColDef[] = [
-    {field: 'curso', headerName: 'CURSO', editable: true, width:220},
-    {field: 'ciclo', headerName: 'CICLO', editable: true, width:280},
-    {field: 'modalidad', headerName: 'MODALIDAD', editable: true},
-    {field: 'nota', headerName: 'NOTA', editable: true, type:'number'}
-]
+const modeOptions = [
+    { value: 'EX.U', label: 'EXAMEN DE UBICACIÓN' },
+    { value: 'C.I.', label: 'CICLO INTENSIVO' },
+    { value: 'C.R.', label: 'CICLO REGULAR' }
+];
 
 type Props = {
     id_certificado: string,
     setData?: React.Dispatch<React.SetStateAction<IcertificadoDetalle[]>>
+    idioma?: string | null
+    nivel?: string | null
 }
 
-export default function CertificateDetail({id_certificado, setData}:Props) 
+export default function CertificateDetail({id_certificado, setData, idioma=null, nivel=null}:Props) 
 {
+    let cursos = []
+    if(idioma && nivel){
+        const {niveles, label, id} = PROGRAMAS.filter(item=>item.id === `${idioma}-${nivel}`)[0]
+        for(let i=1; i<= niveles;i++){
+            cursos.push({value:`${label} ${i}`, label:`${label} ${i}`})
+        }
+    }
+    
+    
     const loadData = async (id:string | undefined) =>{
         const data = await CertificadosService.fetchItemsDetail(id as string)
         setRows(data)
@@ -87,6 +98,13 @@ export default function CertificateDetail({id_certificado, setData}:Props)
         }));
     }
 
+    const cols:GridColDef[] = [
+        {field: 'curso', headerName: 'CURSO', editable: true, type:'singleSelect', valueOptions:cursos, width:240},
+        {field: 'ciclo', headerName: 'CICLO', editable: true, width:200},
+        {field: 'modalidad', headerName: 'MODALIDAD', type:'singleSelect', valueOptions: modeOptions, width:240, editable:true },
+        {field: 'nota', headerName: 'NOTA', editable: true, type:'number'}
+    ]
+
     return (
         <React.Fragment>
             <Button 
@@ -97,7 +115,7 @@ export default function CertificateDetail({id_certificado, setData}:Props)
                 onClick={handleNewClick}>
                     Asignar Nota(s)
             </Button>
-            <EditableDataGrid
+            { cursos.length > 0 && <EditableDataGrid
                 columns={cols}
                 rows={rows}
                 setRows={setRows}
@@ -105,7 +123,7 @@ export default function CertificateDetail({id_certificado, setData}:Props)
                 setRowModesModel={setRowModesModel}
                 handleDeleteClick={handleDeleteClick}
                 processRowUpdate={processRowUpdate}
-            />
+            />}
             <MyDialog
                 type='ALERT'
                 title='Borrar Registro'

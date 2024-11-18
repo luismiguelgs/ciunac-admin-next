@@ -10,11 +10,12 @@ import { Icertificado, IcertificadoDetalle } from '@/interfaces/certificado.inte
 import CertificadosService, { Collection } from '@/services/certificados.service'
 import { initialValues, validationSchema } from '../(components)/validation.schema'
 import { useFormik } from 'formik'
-import SaveIcon from '@mui/icons-material/Save';
 import Grid from '@mui/material/Grid2'
 import BackButton from '@/components/BackButton'
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
+import CertificateDetail from '../(components)/CertificateDetail'
+import ButtonSave from '@/components/ButtonSave'
 
 export default function CertificateDetailPage(params:{params:{id:string}}) 
 {
@@ -27,6 +28,8 @@ export default function CertificateDetailPage(params:{params:{id:string}})
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
             const data = await CertificadosService.selectItem(id as string)
+            const detailData = await CertificadosService.fetchItemsDetail(id as string)
+            setDetalle(detailData)
             
             formik.setValues({
                 alumno: data?.alumno || initialValues.alumno,
@@ -59,8 +62,7 @@ export default function CertificateDetailPage(params:{params:{id:string}})
             navigate.back()
         }
     })
-
-
+    
 	return (
 		<Box>
 			<Typography variant="h5" gutterBottom>{`Certificado Detalle (${id})` }</Typography>
@@ -80,19 +82,13 @@ export default function CertificateDetailPage(params:{params:{id:string}})
                     </Button>
 				</Grid>
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
-					<Button
-                        fullWidth
-                        onClick={()=>{
-                            formik.submitForm()
-                        }}
-                        variant="contained" 
-                        color="success" 
-                        startIcon={<SaveIcon />}>
-                            Guardar
-                    </Button>
+                    <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
 				</Grid>
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
-					<ButtonSeeCertificate formik={formik} id={id as string} data={detalle} cursos={subjects}/>
+					<ButtonSeeCertificate formik={formik} id={id as string} data={detalle} cursos={subjects} />
+				</Grid>
+                <Grid size={{xs:12}}>
+					<CertificateDetail id_certificado={id} idioma={formik.values.idioma}  nivel={formik.values.nivel}/> 
 				</Grid>
 			</Grid>
 		</Box>

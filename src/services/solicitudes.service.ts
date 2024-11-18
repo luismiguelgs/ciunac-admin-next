@@ -70,6 +70,15 @@ export default class SolicitudesService
               });
           }   
     }
+    public static async fetchItemsWODate():Promise<Isolicitud[]>{
+        const querySnapshot = await getDocs(this.db)
+        const data = querySnapshot.docs.map((item)=>{
+            //console.log(item.data());
+            return { ...item.data(), id:item.id, creado: changeDate(item.data().creado,false), modificado: changeDate(item.data().modificado,false)} as Isolicitud
+        })
+        
+        return data
+    }
     public static async getItem(id:string) 
     {
         const docRef = doc(firestore, this.dataCollection, id)

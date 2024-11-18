@@ -8,16 +8,20 @@ import { MyDialog } from '@/components/MUI'
 import { PDFViewer } from '@react-pdf/renderer'
 import CertificateFormat from './CertificateFormat'
 import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import { NIVEL } from '@/lib/constants'
+import CertificadosService from '@/services/certificados.service'
+dayjs.locale('es');
 
 type Props = {
     id: string,
     formik: FormikProps<Icertificado>,
-    data: IcertificadoDetalle[],
+    data?: IcertificadoDetalle[],
     cursos: IBaseData[] | undefined
 }
 
 
-export default function ButtonSeeCertificate({ id, formik, data, cursos }: Props) 
+export default function ButtonSeeCertificate({ id, formik, data=[], cursos }: Props) 
 {
     //HOOKS *************************************************
     const [open, setOpen] = React.useState<boolean>(false)
@@ -41,11 +45,11 @@ export default function ButtonSeeCertificate({ id, formik, data, cursos }: Props
                 content={<>
                     <PDFViewer width={800} height={500}>
 				        <CertificateFormat
-                            data={data} 
+                            id={id}
                             fecha_emision={dayjs(formik.values.fecha_emision).format('D [de] MMMM [de] YYYY' )}
                             fecha_conclusion={dayjs(formik.values.fecha_conclusion).format('D [de] MMMM [de] YYYY' )} 
                             idioma={cursos?.filter(item=>item.value === formik.values.idioma)[0]?.label}
-                            nivel='BÁSICO' 
+                            nivel={NIVEL.filter(item=>item.value === formik.values.nivel)[0]?.label} 
                             url={`https://ciunac.unac.edu.pe/validacion-certificado/?url=${id}`}
                             alumno={formik.values.alumno} 
                             horas={formik.values.horas}

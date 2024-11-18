@@ -16,3 +16,4 @@ npm i qrcode
 npm i @types/qrcode --save-dev
 npm install @dnd-kit/core
 npm install @dnd-kit/sortable
+npm install @mui/x-charts

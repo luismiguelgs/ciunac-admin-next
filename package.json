@@ -17,6 +17,7 @@
     "@mui/icons-material": "^6.1.4",
     "@mui/material": "^6.1.4",
     "@mui/material-nextjs": "^6.1.4",
+    "@mui/x-charts": "^7.22.2",
     "@mui/x-data-grid": "^7.22.0",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-input/mask": "^1.2.11",
