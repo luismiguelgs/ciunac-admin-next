@@ -20,6 +20,7 @@ import ButtonSave from '@/components/ButtonSave'
 export default function CertificateDetailPage(params:{params:{id:string}}) 
 {
 	const { id } = params.params
+    let maker:string = ''
 	//HOOKS *************************************************
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
 	const navigate = useRouter()
@@ -28,6 +29,7 @@ export default function CertificateDetailPage(params:{params:{id:string}})
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
             const data = await CertificadosService.selectItem(id as string)
+            maker = data?.elaborador || ''
             const detailData = await CertificadosService.fetchItemsDetail(id as string)
             setDetalle(detailData)
             
@@ -85,7 +87,12 @@ export default function CertificateDetailPage(params:{params:{id:string}})
                     <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
 				</Grid>
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
-					<ButtonSeeCertificate formik={formik} id={id as string} data={detalle} cursos={subjects} />
+					<ButtonSeeCertificate 
+                        formik={formik} 
+                        maker={maker}
+                        id={id as string} 
+                        data={detalle} 
+                        cursos={subjects} />
 				</Grid>
                 <Grid size={{xs:12}}>
 					<CertificateDetail id_certificado={id} idioma={formik.values.idioma}  nivel={formik.values.nivel}/> 

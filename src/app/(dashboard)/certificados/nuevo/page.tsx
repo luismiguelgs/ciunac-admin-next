@@ -13,20 +13,17 @@ import { Box, Button } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import BackButton from "@/components/BackButton";
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import PreviewIcon from '@mui/icons-material/Preview';
 import CertificateDetail from "../(components)/CertificateDetail";
-import { MyDialog } from "@/components/MUI";
-import { PDFViewer } from "@react-pdf/renderer";
-import CertificateFormat from "../(components)/CertificateFormat";
 import ButtonSeeCertificate from "../(components)/ButtonSeeCertificate";
 import ButtonSave from "@/components/ButtonSave";
+import { useSession } from 'next-auth/react'
 
 export default function NewCertificatePage() 
 {
+    const { data: session } = useSession()
 	//HOOKS *************************************************
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
 	const [id, setId] = React.useState<string>('nuevo')
-    const [open, setOpen] = React.useState<boolean>(false)
     const navigate = useRouter()
 
 	const formik = useFormik<Icertificado>({
@@ -36,9 +33,10 @@ export default function NewCertificatePage()
             // Convert dayjs objects to JavaScript Date objects
             const formattedValues = {
                 ...values,
+                elaborador: session?.user?.email,
                 fecha_emision: dayjs(values.fecha_emision).toDate(),
                 fecha_conclusion: dayjs(values.fecha_conclusion).toDate()
-            };
+            } as Icertificado;
             //alert(JSON.stringify(values,null, 2))
             const id = await CertificadosService.newItem(Collection.Certificados, formattedValues)
             setId(id as string)

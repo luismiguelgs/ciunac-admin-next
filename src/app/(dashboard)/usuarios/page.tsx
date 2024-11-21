@@ -119,7 +119,7 @@ export default function UsersPage()
     return (
 		<Grid container spacing={2}>
 			<Grid size={{xs: 12, sm: 6}}>
-				<NewButton text='Nuevo Usuario' onClick={handleNew}/>
+				<NewButton text='Nuevo Usuario' onClick={handleNew} link={false}/>
 			</Grid>
 			<Grid size={{xs: 12, sm: 6}}>
 				<Box id='filter-panel' />

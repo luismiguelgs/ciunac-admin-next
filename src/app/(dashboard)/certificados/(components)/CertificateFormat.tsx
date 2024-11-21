@@ -1,6 +1,7 @@
 import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
 import QRCode from 'qrcode'
-import selloDirector from '@/assets/director.jpg'
+//import selloDirector from '@/assets/director.jpg'
+import selloDirector from '@/assets/firma.jpg'
 import selloCoordinadora from '@/assets/coordinadora.jpg'
 import selloElaborador  from '@/assets/elaborador.jpg'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
 	image:{
 		marginBottom: 10,
 		marginHorizontal: 20,
-		width: 200,
+		width: 180,
 		marginTop: 30
 	},
 	imageSello:{
@@ -151,8 +152,9 @@ type Props = {
     horas: number,
     numero_folio: string,
 	id: string,
+	elaborador?: string
 }
-export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha_emision, fecha_conclusion, alumno, horas, numero_folio}:Props) 
+export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha_emision, fecha_conclusion, alumno, horas, numero_folio, elaborador=''}:Props) 
 {
     const QRCode = generateSessionPDFQrCode(url)
 	const [data, setData] = React.useState<IcertificadoDetalle[]>([]);
@@ -274,9 +276,10 @@ export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha
 							<Text>*C.I. CICLO REGULAR.</Text>
 						</View>
 					</View>
-					<View style={{ position:'absolute', alignItems: 'center', fontSize: 12, bottom: -40, right: 0, width: '50%'}}>
+					<View style={{ position:'absolute', alignItems: 'center', fontSize: 10, bottom: 0, right: 0, width: '50%'}}>
 						<Text>Registrado en el libro de Certificados</Text>
 						<Text>Nivel {nivel} basjo el N° {numero_folio}</Text>
+						<Text>Elaborado por: {elaborador}</Text>
 						<Text>Callao, {fecha_emision}</Text>
 					</View>
 				</View>

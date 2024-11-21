@@ -9,6 +9,7 @@ export interface Icertificado{
     fecha_emision: Date,
     numero_registro : string,
     fecha_conclusion: Date,
+    elaborador?: string,
     creado?: any,
     modificado?: any
 }

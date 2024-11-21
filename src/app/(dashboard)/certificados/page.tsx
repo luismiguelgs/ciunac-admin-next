@@ -13,8 +13,10 @@ import { useRouter } from 'next/navigation'
 import CertificadosService, { Collection } from '@/services/certificados.service'
 import { NIVEL } from '@/lib/constants'
 
+
 export default function CertificatesPage() 
 {
+    
 	//Hooks ************************************************************
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const navigate = useRouter()

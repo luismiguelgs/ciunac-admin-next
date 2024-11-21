@@ -17,11 +17,12 @@ type Props = {
     id: string,
     formik: FormikProps<Icertificado>,
     data?: IcertificadoDetalle[],
+    maker?: string
     cursos: IBaseData[] | undefined
 }
 
 
-export default function ButtonSeeCertificate({ id, formik, data=[], cursos }: Props) 
+export default function ButtonSeeCertificate({ id, formik, data=[], cursos, maker='' }: Props) 
 {
     //HOOKS *************************************************
     const [open, setOpen] = React.useState<boolean>(false)
@@ -53,6 +54,7 @@ export default function ButtonSeeCertificate({ id, formik, data=[], cursos }: Pr
                             url={`https://ciunac.unac.edu.pe/validacion-certificado/?url=${id}`}
                             alumno={formik.values.alumno} 
                             horas={formik.values.horas}
+                            elaborador={maker}
                             numero_folio={formik.values.numero_registro}/>
 			        </PDFViewer>
                 </>}
