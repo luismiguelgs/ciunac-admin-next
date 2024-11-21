@@ -1,5 +1,5 @@
 import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
-import logoCiunac from './logo_ciunac.jpg'
+import logoCiunac from './logo-ciunac.jpg'
 
 Font.register({family:'Roboto', src:'http://fonts.gstatic.com/s/roboto/v16/zN7GBFwfMP4uA6AR0HCoLQ.ttf'})
 
