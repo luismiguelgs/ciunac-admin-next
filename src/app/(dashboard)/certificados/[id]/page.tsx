@@ -16,7 +16,6 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
 import CertificateDetail from '../(components)/CertificateDetail'
 import ButtonSave from '@/components/ButtonSave'
-import { useSession } from 'next-auth/react'
 
 export default function CertificateDetailPage() 
 {
