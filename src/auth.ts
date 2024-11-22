@@ -10,13 +10,16 @@ const providers: Provider[] = [
             password:{label:"Password", type:"password"}
         },
         authorize: async (credentials) => {
+            console.log(credentials);
             if(!credentials?.email || !credentials?.password){
+                
                 throw new Error("Invalid credentials")
             }
             else{
                 try{
                     const res = await AuthService.logIn(String(credentials?.email), String(credentials?.password))
-                    //console.log(res);
+                    if(!res.user) throw new Error("User not found")
+                    console.log(res.user); 
                     return res.user
                 }
                 catch(err){
