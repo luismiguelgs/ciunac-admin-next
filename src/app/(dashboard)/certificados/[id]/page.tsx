@@ -32,7 +32,6 @@ export default function CertificateDetailPage()
 
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
-            const session = await useSession()
             const data = await CertificadosService.selectItem(id as string)
             maker.current = data?.elaborador || '';
             const detailData = await CertificadosService.fetchItemsDetail(id as string)

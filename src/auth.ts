@@ -20,6 +20,7 @@ const providers: Provider[] = [
                     return res.user
                 }
                 catch(err){
+                    if(err instanceof Error) console.error(err.message);
                     throw new Error("Invalid credentials")
                 }
             }              
