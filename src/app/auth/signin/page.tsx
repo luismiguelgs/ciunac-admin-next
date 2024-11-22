@@ -3,7 +3,8 @@ import { AuthError } from 'next-auth';
 import { providerMap, signIn } from '@/auth'
 import React from 'react'
 
-export default function LoginPage() {
+export default function LoginPage() 
+{
     return (
         <SignInPage 
             providers={providerMap as AuthProvider[]}

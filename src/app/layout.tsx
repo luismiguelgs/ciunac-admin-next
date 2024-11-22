@@ -29,7 +29,7 @@ export default async function RootLayout({ children, }: Readonly<{  children: Re
 							theme={theme} 
 							navigation={NAVIGATION} 
 							branding={{
-								logo: <img src="/logo.png" alt="CIUNAC logo" />,
+								logo: <img src="/apple-touch-icon.png" alt="CIUNAC logo" />,
 								title: 'CIUNAC ADMIN',
 							}}
 							session={session}
