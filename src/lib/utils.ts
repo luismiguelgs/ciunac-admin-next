@@ -3,6 +3,7 @@ import * as ExcelJS from 'exceljs';
 import { Isolicitud } from '@/interfaces/solicitud.interface';
 import { IUsuario } from "@/interfaces/usuario.interface";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function formatDate(fecha:any, whours=false):string{
     const date = new Date(fecha)
     const day = date.getDate().toString().padStart(2, '0');
@@ -63,7 +64,7 @@ export async function exportToExcel(data:Isolicitud[])
 
   // Agregar datos a la hoja de cálculo
   dataF.forEach(row => {
-    worksheet.addRow(row as any);
+    worksheet.addRow(row);
   });
 
   // Generar un blob a partir del libro de Excel
@@ -87,13 +88,20 @@ export async function exportToExcel(data:Isolicitud[])
   window.URL.revokeObjectURL(url);
 }
 const formatearDatos =(data:Isolicitud[]) =>{
-  const excelData:any[] = [['Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado']]
-  data.forEach((row)=>{
-    excelData.push([
-      row.apellidos?.toUpperCase(),row.nombres?.toUpperCase(), row.dni, row.idioma, row.nivel, +row.pago, row.numero_voucher, row.estado
-    ])
-  })
-  return excelData
+	const excelData:string[][] = [['Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado']]
+	data.forEach((row)=>{
+		excelData.push([
+			row.apellidos?.toUpperCase() || '',
+			row.nombres?.toUpperCase() || '', 
+			row.dni || '', 
+			row.idioma, 
+			row.nivel, 
+			row.pago, 
+			row.numero_voucher || '', 
+			row.estado || ''
+		])
+	})
+	return excelData
 }
 
 export function obtenerPeriodo()
@@ -108,7 +116,7 @@ export function obtenerPeriodo()
     return `${String(año)}${mesFormateado}`
 }
 
-export function validateUser(item:IUsuario, setVal:React.Dispatch<React.SetStateAction<any>>):boolean{
+export function validateUser(item:IUsuario, setVal:React.Dispatch<React.SetStateAction<{email: boolean; password: boolean; nombre: boolean}>>):boolean{
     let email:boolean
     let password:boolean
     let nombre:boolean
@@ -117,24 +125,24 @@ export function validateUser(item:IUsuario, setVal:React.Dispatch<React.SetState
   
     if(item.email === '' || !emailRegex.test(item.email)){
         email = false
-        setVal((prevBasicVal: any)=>({...prevBasicVal, email:true}))
+        setVal((prevBasicVal)=>({...prevBasicVal, email:true}))
     }else{
         email = true
-        setVal((prevBasicVal: any)=>({...prevBasicVal, email:false}))
+        setVal((prevBasicVal)=>({...prevBasicVal, email:false}))
     }
     if(item.password === '' || item.password.length <  6){
         password = false
-        setVal((prevBasicVal: any)=>({...prevBasicVal, password:true}))
+        setVal((prevBasicVal)=>({...prevBasicVal, password:true}))
     }else{
         password = true
-        setVal((prevBasicVal: any)=>({...prevBasicVal, password:false}))
+        setVal((prevBasicVal)=>({...prevBasicVal, password:false}))
     }
     if(item.nombre === ''){
         nombre = false
-        setVal((prevBasicVal: any)=>({...prevBasicVal, nombre:true}))
+        setVal((prevBasicVal)=>({...prevBasicVal, nombre:true}))
     }else{
         nombre = true
-        setVal((prevBasicVal: any)=>({...prevBasicVal, nombre:false}))
+        setVal((prevBasicVal)=>({...prevBasicVal, nombre:false}))
     }
 
   return email && password && nombre

@@ -16,7 +16,11 @@ export class CalificacionesService
     }
     public static async newItem(collectionName:Collection, obj: Icalificacion | IcalificacionDetalle): Promise<string | undefined>
     {
-        let data:any
+        type DataType = Partial<Icalificacion> & Partial<IcalificacionDetalle> & { 
+            creado?: ReturnType<typeof serverTimestamp>;
+            modificado?: ReturnType<typeof serverTimestamp>;
+        }
+        let data:DataType
         if('idioma' in obj){ //Calificaciones
             data = {
                 ...obj,
@@ -24,6 +28,7 @@ export class CalificacionesService
                 modificado: serverTimestamp()
             }
         }else{ //Calificaciones detalles
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {isNew, id, ...newObj} = obj 
             data = newObj
         }
@@ -32,13 +37,20 @@ export class CalificacionesService
         try{
             docRef = await addDoc(this.db(collectionName), data)
             return docRef.id
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async updateItem(collectionName: Collection, obj:Icalificacion | IcalificacionDetalle):Promise<void>
     {
-        let dataToUpdate:any
+        type UpdateDataType = Partial<Icalificacion> & Partial<IcalificacionDetalle> & { 
+            modificado?: ReturnType<typeof serverTimestamp> 
+        }
+        let dataToUpdate:UpdateDataType
         if('idioma' in obj){ //Calificaciones
             dataToUpdate = {
                 ...obj,
@@ -48,13 +60,17 @@ export class CalificacionesService
             dataToUpdate = obj
         }
                 
-        let docRef = doc(firestore, collectionName, obj.id as string)
+        const docRef = doc(firestore, collectionName, obj.id as string)
 
         try{
             await updateDoc(docRef, dataToUpdate)
             console.log('update',docRef.id);
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     
@@ -63,8 +79,12 @@ export class CalificacionesService
         try{
             await deleteDoc(doc(firestore, collectionName, id))
         }
-        catch(err:any){
-            console.error(err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
 
@@ -82,8 +102,12 @@ export class CalificacionesService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
     }
@@ -97,8 +121,12 @@ export class CalificacionesService
                 ...snapShot.data(),
                 id: snapShot.id
             } as Icalificacion
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     
@@ -116,8 +144,12 @@ export class CalificacionesService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
     }

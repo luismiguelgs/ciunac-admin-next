@@ -3,7 +3,6 @@ import IProspecto from '@/interfaces/prospecto.interface'
 import React from 'react'
 import validationSchema from './validation.schema'
 import { useFormik } from 'formik'
-import { useRouter } from 'next/navigation'
 import { useMask } from '@react-input/mask'
 import useStore from '@/hooks/useStore'
 import { useFacultiesStore } from '@/store/types.stores'
@@ -22,7 +21,6 @@ export default function LeadsForm({ onSubmit, data }: Props)
 {
     //hooks ***************************************************************************
     const faculties = useStore(useFacultiesStore, (state) => state.faculties)
-    const navigate = useRouter()
    
     const apellidoRef = useMask({ mask: '________________________________________', replacement: { _: /^[a-zA-Z \u00C0-\u00FF]*$/ } })
     const nombreRef = useMask({ mask: '________________________________________', replacement: { _: /^[a-zA-Z \u00C0-\u00FF]*$/ } })

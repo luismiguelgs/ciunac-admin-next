@@ -16,7 +16,6 @@ import { NIVEL } from '@/lib/constants'
 
 export default function CertificatesPage() 
 {
-    
 	//Hooks ************************************************************
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const navigate = useRouter()

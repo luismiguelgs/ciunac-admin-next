@@ -21,7 +21,7 @@ import ProspectosService from '@/services/prospectos.service';
 export default function RequestUbicationDetail(params: {params:{id: string}}) 
 {
     //hooks
-    let { id } = params.params
+    const { id } = params.params
     
     //const navigate = useNavigate()
     const [openDialog, setOpenDialog] = React.useState<boolean>(false);
@@ -36,8 +36,12 @@ export default function RequestUbicationDetail(params: {params:{id: string}})
                 const prospecto = await ProspectosService.getItem(solicitud.alumno_id as string)
                 setProspecto(prospecto)
             }
-            catch(err:any){
-                console.error("Error al obtener data" , err)
+            catch(err){
+                if (err instanceof Error) {
+                    console.error('Error al actualizar el elemento:', err.message);
+                } else {
+                    console.error('Error desconocido al actualizar el elemento:', err);
+                }
             }
         }
         getData(id as string)

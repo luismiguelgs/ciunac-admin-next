@@ -10,6 +10,15 @@ export enum Collection{
     Salones = 'salones'
 }
 
+type DataType = {
+    value: string;
+    label: string;
+    creado?: ReturnType<typeof serverTimestamp>;
+    modificado: ReturnType<typeof serverTimestamp>;
+    precio?: number;
+    capacidad?: number;
+}
+
 export class OpcionesService
 {
     private static db(collectionName: Collection){
@@ -29,15 +38,19 @@ export class OpcionesService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
         
     }
     public static async newItem<T extends IBaseData>(collectionName: Collection, obj: T): Promise<string | undefined>
     {
-        const data: any = {
+        const data:DataType= {
             value:obj.value.toUpperCase(),
             label:obj.label.toUpperCase(),
             creado: serverTimestamp(),
@@ -56,8 +69,12 @@ export class OpcionesService
         try{
             docRef = await addDoc(this.db(collectionName), data)
             return docRef.id
-        }catch(err:any){
-            console.error(err.message);
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async selectItem<T extends IBaseData>(collectionName: Collection, id:string):Promise<T | undefined>
@@ -71,7 +88,7 @@ export class OpcionesService
     }
     public static async updateItem<T extends IBaseData>(collectionName: Collection, obj:T):Promise<void>
     {
-        const dataToUpdate: any = {
+        const dataToUpdate: DataType = {
             value:obj.value.toUpperCase(),
             label: obj.label.toUpperCase(),
             modificado: serverTimestamp()
@@ -85,13 +102,17 @@ export class OpcionesService
             dataToUpdate.capacidad = (obj as Isalon).capacidad
         }
 
-        let docRef = doc(firestore, collectionName, obj.id as string)
+        const docRef = doc(firestore, collectionName, obj.id as string)
 
         try{
             await updateDoc(docRef, dataToUpdate)
             console.log('update', docRef.id);
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async deleteItem(collectionName: Collection, id:string)
@@ -99,8 +120,12 @@ export class OpcionesService
         try{
             await deleteDoc(doc(firestore, collectionName, id))
         }
-        catch(err:any){
-            console.error(err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
 }

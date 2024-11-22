@@ -3,7 +3,7 @@ import React from 'react'
 import Grid from '@mui/material/Grid2'
 import NewButton from '@/components/NewButton'
 import { Box, Portal } from '@mui/material'
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbar, GridToolbarQuickFilter } from '@mui/x-data-grid'
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbar, GridToolbarProps, GridToolbarQuickFilter } from '@mui/x-data-grid'
 import { IUsuario } from '@/interfaces/usuario.interface'
 import AuthService from '@/services/auth.service'
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,7 +19,7 @@ const roles = [
     {value: 'ADMIN', label: 'ADMINISTRADOR'}
 ]
 
-function MyCustomToolbar(props: any){
+function MyCustomToolbar(props: GridToolbarProps){
     return(
         <React.Fragment>
             <Portal container={()=>document.getElementById('filter-panel')!}>
@@ -102,11 +102,13 @@ export default function UsersPage()
             cellClassName: 'actions',
             getActions: (params:GridRowParams) => [
                 <GridActionsCellItem 
+                    key={1}
                     icon={<EditIcon />}
                     label='Detalles'
                     onClick={()=>handleEdit(params.id)}
                 />,
                 <GridActionsCellItem 
+                    key={2}
                     showInMenu
                     icon={<DeleteIcon />}
                     label='Borrar'

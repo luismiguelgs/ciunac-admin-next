@@ -15,9 +15,8 @@ export default function OptFaculties()
         setRows(data)
     }
     //Hooks *****************************************************************
-    const [ facultades , setFacultades ] = React.useState<IBaseData[]>([])
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
-    const [rows, setRows] = React.useState<IBaseData[]>(facultades)
+    const [rows, setRows] = React.useState<IBaseData[]>([])
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const [idToDelete, setIdToDelete] = React.useState<GridRowId | null>(null);
 

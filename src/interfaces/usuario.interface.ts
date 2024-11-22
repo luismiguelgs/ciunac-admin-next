@@ -6,6 +6,8 @@ export interface IUsuario{
     password: string,
     role: 'ADMIN' | 'USER',
     isNew?: boolean,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     modificado?:any
 }

@@ -1,14 +1,38 @@
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from 'firebase/auth';
+import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, UserCredential} from 'firebase/auth';
 import { firestore } from '@/lib/firebase';
 import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { IUsuario } from '@/interfaces/usuario.interface';
 import React from 'react';
+import { FirebaseError } from 'firebase/app';
+
+type LogInResponse = {
+    user: UserCredential['user'] | null; // El tipo del usuario autenticado
+    error?: string | null; // Si hay un error, lo guardamos como un string
+};
 
 export default class AuthService
 {
     private static dataCollection = 'usuarios'
     private static db = collection(firestore, this.dataCollection)
+    
+    public static async logIn(email:string, password:string) : Promise<LogInResponse>
+    {
+        const auth = getAuth()
 
+        try{
+            const response = await signInWithEmailAndPassword(auth, email, password)
+            return {user: response.user, error: null};
+        }catch(err){
+            if (err instanceof FirebaseError) {
+                // Si es un error de Firebase, retornamos el mensaje de error
+                return { user: null, error: err.message };
+            } else {
+                // Si es otro tipo de error, retornamos un error genérico
+                return { user: null, error: 'Error desconocido' };
+            }
+        }
+    }
+    /*
     public static logIn(email:string, password:string, setAuth:React.Dispatch<React.SetStateAction<boolean>>,
         setError:React.Dispatch<React.SetStateAction<string>>,setOpen:React.Dispatch<React.SetStateAction<boolean>>){
         const auth = getAuth()
@@ -24,7 +48,7 @@ export default class AuthService
                 setOpen(true)
             })
     }
-
+    */
     public static logOut(setAuth:React.Dispatch<React.SetStateAction<boolean>>)
     {
         const auth = getAuth();
@@ -59,8 +83,12 @@ export default class AuthService
         }
         try{
             await addDoc(this.db, data)
-        }catch(err:any){
-            console.log(err.message);
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async fetchItems():Promise<IUsuario[]>
@@ -80,7 +108,7 @@ export default class AuthService
     }
     public static updateItem(id:string, obj:IUsuario)
     {
-        let dataToUpdate = doc(firestore, this.dataCollection, id);
+        const dataToUpdate = doc(firestore, this.dataCollection, id);
         updateDoc(dataToUpdate,{
             nombre: obj.nombre,
             role: obj.role,
@@ -92,8 +120,12 @@ export default class AuthService
         try{
             await deleteDoc(doc(firestore,this.dataCollection,id as string));
         }
-        catch(err:any){
-            console.log(err.message);
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
 }

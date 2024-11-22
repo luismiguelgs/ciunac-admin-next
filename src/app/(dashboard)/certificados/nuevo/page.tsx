@@ -22,6 +22,8 @@ export default function NewCertificatePage()
 {
     const { data: session } = useSession()
 	//HOOKS *************************************************
+    console.log(session?.user?.email);
+    
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
 	const [id, setId] = React.useState<string>('nuevo')
     const navigate = useRouter()

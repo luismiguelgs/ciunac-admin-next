@@ -2,7 +2,7 @@
 import { Isolicitud } from '@/interfaces/solicitud.interface';
 import SolicitudesService from '@/services/solicitudes.service';
 import React from 'react'
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbar, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbar, GridToolbarContainerProps, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import LanguageIcon from '@mui/icons-material/Language';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import { formatDate } from '@/lib/utils';
@@ -15,7 +15,7 @@ import { IBaseData } from '@/interfaces/types.interface';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useRouter } from 'next/navigation';
 
-function MyCustomToolbar(props: any){
+function MyCustomToolbar(props: GridToolbarContainerProps){
     return(
         <React.Fragment>
             <Portal container={()=>document.getElementById('filter-panel')!}>
@@ -91,17 +91,20 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
             type: 'actions', 
             getActions: (params:GridRowParams) => [
                 <GridActionsCellItem
+                    key={1}
                     icon={<VisibilityIcon />}
                     label='Detalles'
                     onClick={()=>props.handleDetails(params.id)}
                 />,
                 <GridActionsCellItem 
+                    key={2}
                     showInMenu
                     icon={<PlayArrowIcon />}
                     label='Detalles'
                     onClick={()=>router.push(`/solicitudes/certificados/${params.id}`)}
                 />,
                 <GridActionsCellItem 
+                    key={3}
                     showInMenu
                     icon={<DeleteIcon />}
                     label='Borrar'

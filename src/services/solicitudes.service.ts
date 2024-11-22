@@ -28,8 +28,14 @@ export default class SolicitudesService
         }
 		try{	
 			await addDoc(this.db, data)
-		}catch(err:any){
-			console.log(err.message);
+		}catch(err){
+			if (err instanceof Error) {
+                // Si el error tiene un mensaje, lo manejamos
+                console.log(err.message);
+            } else {
+                // Si no es un Error, manejamos un caso genérico
+                console.log('Ocurrió un error desconocido', err);
+            }
 		}
   	}
     public static fetchItemQuery( setData:React.Dispatch<React.SetStateAction<Isolicitud[]>>, searchParams:string | null,  certificados=true)
@@ -90,7 +96,7 @@ export default class SolicitudesService
     }
     public static updateItem(obj:Isolicitud)
     {
-        let dataToUpdate = doc(firestore, this.dataCollection, obj.id as string);
+        const dataToUpdate = doc(firestore, this.dataCollection, obj.id as string);
         delete obj.id
         updateDoc(dataToUpdate,{
         ...obj,
@@ -146,7 +152,7 @@ export default class SolicitudesService
         });
     }
     public static updateStatus = (id:string, status:string) =>{
-        let dataToUpdate = doc(firestore, this.dataCollection, id);
+        const dataToUpdate = doc(firestore, this.dataCollection, id);
         updateDoc(dataToUpdate,{
           estado:status,
           modificado: serverTimestamp()
@@ -157,12 +163,16 @@ export default class SolicitudesService
         try{
           await deleteDoc(doc(firestore,this.dataCollection,id as string));
         }
-        catch(err:any){
-          console.log(err.message);
+        catch(err){
+            if (err instanceof Error) {
+                console.error(err.message);
+            } else {
+                console.error('Ocurrió un error desconocido', err);
+            }
         }
     }
     public static updateImagen = (id:string) =>{
-        let dataToUpdate = doc(firestore, this.dataCollection, id);
+        const dataToUpdate = doc(firestore, this.dataCollection, id);
         updateDoc(dataToUpdate,{
           voucher: 'borrado',
           modificado: serverTimestamp()

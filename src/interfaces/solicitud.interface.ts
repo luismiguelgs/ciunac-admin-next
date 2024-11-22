@@ -14,6 +14,7 @@ export interface Isolicitud {
     nivel:string,
     numero_voucher?:string,
     facultad?:string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fecha_pago?:any | null,
     timestamp?:string,
     trabajador:boolean,
@@ -26,6 +27,8 @@ export interface Isolicitud {
     pago:string,
     manual?:boolean,
     alumno_id?: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?:any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     modificado?:any
 }

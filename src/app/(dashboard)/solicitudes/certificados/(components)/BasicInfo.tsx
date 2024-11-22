@@ -59,7 +59,7 @@ export default function BasicInfo({ item, edit, handleChange }:Props )
                     data={ESTADO} 
                     name="estado" 
                     label="Estado" 
-                    value={item?.estado} 
+                    value={item?.estado as string} 
                     handleChange={handleChange}
                     helperText={true && "Seleccionar estado"}
                 />
@@ -157,7 +157,7 @@ export default function BasicInfo({ item, edit, handleChange }:Props )
                     data={faculties} 
                     name="facultad" 
                     label="Facultad" 
-                    value={item?.facultad} 
+                    value={item?.facultad as string} 
                     handleChange={handleChange}
                     helperText={true && "Seleccionar facultad"}
                 />}

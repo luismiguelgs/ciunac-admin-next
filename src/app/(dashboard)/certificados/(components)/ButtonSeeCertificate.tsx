@@ -10,7 +10,6 @@ import CertificateFormat from './CertificateFormat'
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import { NIVEL } from '@/lib/constants'
-import CertificadosService from '@/services/certificados.service'
 dayjs.locale('es');
 
 type Props = {
@@ -22,7 +21,7 @@ type Props = {
 }
 
 
-export default function ButtonSeeCertificate({ id, formik, data=[], cursos, maker='' }: Props) 
+export default function ButtonSeeCertificate({ id, formik, cursos, maker='' }: Props) 
 {
     //HOOKS *************************************************
     const [open, setOpen] = React.useState<boolean>(false)

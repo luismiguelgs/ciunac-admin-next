@@ -169,7 +169,7 @@ export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props)
                             data={faculties}
                             name='facultad'
                             label='Facultad'
-                            value={formik.values.facultad}
+                            value={formik.values.facultad as string}
                             handleChange={formik.handleChange}
                             helperText={formik.touched.facultad && formik.errors.facultad}
                         />

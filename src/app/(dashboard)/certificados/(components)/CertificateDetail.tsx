@@ -24,19 +24,18 @@ type Props = {
 
 export default function CertificateDetail({id_certificado, setData, idioma=null, nivel=null}:Props) 
 {
-    let cursos = []
+    const cursos = []
     if(idioma && nivel){
-        const {niveles, label, id} = PROGRAMAS.filter(item=>item.id === `${idioma}-${nivel}`)[0]
+        const {niveles, label} = PROGRAMAS.filter(item=>item.id === `${idioma}-${nivel}`)[0]
         for(let i=1; i<= niveles;i++){
             cursos.push({value:`${label} ${i}`, label:`${label} ${i}`})
         }
     }
     
-    
     const loadData = async (id:string | undefined) =>{
         const data = await CertificadosService.fetchItemsDetail(id as string)
         setRows(data)
-        setData ? setData(data) : null
+        if(setData) setData(data)
     }
 
     //hooks ****

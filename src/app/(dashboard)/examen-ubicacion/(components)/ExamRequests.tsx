@@ -31,7 +31,7 @@ export default function ExamRequests({examenId, setReload, setOpenDialogFull}:Pr
         const selectedItems = data.filter(item => selectionModel.includes(item.id as string));
         console.log('Selected Items:', selectedItems);
         selectedItems.forEach((element)=>{
-            let item : IexamenNotas = {
+            const item : IexamenNotas = {
                 examen_id: examenId,
                 solicitud_id: element.id as string,
                 idioma: element.idioma,

@@ -8,6 +8,8 @@ export default interface IProspecto {
     email?: string,
     codigo?: string
     trabajador : boolean,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     modificado?: any
 }

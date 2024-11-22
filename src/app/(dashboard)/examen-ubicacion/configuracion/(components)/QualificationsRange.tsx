@@ -52,7 +52,7 @@ export default function QualificationsRange({id}:Props)
         let id:string | undefined
         if(newRow.isNew){
             id = await CalificacionesService.newItem(Collection.Calificaciones_Detalle,newRow as IcalificacionDetalle)
-        }else{+
+        }else{
             CalificacionesService.updateItem(Collection.Calificaciones_Detalle, newRow as IcalificacionDetalle)
         }
         const updatedRow:IcalificacionDetalle = {

@@ -14,8 +14,8 @@ export default function Kanbam({data}:Props)
     const [columns, setColumns] = React.useState<ColumnTask[]>(defaultCols)
     const columnsId = React.useMemo(()=> columns.map((col)=> col.id), [columns])
     const [tasks, setTasks] = React.useState<Isolicitud[]>(data)
-    const [activeColumn, setActiveColumn] = React.useState<ColumnTask | null>(null)
-    const [activeTask, setActiveTask] = React.useState<Isolicitud | null>(null);
+    const [ , setActiveColumn] = React.useState<ColumnTask | null>(null)
+    const [ , setActiveTask] = React.useState<Isolicitud | null>(null);
 
     React.useEffect(()=>{
         setTasks(data)

@@ -29,7 +29,8 @@ export default class ProfesoresService
     public static async newItem(obj:Iprofesor) :Promise<void | string>{ 
         //delete obj.isNew
         //delete obj.id
-        const { id, isNew, ...rest } = obj
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id , isNew , ...rest } = obj
         const data = {
             ...rest,
             creado: serverTimestamp(),
@@ -40,8 +41,12 @@ export default class ProfesoresService
             docRef = await addDoc(this.db, data)
             console.log('Elemento creado correctamente', docRef.id)
             return docRef.id
-        }catch(err:any){
-            console.log(err.message);
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async updateItem(obj: Iprofesor): Promise<void> {
@@ -54,8 +59,12 @@ export default class ProfesoresService
                 modificado: serverTimestamp(),
             });
             console.log('Elemento actualizado correctamente');
-        } catch (err:any) {
-            console.error('Error al actualizar el elemento:', err.message);
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async deleteItem(id:string | undefined) : Promise<void>{
@@ -65,8 +74,12 @@ export default class ProfesoresService
             );
             console.log('registro borrado', id)
         }
-        catch(err:any){
-            console.error(err.message);
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
-import logoCiunac from './logo-ciunac.jpg'
+import logoCiunac from '../../../../../public/logo-ciunac.jpg'
+import { IexamenNotas } from '@/interfaces/examen.interface'
 
 Font.register({family:'Roboto', src:'http://fonts.gstatic.com/s/roboto/v16/zN7GBFwfMP4uA6AR0HCoLQ.ttf'})
 
@@ -111,7 +112,7 @@ type Props = {
     idioma: string | undefined,
     fecha: string,
     profesor: string,
-    data: any[]
+    data: IexamenNotas[]
 }
 export default function ActaFormat({idioma,	fecha,	profesor, data }:Props) 
 {

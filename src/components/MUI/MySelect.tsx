@@ -6,10 +6,12 @@ type Props = {
     name:string,
     handleChange(e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>):void,
     label:string,
-    value:any
+    value: string | number
     helperText?: React.ReactNode,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data:any[],
     error?:boolean,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     sx?:any
 }
 

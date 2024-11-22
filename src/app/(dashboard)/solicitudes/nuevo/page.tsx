@@ -13,11 +13,11 @@ export default function NewRequestPage()
 	//dialogo
     const [open, setOpen] = React.useState<boolean>(false)
 
-    const onSubmit = async(values:any)=> {
+    const onSubmit = async(values:Isolicitud)=> {
         const prospecto:IProspecto = {
-            dni: values.dni,
-            nombres: values.nombres,
-            apellidos: values.apellidos,
+            dni: values.dni as string,
+            nombres: values.nombres as string,
+            apellidos: values.apellidos as string,
             telefono: values.celular as string,
             facultad: values.facultad as string,
             email: values.email,
@@ -33,7 +33,7 @@ export default function NewRequestPage()
             nombres: values.nombres,
             periodo: values.periodo,
             numero_voucher: values.numero_voucher,
-            pago: values.pago,
+            pago: values.pago.toString(),
             idioma: values.idioma,
             nivel: values.nivel,
             fecha_pago: new Date(values.fecha_pago).toISOString().split('T')[0],

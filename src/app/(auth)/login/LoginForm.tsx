@@ -2,6 +2,7 @@
 import { MyDialog } from '@/components/MUI'
 import { Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material'
 import { useFormik } from 'formik'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -28,7 +29,7 @@ export default function LoginForm()
         validationSchema,
         onSubmit: async(values) =>{
             //alert(JSON.stringify(values,null, 2))
-            /*
+            
             const res = await signIn('credentials', {
                 email: values.email, 
                 password: values.password, 
@@ -41,8 +42,7 @@ export default function LoginForm()
             }else{
                 router.push('/')
                 router.refresh()
-            }
-                */
+            }  
         }
     })
 

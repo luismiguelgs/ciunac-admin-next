@@ -2,17 +2,23 @@ export interface Iexamen{
     id?:string,
     salon: string,
     codigo: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fecha_examen: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fecha_final: any,
     idioma: string,
     nivel: string,
     profesor_id: string,
     profesor?: string,
     estado: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hora_inicial?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hora_final?: any,
     calificacion_id: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     modificado?: any
 }
 export interface IexamenNotas{

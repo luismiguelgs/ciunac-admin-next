@@ -34,10 +34,14 @@ export default function MyAppBar({title, menuIcon=false, icons=null,drawer=false
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let titleSx:any
-    menuIcon ? titleSx = { display: { xs: 'none', sm: 'block'}} : titleSx = { flexGrow: 1, display: { xs: 'none', sm: 'block'}}
-
+    if(menuIcon){
+        titleSx = { display: { xs: 'none', sm: 'block'}}
+    }else{
+        titleSx = { flexGrow: 1, display: { xs: 'none', sm: 'block'}}
+    }
+    
     return (
         <React.Fragment>
             <AppBar 

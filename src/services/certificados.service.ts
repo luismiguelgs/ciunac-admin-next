@@ -17,7 +17,7 @@ export default class CertificadosService
     }
     public static async newItem(collectionName:Collection, obj: Icertificado | IcertificadoDetalle): Promise<string | undefined>
     {
-        let data:any
+        let data:Icertificado | IcertificadoDetalle
         console.log(obj);
         
         if('alumno' in obj){ //Certificados
@@ -27,6 +27,7 @@ export default class CertificadosService
                 modificado: serverTimestamp()
             }
         }else{ //Certificados Detalle
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {id, isNew ,...newObj} = obj 
             data = newObj
         }
@@ -37,14 +38,21 @@ export default class CertificadosService
         try{
             docRef = await addDoc(this.db(collectionName), data)
             return docRef.id
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async updateItem(collectionName: Collection, obj:Icertificado | IcertificadoDetalle):Promise<void>
     {
-        let dataToUpdate:any
-        console.log(dataToUpdate);
+        type UpdateDataType = Partial<Icertificado> & Partial<IcertificadoDetalle> & { 
+            modificado?: ReturnType<typeof serverTimestamp> 
+        }
+
+        let dataToUpdate: UpdateDataType;
         
         if('alumno' in obj){ //Certificados
             dataToUpdate = {
@@ -55,13 +63,17 @@ export default class CertificadosService
             dataToUpdate = obj
         }
                
-        let docRef = doc(firestore, collectionName, obj.id as string)
+        const docRef = doc(firestore, collectionName, obj.id as string)
 
         try{
             await updateDoc(docRef, dataToUpdate)
             console.log('update',docRef.id);
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     
@@ -70,8 +82,12 @@ export default class CertificadosService
         try{
             await deleteDoc(doc(firestore, collectionName, id))
         }
-        catch(err:any){
-            console.error(err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     //Examenes - funciones ****************************************
@@ -90,8 +106,12 @@ export default class CertificadosService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
     }
@@ -110,9 +130,12 @@ export default class CertificadosService
                     fecha_conclusion: (data.fecha_conclusion as Timestamp).toDate(),
                 } as Icertificado
             }
-        }catch(err:any){
-            console.error(err.message)
-            return undefined
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     //Calificaciones Detalle - funciones ************************
@@ -129,8 +152,12 @@ export default class CertificadosService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
     }

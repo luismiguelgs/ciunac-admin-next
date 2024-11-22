@@ -7,6 +7,7 @@ type Props = {
   checked : boolean,
   handleChange?: ((event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void) | undefined
   disabled?: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sx?: any
 }
 

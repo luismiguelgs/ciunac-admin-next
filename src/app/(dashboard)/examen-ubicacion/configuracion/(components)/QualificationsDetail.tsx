@@ -17,7 +17,7 @@ import QualificationsRange from './QualificationsRange';
 
 
 type Props = {
-    id: string | undefined
+    id?: string | undefined
     setOpen:React.Dispatch<React.SetStateAction<boolean>>
     setReload:React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -49,7 +49,7 @@ export default function QualificationsDetail({id, setOpen, setReload}:Props)
     }
 
     React.useEffect(()=>{
-        id ? loadData(id) : null
+        if(id) loadData(id)
     },[])
 
     const formik = useFormik<Icalificacion>({

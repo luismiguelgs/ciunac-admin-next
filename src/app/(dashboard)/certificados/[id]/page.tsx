@@ -4,7 +4,7 @@ import React from 'react'
 import CertificateForm from '../(components)/CertificateForm'
 import useStore from '@/hooks/useStore'
 import { useSubjectsStore } from '@/store/types.stores'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 import { Icertificado, IcertificadoDetalle } from '@/interfaces/certificado.interface'
 import CertificadosService, { Collection } from '@/services/certificados.service'
@@ -16,20 +16,25 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
 import CertificateDetail from '../(components)/CertificateDetail'
 import ButtonSave from '@/components/ButtonSave'
+import { useSession } from 'next-auth/react'
 
-export default function CertificateDetailPage(params:{params:{id:string}}) 
+export default function CertificateDetailPage() 
 {
-	const { id } = params.params
-    let maker:string = ''
+    
 	//HOOKS *************************************************
+    const navigate = useRouter()
+    const pathname = usePathname()
+    const id = pathname.split('/').pop()
+    const maker = React.useRef<string>(''); // Use a ref instead of reassigning
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
-	const navigate = useRouter()
+	
 	const [detalle, setDetalle] = React.useState<IcertificadoDetalle[]>([])
 
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
+            const session = await useSession()
             const data = await CertificadosService.selectItem(id as string)
-            maker = data?.elaborador || ''
+            maker.current = data?.elaborador || '';
             const detailData = await CertificadosService.fetchItemsDetail(id as string)
             setDetalle(detailData)
             
@@ -44,8 +49,8 @@ export default function CertificateDetailPage(params:{params:{id:string}})
                 numero_registro: data?.numero_registro || initialValues.numero_registro
             })
         }
-        loadData(id)
-    },[])
+        if(id) loadData(id as string)
+    },[id])
 
 	const formik = useFormik<Icertificado>({
         initialValues,
@@ -58,9 +63,9 @@ export default function CertificateDetailPage(params:{params:{id:string}})
                 fecha_emision: dayjs(values.fecha_emision).toDate(),
                 fecha_conclusion: dayjs(values.fecha_conclusion).toDate()
             };
-            console.log(formattedValues);
+            //console.log(formattedValues);
             
-            await CertificadosService.updateItem(Collection.Certificados, formattedValues)
+            await CertificadosService.updateItem(Collection.Certificados, formattedValues as Icertificado)
             navigate.back()
         }
     })
@@ -68,7 +73,7 @@ export default function CertificateDetailPage(params:{params:{id:string}})
 	return (
 		<Box>
 			<Typography variant="h5" gutterBottom>{`Certificado Detalle (${id})` }</Typography>
-			<CertificateForm cursos={subjects} formik={formik} id={id} />
+			<CertificateForm cursos={subjects} formik={formik} id={id as string} />
 			<Grid container spacing={2} p={2} >
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<BackButton fullWidth />
@@ -89,13 +94,13 @@ export default function CertificateDetailPage(params:{params:{id:string}})
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<ButtonSeeCertificate 
                         formik={formik} 
-                        maker={maker}
+                        maker={maker.current || ''}
                         id={id as string} 
                         data={detalle} 
                         cursos={subjects} />
 				</Grid>
                 <Grid size={{xs:12}}>
-					<CertificateDetail id_certificado={id} idioma={formik.values.idioma}  nivel={formik.values.nivel}/> 
+					<CertificateDetail id_certificado={id as string} idioma={formik.values.idioma}  nivel={formik.values.nivel}/> 
 				</Grid>
 			</Grid>
 		</Box>

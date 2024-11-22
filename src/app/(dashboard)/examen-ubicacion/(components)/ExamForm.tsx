@@ -6,7 +6,6 @@ import { Iprofesor } from '@/interfaces/profesores.interface'
 import { Isalon } from '@/interfaces/types.interface'
 import { useSubjectsStore } from '@/store/types.stores'
 import { useFormik } from 'formik'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 import validationSchema from './validation.schema'
 import dayjs from 'dayjs';
@@ -37,7 +36,6 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
 {
     //HOOKS *************************************************
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
-    const navigate = useRouter()
     const [editar, setEditar] = React.useState<boolean>(false)
 
     const formik = useFormik<Iexamen>({
@@ -54,6 +52,7 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { fecha_examen, fecha_final, profesor_id, profesor, ...rest} = values
             const examenData = {
                 ...rest,

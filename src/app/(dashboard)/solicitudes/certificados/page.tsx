@@ -6,8 +6,8 @@ import DialogFull from "@/components/MUI/Dialogs/DialogFull";
 import { GridRowId } from '@mui/x-data-grid';
 import useStore from '@/hooks/useStore';
 import { useDocumentsStore, useSubjectsStore } from '@/store/types.stores';
-import RequestsCertificatesDetail from './[id]/page';
 import { RequestState } from './(components)/RequestStage';
+import RequestDetail from './[id]/RequestDetail';
 
 
 export default function RequestsCertificatesPage() 
@@ -81,7 +81,7 @@ export default function RequestsCertificatesPage()
 				open={openDialogFullDetail} 
 				setOpen={setOpenDialogFullDetail}
 				title="Detalle de Solicitud"
-				content={<RequestsCertificatesDetail
+				content={<RequestDetail
 					id={ID as string} 
             	/>}
         	/>

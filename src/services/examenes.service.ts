@@ -16,8 +16,7 @@ export class ExamenesService
     }
     public static async newItem(collectionName:Collection, obj: Iexamen | IexamenNotas): Promise<string | undefined>
     {
-        console.log(obj);
-        let data:any
+        let data:Iexamen | IexamenNotas
         if('profesor' in obj){ //Examenes
             data = {
                 ...obj,
@@ -25,6 +24,7 @@ export class ExamenesService
                 modificado: serverTimestamp()
             }
         }else{ //Examenes notas
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {id, ...newObj} = obj 
             data = newObj
         }
@@ -33,13 +33,20 @@ export class ExamenesService
         try{
             docRef = await addDoc(this.db(collectionName), data)
             return docRef.id
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async updateItem(collectionName: Collection, obj:Iexamen | IexamenNotas):Promise<void>
     {
-        let dataToUpdate:any
+        type UpdateDataType = Partial<Iexamen> & Partial<IexamenNotas> & { 
+            modificado?: ReturnType<typeof serverTimestamp> 
+        }
+        let dataToUpdate:UpdateDataType
         if('profesor' in obj){ //Examenes
             dataToUpdate = {
                 ...obj,
@@ -49,16 +56,17 @@ export class ExamenesService
             dataToUpdate = obj
         }
 
-        console.log(dataToUpdate);
-        
-                
-        let docRef = doc(firestore, collectionName, obj.id as string)
+        const docRef = doc(firestore, collectionName, obj.id as string)
 
         try{
             await updateDoc(docRef, dataToUpdate)
             console.log('update',docRef.id);
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     
@@ -67,8 +75,12 @@ export class ExamenesService
         try{
             await deleteDoc(doc(firestore, collectionName, id))
         }
-        catch(err:any){
-            console.error(err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
 
@@ -88,8 +100,12 @@ export class ExamenesService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
     }
@@ -103,8 +119,12 @@ export class ExamenesService
                 ...snapShot.data(),
                 id: snapShot.id,
             } as Iexamen
-        }catch(err:any){
-            console.error(err.message)
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
         }
     }
     public static async updateStatus(id:string, status:string):Promise<void>
@@ -116,8 +136,12 @@ export class ExamenesService
                 modificado: serverTimestamp()
             });
             console.log('updateStatus');
-        } catch (error:any) {
-            console.error('Error updating status:', error.message);    
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }    
         }
     }
     
@@ -135,8 +159,12 @@ export class ExamenesService
             })
             return data
         }
-        catch(err:any){
-            console.error('Error fetching items', err.message)
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
             throw err
         }
     }

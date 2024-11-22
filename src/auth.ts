@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
+import AuthService from "./services/auth.service";
 
 const providers: Provider[] = [
     Credentials({
@@ -9,7 +10,22 @@ const providers: Provider[] = [
             password:{label:"Password", type:"password"}
         },
         authorize: async (credentials) => {
-            console.log(credentials);
+            if(!credentials?.email || !credentials?.password){
+                throw new Error("Invalid credentials")
+            }
+            else{
+                try{
+                    const res = await AuthService.logIn(String(credentials?.email), String(credentials?.password))
+                    //console.log(res);
+                    return res.user
+                }
+                catch(err){
+                    throw new Error("Invalid credentials")
+                }
+            }              
+            
+
+            /*
             if(credentials?.email !== "YmZ8i@example.com"){
                 throw new Error("Invalid credentials")
             }
@@ -17,7 +33,8 @@ const providers: Provider[] = [
                 id: "1",
                 name: "John Doe",
                 email: "YmZ8i@example.com",
-            }     
+            }    
+            */ 
         }
     })
 ]

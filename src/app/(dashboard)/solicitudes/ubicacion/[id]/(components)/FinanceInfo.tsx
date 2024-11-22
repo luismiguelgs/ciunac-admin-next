@@ -85,7 +85,7 @@ export default function FinanceInfo({item, saveItem}:Props)
                         name="estado" 
                         error={formik.touched.estado && Boolean(formik.errors.estado)}
                         label="Estado" 
-                        value={formik.values.estado} 
+                        value={formik.values.estado as string} 
                         handleChange={formik.handleChange}
                         helperText={formik.touched.estado && formik.errors.estado}
                     />

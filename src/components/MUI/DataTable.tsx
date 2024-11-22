@@ -14,6 +14,7 @@ export interface Column {
 }
 
 type Props = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rows:any[],
     columns:Column[],
     handleDelete?:(id:string | undefined)=>void,

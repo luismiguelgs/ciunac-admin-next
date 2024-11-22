@@ -1,13 +1,12 @@
 import { VERSION } from '@/lib/constants';
-import { Avatar, Box, Paper, Typography } from '@mui/material';
+import { Avatar, Box, Paper, Typography, TypographyProps } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Link from 'next/link';
-import logoCiunac from '/logo-ciunac.jpg';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Image from 'next/image';
 import LoginForm from './LoginForm';
 
-function Copyright(props: any) {
+function Copyright(props: TypographyProps) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
@@ -18,8 +17,6 @@ function Copyright(props: any) {
         </Typography>
     );
 }
-
-
 
 export default function LoginPage() 
 {
@@ -39,7 +36,7 @@ export default function LoginPage()
                 width: { xs: '90%', sm: '70%', md: '40%' }, // Responsive width
             }}>
                 <Box sx={{ my: 8, mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
-                    <Image src='/logo-ciunac.jpg'alt="Logo CIUNAC" width={360} height={100} />
+                    <Image src='/logo-ciunac.jpg' alt="Logo CIUNAC" width={360} height={100} />
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>

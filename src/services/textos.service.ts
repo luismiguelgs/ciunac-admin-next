@@ -16,7 +16,7 @@ export default class TextosService
     });
   }
   public static updateItem(obj:ITexto){
-    let dataToUpdate = doc(firestore, this.dataCollection, obj.id as string);
+    const dataToUpdate = doc(firestore, this.dataCollection, obj.id as string);
     updateDoc(dataToUpdate,{
         texto: obj.texto,
         modificado: serverTimestamp()

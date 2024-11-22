@@ -10,7 +10,9 @@ export interface Icertificado{
     numero_registro : string,
     fecha_conclusion: Date,
     elaborador?: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     modificado?: any
 }
 export interface IcertificadoDetalle{
@@ -20,5 +22,5 @@ export interface IcertificadoDetalle{
     ciclo: string,
     modalidad: string
     nota: number,
-    isNew: boolean
+    isNew?: boolean
 }

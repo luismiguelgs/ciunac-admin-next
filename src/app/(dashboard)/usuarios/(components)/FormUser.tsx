@@ -4,11 +4,17 @@ import { TextField } from '@mui/material'
 import { useMask } from '@react-input/mask'
 import React from 'react'
 
+type Validation = {
+    email:boolean,
+    nombre: boolean,
+    password: boolean
+}
+
 type Props = {
     opt:string,
     item: IUsuario,
     setItem: React.Dispatch<React.SetStateAction<IUsuario>>
-    validation: any
+    validation: Validation
 }
 const data = [
     {label: 'Administrador', value:'ADMIN'},
@@ -21,7 +27,7 @@ export default function FormUser({opt, item, setItem,validation}:Props)
     
     const handleChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
         const {name, value} = event.target
-        setItem((prevFormData:any)=>({...prevFormData, [name]:value}))
+        setItem((prevFormData:IUsuario)=>({...prevFormData, [name]:value}))
     }
     return (
         <React.Fragment>

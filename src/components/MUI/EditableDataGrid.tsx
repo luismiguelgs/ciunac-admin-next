@@ -8,7 +8,9 @@ import React from 'react';
 
 type Props = {
     columns: GridColDef[],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rows: any[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setRows: React.Dispatch<React.SetStateAction<any[]>>
     rowModesModel: GridRowModesModel
     setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>
@@ -64,12 +66,14 @@ export default function EditableDataGrid({columns, rows, setRows, handleDeleteCl
                 if(isInEditMode){
                     return [
                         <GridActionsCellItem 
+                            key={1}
                             icon={<SaveIcon />}
                             label='Guardar'
                             sx={{color: 'primary.main'}}
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem 
+                            key={2}
                             icon={<CancelIcon />}
                             label='Cancelar'
                             className='textPrimary'
@@ -81,6 +85,7 @@ export default function EditableDataGrid({columns, rows, setRows, handleDeleteCl
 
                 return [
                     <GridActionsCellItem
+                        key={1}
                         icon={<EditIcon />}
                         label="Editar"
                         className="textPrimary"
@@ -88,6 +93,7 @@ export default function EditableDataGrid({columns, rows, setRows, handleDeleteCl
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={2}
                         icon={<DeleteIcon />}
                         label="Borrar"
                         onClick={handleDeleteClick(id)}

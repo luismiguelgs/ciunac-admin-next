@@ -33,8 +33,12 @@ export default class ProspectosService
         try{
             docRef = await addDoc(this.db, data)
             return docRef.id
-        }catch(err:any){
-            console.log(err.message);
+        }catch(err){
+            if (err instanceof Error) {
+                console.error(err.message);
+            } else {
+                console.error('Ocurrió un error desconocido', err);
+            }
         }
     }
     public static async updateItem(obj: IProspecto): Promise<void> {
@@ -46,8 +50,12 @@ export default class ProspectosService
                 modificado: serverTimestamp(),
             });
             console.log('Elemento actualizado correctamente');
-        } catch (err:any) {
-            console.error('Error al actualizar el elemento:', err.message);
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error(err.message);
+            } else {
+                console.error('Ocurrió un error desconocido', err);
+            }
         }
     }
     public static async deleteItem(id:string | undefined) : Promise<void>{
@@ -56,8 +64,12 @@ export default class ProspectosService
                 doc(firestore,this.dataCollection,id as string)
             );
         }
-        catch(err:any){
-            console.error(err.message);
+        catch(err){
+            if (err instanceof Error) {
+                console.error(err.message);
+            } else {
+                console.error('Ocurrió un error desconocido', err);
+            }
         }
     }
 }
