@@ -13,7 +13,6 @@ import Grid from '@mui/material/Grid2';
 import BackButton from "@/components/BackButton";
 import CertificateDetail from "../(components)/CertificateDetail";
 import ButtonSave from "@/components/ButtonSave";
-import { useSession } from 'next-auth/react'
 import ButtonAsignRequest from "../(components)/ButtonAsignRequest";
 import { Isolicitud } from "@/interfaces/solicitud.interface";
 
