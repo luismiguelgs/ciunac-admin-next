@@ -52,14 +52,14 @@ export default function NewCertificatePage()
         formik.setFieldValue('nivel', dataRequest?.nivel)
         //console.log();
     }, [reload])
-
+    /*
     if(status === 'loading'){
         return <p>Loading ...</p>
     }
     if (status === "unauthenticated") {
         return <p>Please log in.</p>; // Handle unauthenticated state
     }
-
+    */
 	return (
 		<Box>
 			<CertificateForm formik={formik} id={id} />
