@@ -21,7 +21,7 @@
     "@mui/x-data-grid": "^7.22.0",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-input/mask": "^1.2.11",
-    "@react-pdf/renderer": "^4.0.0",
+    "@react-pdf/renderer": "^4.1.4",
     "@toolpad/core": "^0.8.1",
     "dayjs": "^1.11.13",
     "exceljs": "^4.4.0",
@@ -31,7 +31,8 @@
     "next-auth": "^5.0.0-beta.25",
     "qrcode": "^1.5.4",
     "react": "^18",
-    "react-dom": "^18",
+    "react-dom": "^18.3.1",
+    "scheduler": "^0.23.2",
     "yup": "^1.4.0",
     "zustand": "^5.0.0"
   },

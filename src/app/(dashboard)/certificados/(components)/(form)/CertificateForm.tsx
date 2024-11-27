@@ -5,21 +5,21 @@ import { IBaseData } from '@/interfaces/types.interface'
 import { FormikProps } from 'formik'
 import { Icertificado } from '@/interfaces/certificado.interface'
 import { TextField } from '@mui/material'
-import { MySelect } from '@/components/MUI'
+import { MySelect, MySwitch } from '@/components/MUI'
 import { NIVEL } from '@/lib/constants'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import 'dayjs/locale/es'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import SelectSubjects from '@/components/SelectSubjects'
 
 type Props = {
     formik: FormikProps<Icertificado>,
-    cursos: IBaseData[] | undefined,
     id: string
 }
 
 
-export default function CertificateForm({formik, cursos, id}:Props)
+export default function CertificateForm({formik, id}:Props)
 {
     return (
         <Grid container spacing={2} p={2} component='form' onSubmit={formik.handleSubmit}>
@@ -39,15 +39,12 @@ export default function CertificateForm({formik, cursos, id}:Props)
                 />
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
-                { cursos && <MySelect 
-                    data={cursos}
-                    handleChange={formik.handleChange}
+                <SelectSubjects 
                     error={formik.touched.idioma && Boolean(formik.errors.idioma)}
-                    label='Idioma'
-                    name='idioma'
-                    value={formik.values.idioma}
                     helperText={formik.touched.idioma && formik.errors.idioma}
-                />}
+                    value={formik.values.idioma}
+                    handleChange={formik.handleChange}
+                />
             </Grid>
             <Grid size={{xs: 12, sm: 3}}>
                 <MySelect 
@@ -55,6 +52,7 @@ export default function CertificateForm({formik, cursos, id}:Props)
                     handleChange={formik.handleChange}
                     label='Nivel'
                     name='nivel'
+                    disabled={id !== 'nuevo'}
                     error={formik.touched.nivel && Boolean(formik.errors.nivel)}
                     value={formik.values.nivel}
                     helperText={formik.touched.nivel && formik.errors.nivel}
@@ -65,6 +63,7 @@ export default function CertificateForm({formik, cursos, id}:Props)
                     autoFocus
                     value={formik.values.horas}
                     name='horas'
+                    disabled={id !== 'nuevo'}
                     label="Cantidad de Horas"
                     error={formik.touched.horas && Boolean(formik.errors.horas)}
                     type="number"
@@ -121,6 +120,54 @@ export default function CertificateForm({formik, cursos, id}:Props)
                         }}
                     />
                 </LocalizationProvider>
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <MySwitch 
+                    label='Curricula Antigua'
+                    name='curricula_antigua'
+                    checked={formik.values.curricula_antigua as boolean}
+                    handleChange={formik.handleChange}
+                    sx={{mt:1}}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <MySwitch 
+                    label='Duplicado'
+                    name='duplicado'
+                    checked={formik.values.duplicado as boolean}
+                    handleChange={formik.handleChange}
+                    sx={{mt:1}}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <TextField
+                    autoFocus
+                    disabled={!formik.values.duplicado as boolean}
+                    value={formik.values.certificado_anterior}
+                    name='certificado_anterior'
+                    label="Certificado Original"
+                    error={formik.touched.certificado_anterior && Boolean(formik.errors.certificado_anterior)}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    helperText={formik.touched.certificado_anterior && formik.errors.certificado_anterior}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <TextField
+                    autoFocus
+                    disabled
+                    value={formik.values.elaborador}
+                    name='elaborador'
+                    label="Elaborado por"
+                    error={formik.touched.elaborador && Boolean(formik.errors.elaborador)}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    helperText={formik.touched.elaborador && formik.errors.elaborador}
+                />
             </Grid>
         </Grid>
     )

@@ -1,21 +1,22 @@
 'use client'
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
-import CertificateForm from '../(components)/CertificateForm'
+import CertificateForm from '../(components)/(form)/CertificateForm'
 import useStore from '@/hooks/useStore'
 import { useSubjectsStore } from '@/store/types.stores'
 import { usePathname, useRouter } from 'next/navigation'
 import dayjs from 'dayjs'
 import { Icertificado, IcertificadoDetalle } from '@/interfaces/certificado.interface'
 import CertificadosService, { Collection } from '@/services/certificados.service'
-import { initialValues, validationSchema } from '../(components)/validation.schema'
+import { initialValues, validationSchema } from '../(components)/(form)/validation.schema'
 import { useFormik } from 'formik'
 import Grid from '@mui/material/Grid2'
 import BackButton from '@/components/BackButton'
-import AssignmentIcon from '@mui/icons-material/Assignment';
+
 import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
 import CertificateDetail from '../(components)/CertificateDetail'
 import ButtonSave from '@/components/ButtonSave'
+import ButtonAsignRequest from '../(components)/ButtonAsignRequest'
 
 export default function CertificateDetailPage() 
 {
@@ -24,7 +25,6 @@ export default function CertificateDetailPage()
     const navigate = useRouter()
     const pathname = usePathname()
     const id = pathname.split('/').pop()
-    const maker = React.useRef<string>(''); // Use a ref instead of reassigning
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
 	
 	const [detalle, setDetalle] = React.useState<IcertificadoDetalle[]>([])
@@ -32,7 +32,7 @@ export default function CertificateDetailPage()
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
             const data = await CertificadosService.selectItem(id as string)
-            maker.current = data?.elaborador || '';
+            console.log(data);
             const detailData = await CertificadosService.fetchItemsDetail(id as string)
             setDetalle(detailData)
             
@@ -41,12 +41,18 @@ export default function CertificateDetailPage()
                 idioma: data?.idioma || initialValues.idioma,
                 nivel : data?.nivel || initialValues.nivel,
                 tipo: data?.tipo || initialValues.tipo,
+                elaborador: data?.elaborador || initialValues.elaborador,
                 fecha_emision: data?.fecha_emision || initialValues.fecha_emision,
                 fecha_conclusion: data?.fecha_conclusion || initialValues.fecha_conclusion,
                 horas: data?.horas || initialValues.horas,
-                numero_registro: data?.numero_registro || initialValues.numero_registro
+                numero_registro: data?.numero_registro || initialValues.numero_registro,
+                curricula_antigua: data?.curricula_antigua || initialValues.curricula_antigua,
+                duplicado: data?.duplicado || initialValues.duplicado,
+                certificado_anterior: data?.certificado_anterior || initialValues.certificado_anterior
             })
         }
+        console.log(id);
+        
         if(id) loadData(id as string)
     },[id])
 
@@ -71,20 +77,13 @@ export default function CertificateDetailPage()
 	return (
 		<Box>
 			<Typography variant="h5" gutterBottom>{`Certificado Detalle (${id})` }</Typography>
-			<CertificateForm cursos={subjects} formik={formik} id={id as string} />
+			<CertificateForm formik={formik} id={id as string} />
 			<Grid container spacing={2} p={2} >
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<BackButton fullWidth />
 				</Grid>
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
-					<Button 
-                        fullWidth 
-                        onClick={()=>{alert('asignar certificado')}} 
-                        variant="contained" 
-                        color="primary" 
-                        startIcon={<AssignmentIcon />}>
-                            Asignar Solicitud
-                    </Button>
+					<ButtonAsignRequest />
 				</Grid>
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
                     <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
@@ -92,7 +91,6 @@ export default function CertificateDetailPage()
 				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<ButtonSeeCertificate 
                         formik={formik} 
-                        maker={maker.current || ''}
                         id={id as string} 
                         data={detalle} 
                         cursos={subjects} />

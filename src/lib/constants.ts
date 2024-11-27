@@ -5,6 +5,7 @@ export const DRAWER_WIDTH = 240
 
 export const ESTADO = [
     {value:'NUEVO',label:'Nuevo'},
+    {value:'ASIGNADO',label:'Asignado'},
     {value:'ELABORADO',label:'Elaborado'},
     {value:'ENTREGADO',label:'Entregado'},
 ]

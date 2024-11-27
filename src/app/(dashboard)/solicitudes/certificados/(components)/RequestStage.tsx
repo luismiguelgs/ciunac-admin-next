@@ -125,7 +125,7 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
                 <DataGrid 
                     pageSizeOptions={[10,25,100]}
                     rows={data}
-                    sx={{width:'98%', margin:'0 auto'}}
+                    //sx={{width:'98%', margin:'0 auto'}}
                     columns={columns}
                     disableColumnMenu
                     slots={{toolbar: MyCustomToolbar}}

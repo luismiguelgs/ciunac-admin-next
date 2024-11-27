@@ -4,7 +4,7 @@ import React from 'react'
 type Props = {
   label: string,
   name: string,
-  checked : boolean,
+  checked? : boolean | undefined,
   handleChange?: ((event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void) | undefined
   disabled?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

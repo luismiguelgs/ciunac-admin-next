@@ -10,7 +10,16 @@ const validationSchema = yup.object<Icertificado>({
     idioma: yup.string().trim().required(msgReq),
     nivel: yup.string().trim().required(msgReq),
     numero_registro: yup.string().trim().required(msgReq),
-    horas: yup.number().required(msgReq).max(400).min(100),
+    horas: yup.number().required(msgReq).max(400).min(100, 'Mínimo 100 horas'),
+    elaborador: yup.string().trim(),
+    curricula_antigua: yup.boolean(),
+    duplicado : yup.boolean(),
+    id_solicitud: yup.string(),
+    certificado_anterior: yup.string().trim().when('duplicado', {
+        is: true,
+        then: (schema:yup.Schema)=> schema.required(msgReq),
+        otherwise: (schema:yup.Schema) => schema.optional().nullable(),
+    })
 })
 
 const initialValues:Icertificado ={
@@ -21,7 +30,12 @@ const initialValues:Icertificado ={
     fecha_emision: new Date(),
     fecha_conclusion: new Date(),
     horas: 0,
-    numero_registro: ''
+    elaborador: '',
+    numero_registro: '',
+    curricula_antigua: false,
+    duplicado: false,
+    certificado_anterior: '',
+    id_solicitud: ''
 }
 
 export { initialValues, validationSchema }

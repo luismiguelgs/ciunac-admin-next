@@ -10,6 +10,9 @@ export interface Icertificado{
     numero_registro : string,
     fecha_conclusion: Date,
     elaborador?: string,
+    duplicado?: boolean,
+    certificado_anterior?: string,
+    curricula_antigua?: boolean,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?: any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

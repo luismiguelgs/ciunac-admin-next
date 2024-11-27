@@ -1,6 +1,6 @@
+'use client'
 import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
 import QRCode from 'qrcode'
-//import selloDirector from '@/assets/director.jpg'
 import selloDirector from '@/assets/firma.jpg'
 import selloCoordinadora from '@/assets/coordinadora.jpg'
 import selloElaborador  from '@/assets/elaborador.jpg'
@@ -24,15 +24,9 @@ const styles = StyleSheet.create({
 	page:{
 		paddingTop: 45,
     	paddingBottom: 45,
-    	paddingHorizontal: 45,
-	},
-	text1:{
-		fontSize: 22,
-		fontFamily: 'Dancing Script',
-		marginTop: 100
 	},
 	text2:{
-		fontSize: 22,
+		fontSize: 18,
 		fontFamily: 'Dancing Script',
 		lineHeight: 1.5
 	},
@@ -43,75 +37,34 @@ const styles = StyleSheet.create({
 		marginHorizontal: 'auto',
 	},
 	text3:{
-		fontSize: 21,
+		fontSize: 18,
 		fontFamily: 'Roboto-Bold',
-		textDecoration: 'underline',
-		textDecorationStyle: 'dashed',
 		marginLeft:6,
 		marginRight:6
 	},
-	subtitle:{
-		marginTop: 10,
-		fontSize: 18,
-		textAlign: 'center',
-		fontFamily: 'Roboto',
-		textDecoration: 'underline'
-	},
-	profesor:{
-		marginTop: 10,
-		fontSize: 14,
-		textAlign: 'left',
-		fontFamily: 'Roboto',
-		textDecoration: 'underline'
-	},
-	section:{
-		margin: 10,
-		padding: 10,
-		flexGrow: 1,
-		fontFamily: 'Roboto',
-        backgroundColor: 'white',
-        color: 'black'
-	},
-	image:{
-		marginBottom: 10,
-		marginHorizontal: 20,
-		width: 180,
-		marginTop: 30
-	},
 	imageSello:{
-		width: 160
-	},
-	header: {
-		fontSize: 14,
-		marginBottom: 10,
-		textAlign: 'center',
-		color: 'grey',
-		fontFamily: 'PinyonScript',
+		width: 140
 	},
 	table: {
-		//display: 'table',
 		width: 'auto',
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: '#bfbfbf',
-		//margin: '15px 0',
 	},
 	tableRow: {
 		flexDirection: 'row',
 	},
 	tableColHeader: {
-		width: '33.33%',
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: '#bfbfbf',
-		padding: 5,
+		padding: 3,
 	},
 	tableCol: {
-		width: '33.33%',
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: '#bfbfbf',
-		padding: 5,
+		padding: 3,
 	},
 	tableCellHeader: {
 		fontSize: 26,
@@ -127,23 +80,29 @@ const styles = StyleSheet.create({
 		paddingBottom: 5,
 		fontSize: 13,
 	},
-	firma:{
-		position: 'absolute',
-		width:'30%',
-		borderTopWidth: 1,
-		borderTopColor: 'grey',
-		textAlign: 'center',
-		fontSize: 12,
-		bottom: 30,
-		left:'38%',
-		right:0,
-		padding: 10,
-		color: 'grey'
+	doubleView: {
+		borderWidth: 2, // Grosor del borde
+        borderColor: 'black', // Color del borde
+        padding: 5, // Espaciado interno
+        margin: 10, // Espaciado externo
+        textAlign: 'center', // Centrado del texto
+        width: 'auto', // Ajusta el ancho al contenido
+        alignSelf: 'center', // Centrado horizontal
 	},
+	doubleText: {
+		fontFamily: 'Roboto-Bold', // Fuente Roboto-Bold
+        fontSize: 20, // Tamaño de fuente
+		textAlign: 'center',
+		alignSelf: 'center',
+        textTransform: 'uppercase', // Convierte el texto a mayúsculas
+	}
 })
 
 type Props = {
+	duplicado: boolean,
+	certificado_anterior?: string,
     url: string,
+	formato: number,
     idioma: string | undefined,
     fecha_emision: string,
     fecha_conclusion: string,
@@ -152,9 +111,11 @@ type Props = {
     horas: number,
     numero_folio: string,
 	id: string,
-	elaborador?: string
+	elaborador?: string,
+	curricula_antigua?: boolean
 }
-export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha_emision, fecha_conclusion, alumno, horas, numero_folio, elaborador=''}:Props) 
+export default function CertificateFormat({certificado_anterior, curricula_antigua,
+	duplicado=true,formato,id,url, idioma='IDIOMA', nivel, fecha_emision, fecha_conclusion, alumno, horas, numero_folio, elaborador=''}:Props) 
 {
     const QRCode = generateSessionPDFQrCode(url)
 	const [data, setData] = React.useState<IcertificadoDetalle[]>([]);
@@ -165,7 +126,6 @@ export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha
 			setData(res)         
         }
         if(data.length === 0){
-            console.info('Cargando detalle')
             getDetail()
         }
     },[])
@@ -181,57 +141,91 @@ export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha
 	for (let i = 0; i < rowsToAdd; i++) {
 		rows.push({curso:'',ciclo:'', modalidad:'', nota:0, id_certificado: '', isNew: false});
 	}
-	
 
     return (
         <Document>
-			{/********************** PAGE 2 ********************/}
-            <Page size="A4" style={styles.page}>
-				<Text style={styles.text1} fixed>El director del Centro de Idiomas</Text>
+			{/********************** PAGE 1 ********************/}
+            <Page size="A4" style={[styles.page, {paddingHorizontal:75}]}>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 10 }}>
+					<View>
+						<Text style={{fontSize: 20, fontFamily:'Dancing Script', marginTop: 120}} fixed>El director del Centro de Idiomas</Text>
+					</View>
+					<View>
+						<Image style={{ width: 120, marginTop: 70 }} src={QRCode} />
+					</View>
+				</View>
+				
 				<Text style={{fontSize: 70, textAlign: 'center', fontFamily: 'PinyonScript', marginTop: 40, marginBottom: 40}} fixed>Certifica</Text>
 				<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom:2 }}>
 					<Text style={styles.text2}>Que</Text>
-					<View style={{ flexGrow: 1, borderBottomWidth: 1, borderBottomColor: 'black', borderBottomStyle: 'dotted', marginLeft: 5, marginRight: 5 }}>
+					<View style={{ flexGrow: 1, borderBottomWidth: 1, borderBottomColor: 'black', borderBottomStyle: 'solid', marginLeft: 5, marginRight: 5 }}>
 						<Text style={styles.alumno}>{alumno}</Text>
 					</View>
 				</View>
 				<View>
-					<Text style={styles.text2}>
-						ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
-						del idioma <Text style={styles.text3}>{idioma}</Text>, en nuestra casa
-						Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>  horas.
-						Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
-					</Text>
+					{
+						formato === 1 ? 
+						(
+							<Text style={[styles.text2,{textAlign: 'justify'}]} hyphenationCallback={(word)=>[word]}>
+								ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
+								del curso de  <Text style={styles.text3}>{idioma}</Text>, de acuerdo al <Text style={{fontFamily: 'Roboto-Bold'}}>MARCO COMÚN EUROPEO DE
+								REFERENCIA PARA LAS LENGUAS</Text>, en el nivel <Text style={styles.text3}>A2</Text>, en nuestra casa
+								Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>  horas.
+								Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
+							</Text>
+						):(
+							<>
+							<Text style={[styles.text2,{textAlign:'justify'}]} hyphenationCallback={(word)=>[word]}>
+								ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
+								del idioma <Text style={styles.text3}>{idioma}</Text>, en nuestra casa
+								Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>{' '}horas.
+							</Text>
+							<Text style={[styles.text2, { textAlign: 'justify' }]}>
+                				Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
+            				</Text>
+							<View style={{marginTop: 10}}></View>
+							</>
+						)
+					}
+					
 				</View>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 50 }}>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 7 }}>
 					<View>
-						<Image style={{ width: 120 }} src={QRCode} />
+						{
+							duplicado && (
+								<View style={styles.doubleView}>
+									<Text style={styles.doubleText}>DUPLICADO</Text>
+								</View>
+							)
+						}
+						{/*<Image style={{ width: 120 }} src={QRCode} />*/}
 					</View>
 					<View>
 						<Text style={styles.text2}>
-							Callao, <Text style={{textDecoration: 'underline',textDecorationStyle: 'dashed', fontSize: 18, fontWeight: 'bold'}}>{fecha_emision}</Text>
+							Callao, <Text style={{ fontSize: 16, fontWeight: 'bold'}}>
+								{fecha_emision}</Text>
 						</Text>
-						<Image style={styles.image} src={selloDirector.src}/>
+						<Image style={{marginBottom: 10, marginHorizontal: 20, width: 150, marginTop: 30}} src={selloDirector.src}/>
 					</View>
 				</View>
-				<View style={{marginTop: 40}}>
+				<View style={{marginTop: 10}}>
 					<Text style={styles.text2}>
 						N° de Registro: <Text style={styles.text3}>{numero_folio}</Text>
 					</Text>
 				</View>  
             </Page>
 			{/********************** PAGE 2 ********************/}
-            <Page size="A4" style={styles.page}>
+            <Page size="A4" style={[styles.page,{paddingHorizontal:65}]}>
             <Text style={{fontSize: 30, textAlign: 'center', fontFamily: 'Roboto-Bold', marginTop: 10, marginBottom: 20}}>NIVEL {nivel}</Text>
                 <View style={styles.table}>
 					<View style={styles.tableRow}>
-						<View style={[styles.tableColHeader]}>
+						<View style={[styles.tableColHeader, {width: '38%'}]}>
 							<Text style={styles.tableCellHeader}>CURSO</Text>
 						</View>
-						<View style={[styles.tableColHeader]}>
+						<View style={[styles.tableColHeader, {width: '38%'}]}>
 							<Text style={styles.tableCellHeader}>CICLO</Text>
 						</View>
-						<View style={[styles.tableColHeader]}>
+						<View style={[styles.tableColHeader, {width: '24%'}]}>
 							<Text style={styles.tableCellHeader}>NOTAS</Text>
 						</View>
 					</View>
@@ -239,13 +233,29 @@ export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha
 				<View style={{marginBottom: 5}}>
 					{rows.map((item, index)=>(
 						<View style={styles.tableRow} key={index}>
-							<View style={[styles.tableCol]}>
+							<View style={[styles.tableCol, {width: '38%'}]}>
 								<Text style={styles.tableCell}>{item.curso}</Text>
 							</View>
-							<View style={[styles.tableCol]}>
+							<View style={[styles.tableCol, {width: '38%'}]}>
 								{item.modalidad !== '' && <Text style={styles.tableCell}>{`${item.ciclo} (${item.modalidad})`}</Text>}
+								{/*curricula_antigua && index === 8 && <Text style={styles.tableCell}>CURRICULA ANTIGUA</Text>*/}
+								{curricula_antigua && index === 8 && (
+									<View
+										style={{
+											borderWidth: 2,
+											borderColor: 'black',
+											//marginTop: 5, // Espaciado superior
+											textAlign: 'center', // Centrado del texto
+											alignItems: 'center',
+											justifyContent: 'center',
+											display: 'flex',
+										}}
+									>
+										<Text style={[styles.tableCell, {textAlign: 'center'}]}>CURRICULA ANTIGUA</Text>
+									</View>
+								)}
 							</View>
-							<View style={[styles.tableCol]}>
+							<View style={[styles.tableCol, {width: '24%'}]}>
 								{item.nota !== 0 && <Text style={styles.tableCell}>{item.nota}</Text>}
 							</View>
 						</View>
@@ -255,20 +265,20 @@ export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha
 				<Text style={{fontSize: 14, textAlign: 'center', fontFamily: 'Dancing Script', marginTop: 5, marginBottom: 20}}>Curso Concluido : {fecha_conclusion}</Text>
 				<View style={styles.table}>
 					<View style={styles.tableRow}>
-						<View style={[styles.tableCol]}>
+						<View style={[styles.tableCol, {width: '33.33%'}]}>
 							<Image style={styles.imageSello} src={selloElaborador.src}/>
 						</View>
-						<View style={[styles.tableCol]}>
+						<View style={[styles.tableCol, {width: '33.33%'}]}>
 							<Image style={styles.imageSello} src={selloCoordinadora.src}/>
 						</View>
-						<View style={[styles.tableCol]}>
+						<View style={[styles.tableCol, {width: '33.33%'}]}>
 							<Image style={styles.imageSello} src={selloDirector.src}/>
 						</View>
 					</View>
 				</View>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
-					<View style={{ fontSize: 12 }}>
-						<Text style={{fontSize: 14, fontWeight: 'bold', fontFamily : 'Roboto-Bold'}}>IMPORTANTE:</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 25 }}>
+					<View style={{ fontSize: 10 }}>
+						<Text style={{fontSize: 12, fontWeight: 'bold', fontFamily : 'Roboto-Bold'}}>IMPORTANTE:</Text>
 						<Text>La nota mínima aprobatoria es de 75 puntos</Text>
 						<View style={{ marginTop: 10 }}>
 							<Text>*EX.U. EXAMEN DE UBICACIÓN.</Text>
@@ -276,15 +286,22 @@ export default function CertificateFormat({id,url, idioma='IDIOMA', nivel, fecha
 							<Text>*C.I. CICLO REGULAR.</Text>
 						</View>
 					</View>
-					<View style={{ position:'absolute', alignItems: 'center', fontSize: 10, bottom: 0, right: 0, width: '50%'}}>
+					<View style={{ position:'absolute', alignItems: 'center', fontSize: 9, bottom: -10, right: -20, width: '50%', paddingTop:20}}>
+						{
+							duplicado && (
+								<View style={[styles.doubleView]}>
+									<Text style={styles.doubleText}>DUPLICADO</Text>
+									<Text>DEL CERTIFICADO N° {certificado_anterior}</Text>
+								</View>
+							)
+						}
+						
 						<Text>Registrado en el libro de Certificados</Text>
-						<Text>Nivel {nivel} basjo el N° {numero_folio}</Text>
+						<Text>Nivel {nivel} bajo el N° {numero_folio}</Text>
 						<Text>Elaborado por: {elaborador}</Text>
 						<Text>Callao, {fecha_emision}</Text>
 					</View>
 				</View>
-				
-				
             </Page>
         </Document>
     )
