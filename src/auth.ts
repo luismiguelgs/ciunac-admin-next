@@ -10,9 +10,7 @@ const providers: Provider[] = [
             password:{label:"Password", type:"password"}
         },
         authorize: async (credentials) => {
-            console.log(credentials);
             if(!credentials?.email || !credentials?.password){
-                
                 throw new Error("Invalid credentials")
             }
             else{
@@ -26,19 +24,7 @@ const providers: Provider[] = [
                     if(err instanceof Error) console.error(err.message);
                     throw new Error("Invalid credentials")
                 }
-            }              
-            
-
-            /*
-            if(credentials?.email !== "YmZ8i@example.com"){
-                throw new Error("Invalid credentials")
             }
-            return {
-                id: "1",
-                name: "John Doe",
-                email: "YmZ8i@example.com",
-            }    
-            */ 
         }
     })
 ]
