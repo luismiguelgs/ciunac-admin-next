@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import Grid from '@mui/material/Grid2'
-import { IBaseData } from '@/interfaces/types.interface'
 import { FormikProps } from 'formik'
 import { Icertificado } from '@/interfaces/certificado.interface'
 import { TextField } from '@mui/material'

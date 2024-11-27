@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React from 'react'
 import CertificateForm from '../(components)/(form)/CertificateForm'
 import useStore from '@/hooks/useStore'
@@ -16,7 +16,6 @@ import BackButton from '@/components/BackButton'
 import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
 import CertificateDetail from '../(components)/CertificateDetail'
 import ButtonSave from '@/components/ButtonSave'
-import ButtonAsignRequest from '../(components)/ButtonAsignRequest'
 
 export default function CertificateDetailPage() 
 {
@@ -79,16 +78,13 @@ export default function CertificateDetailPage()
 			<Typography variant="h5" gutterBottom>{`Certificado Detalle (${id})` }</Typography>
 			<CertificateForm formik={formik} id={id as string} />
 			<Grid container spacing={2} p={2} >
-				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+				<Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<BackButton fullWidth />
 				</Grid>
-				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
-					<ButtonAsignRequest />
-				</Grid>
-				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+				<Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
                     <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
 				</Grid>
-				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+				<Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<ButtonSeeCertificate 
                         formik={formik} 
                         id={id as string} 

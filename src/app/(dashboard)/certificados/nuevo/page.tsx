@@ -1,7 +1,5 @@
 'use client'
-import useStore from "@/hooks/useStore";
 import CertificateForm from "../(components)/(form)/CertificateForm";
-import { useSubjectsStore } from "@/store/types.stores";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
@@ -13,7 +11,6 @@ import { Box } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import BackButton from "@/components/BackButton";
 import CertificateDetail from "../(components)/CertificateDetail";
-import ButtonSeeCertificate from "../(components)/ButtonSeeCertificate";
 import ButtonSave from "@/components/ButtonSave";
 import { useSession } from 'next-auth/react'
 import ButtonAsignRequest from "../(components)/ButtonAsignRequest";
@@ -23,17 +20,10 @@ export default function NewCertificatePage()
 {
     const { data: session, status } = useSession()
 	//HOOKS *************************************************
-    if(status === 'loading'){
-        return <p>Loading ...</p>
-    }
-    if (status === "unauthenticated") {
-        return <p>Please log in.</p>; // Handle unauthenticated state
-    }
 
     const [reload, setReload] = React.useState<boolean>(false)
     const [dataRequest, setDataRequest] = React.useState<Isolicitud>()
     
-	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
 	const [id, setId] = React.useState<string>('nuevo')
     const navigate = useRouter()
 
@@ -63,24 +53,28 @@ export default function NewCertificatePage()
         //console.log();
     }, [reload])
 
+    if(status === 'loading'){
+        return <p>Loading ...</p>
+    }
+    if (status === "unauthenticated") {
+        return <p>Please log in.</p>; // Handle unauthenticated state
+    }
+
 	return (
 		<Box>
 			<CertificateForm formik={formik} id={id} />
 			<Grid container spacing={2} p={2} >
-				<Grid size={{xs: 12, md: 3}} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
+				<Grid size={{xs: 12, md: 4}} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
 					<BackButton fullWidth/>
 				</Grid>
-				<Grid size={{xs: 12, md: 3}} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
+				<Grid size={{xs: 12, md: 4}} display={'flex'} alignItems={'center'} justifyContent={'center'} alignContent={'center'}>
 					<ButtonAsignRequest
                         setReload={setReload}
                         setData={setDataRequest} 
                     />
 				</Grid>
-                <Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+                <Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
                     <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
-				</Grid>
-                <Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
-					<ButtonSeeCertificate formik={formik} id={id as string} data={[]} cursos={subjects}/>
 				</Grid>
 				<Grid size={{xs:12}}>
 					<CertificateDetail id_certificado={id} /> 
