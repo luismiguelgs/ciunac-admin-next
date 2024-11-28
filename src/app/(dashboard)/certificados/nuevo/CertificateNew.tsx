@@ -57,7 +57,11 @@ export default function CertificateNew({ session }: { session: Session | null })
         if(dataRequest?.idioma && dataRequest?.nivel){
             const horas = PROGRAMAS.find(programa => programa.id === `${dataRequest?.idioma}-${dataRequest?.nivel}`)?.horas
             formik.setFieldValue('horas', horas)
-            dataRequest.nivel === 'BASICO' ? formik.setFieldValue('numero_registro', 'B00 -Folio') : formik.setFieldValue('numero_registro', 'IA00 -Folio')
+            if(dataRequest.nivel === 'BASICO'){
+                formik.setFieldValue('numero_registro', 'B00 -Folio')
+            }else{
+                formik.setFieldValue('numero_registro', 'IA00 -Folio')
+            }
         }
     }, [reload])
   

@@ -88,7 +88,7 @@ export default function CertificateDetail({id_certificado, setData, idioma=null,
 
     const handleNewClick = () => {
         if(cursos.length>0){
-            const newRows = cursos.map((curso, index) => ({
+            const newRows = cursos.map((curso) => ({
                 id: Math.floor(Math.random() * 10000).toString(), // Generamos un id único para cada fila
                 id_certificado: id_certificado,
                 curso: curso.value,
