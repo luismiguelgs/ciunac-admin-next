@@ -33,7 +33,6 @@ export default class CertificadosService
         }
         
         let docRef = null
-        console.log(obj);
         
         try{
             docRef = await addDoc(this.db(collectionName), data)

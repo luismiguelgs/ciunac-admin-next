@@ -31,7 +31,7 @@ const initialValues:Icertificado ={
     fecha_conclusion: new Date(),
     horas: 0,
     elaborador: '',
-    numero_registro: '',
+    numero_registro: 'B00 -Folio',
     curricula_antigua: false,
     duplicado: false,
     certificado_anterior: '',

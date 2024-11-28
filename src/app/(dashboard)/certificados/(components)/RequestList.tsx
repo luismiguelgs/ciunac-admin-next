@@ -87,6 +87,7 @@ export default function RequestList({setOpenDialogFull, setRequest, setReload}:P
                             slots={{
                                 toolbar: GridToolbar,}}
                             columns={columns}
+                            pageSizeOptions={[10, 25, 50,100]}
                             rowSelection={true}
                             onRowSelectionModelChange={(newSelectionModel) => {
                                 setSelectionModel(newSelectionModel);

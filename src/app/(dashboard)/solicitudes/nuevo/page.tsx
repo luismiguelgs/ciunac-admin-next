@@ -20,7 +20,7 @@ export default function NewRequestPage()
             apellidos: values.apellidos as string,
             telefono: values.celular as string,
             facultad: values.facultad as string,
-            email: values.email,
+            email: values.email || '', 
             codigo: values.codigo,
             trabajador: values.trabajador,
         }

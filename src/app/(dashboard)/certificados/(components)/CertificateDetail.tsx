@@ -24,7 +24,7 @@ type Props = {
 
 export default function CertificateDetail({id_certificado, setData, idioma=null, nivel=null}:Props) 
 {
-    const cursos = []
+    const cursos:{value:string, label:string}[] = []
     if(idioma && nivel){
         const {niveles, label} = PROGRAMAS.filter(item=>item.id === `${idioma}-${nivel}`)[0]
         for(let i=1; i<= niveles;i++){
@@ -87,6 +87,25 @@ export default function CertificateDetail({id_certificado, setData, idioma=null,
 
 
     const handleNewClick = () => {
+        if(cursos.length>0){
+            const newRows = cursos.map((curso, index) => ({
+                id: Math.floor(Math.random() * 10000).toString(), // Generamos un id único para cada fila
+                id_certificado: id_certificado,
+                curso: curso.value,
+                ciclo: '2000-0',
+                modalidad: modeOptions[2].value, // Asignamos un valor por defecto a modalidad
+                nota: 0, // Nota inicial en 0
+                isNew: true
+            }));
+            setRows((oldRows) => [...oldRows, ...newRows]);
+            newRows.forEach(newRow => {
+                setRowModesModel((oldModel) => ({
+                    ...oldModel,
+                    [newRow.id]: { mode: GridRowModes.Edit, fieldToFocus: 'nota' }, // Focalizar la nota por defecto
+                }));
+            });
+        }
+        /*
         const id = Math.floor(Math.random()*100).toString();
         console.log(id);
         
@@ -95,6 +114,7 @@ export default function CertificateDetail({id_certificado, setData, idioma=null,
             ...oldModel,
             [id]: { mode: GridRowModes.Edit, fieldToFocus: 'curso' },
         }));
+        */
     }
 
     const cols:GridColDef[] = [

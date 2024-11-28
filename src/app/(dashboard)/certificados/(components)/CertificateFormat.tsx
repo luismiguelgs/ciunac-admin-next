@@ -7,6 +7,7 @@ import selloElaborador  from '@/assets/elaborador.jpg'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
 import React from 'react'
 import CertificadosService from '@/services/certificados.service'
+import { capitalizeFirstLetterOfEachWord } from '@/lib/utils'
 
 Font.register({family:'Dancing Script', src:'/fonts/DancingScript-VariableFont_wght.ttf'})
 Font.register({family: 'PinyonScript', src:'/fonts/PinyonScript-Regular.ttf'})
@@ -159,7 +160,7 @@ export default function CertificateFormat({certificado_anterior, curricula_antig
 				<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom:2 }}>
 					<Text style={styles.text2}>Que</Text>
 					<View style={{ flexGrow: 1, borderBottomWidth: 1, borderBottomColor: 'black', borderBottomStyle: 'solid', marginLeft: 5, marginRight: 5 }}>
-						<Text style={styles.alumno}>{alumno}</Text>
+						<Text style={styles.alumno}>{capitalizeFirstLetterOfEachWord(alumno)}</Text>
 					</View>
 				</View>
 				<View>

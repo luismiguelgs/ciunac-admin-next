@@ -11,10 +11,11 @@ type Props = {
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
     error: boolean | undefined
     value: string | number
+    disabled?: boolean
     helperText: React.ReactNode
 }
 
-export default function SelectSubjects({handleChange, error, value, helperText}:Props) 
+export default function SelectSubjects({handleChange, error, value, helperText, disabled}:Props) 
 {
     const [data, setData] = React.useState<IBaseData[] | undefined>(useStore(useSubjectsStore, (state) => state.subjects)); 
 
@@ -41,6 +42,7 @@ export default function SelectSubjects({handleChange, error, value, helperText}:
             handleChange={handleChange}
             error={error}
             label='Idioma'
+            disabled={disabled}
             name='idioma'
             value={value}
             helperText={helperText}

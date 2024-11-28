@@ -31,7 +31,6 @@ export default function CertificateForm({formik, id}:Props)
                     error={formik.touched.alumno && Boolean(formik.errors.alumno)}
                     type="text"
                     fullWidth
-                    disabled={id !== 'nuevo'}
                     variant="outlined"
                     onChange={formik.handleChange}
                     helperText={formik.touched.alumno && formik.errors.alumno}
@@ -39,6 +38,7 @@ export default function CertificateForm({formik, id}:Props)
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
                 <SelectSubjects 
+                    disabled={id !== 'nuevo'}
                     error={formik.touched.idioma && Boolean(formik.errors.idioma)}
                     helperText={formik.touched.idioma && formik.errors.idioma}
                     value={formik.values.idioma}
@@ -79,6 +79,7 @@ export default function CertificateForm({formik, id}:Props)
                         value={dayjs(formik.values.fecha_emision)} 
                         onChange={(date)=>formik.setFieldValue('fecha_emision',date)} 
                         maxDate={dayjs(new Date())}
+                        disabled={id !== 'nuevo'}
                         slotProps={{
                             textField:{
                                 fullWidth:true,
@@ -95,6 +96,7 @@ export default function CertificateForm({formik, id}:Props)
                     value={formik.values.numero_registro}
                     name='numero_registro'
                     label="Número de Registro"
+                    disabled={id !== 'nuevo'}
                     error={formik.touched.numero_registro && Boolean(formik.errors.numero_registro)}
                     type="text"
                     fullWidth

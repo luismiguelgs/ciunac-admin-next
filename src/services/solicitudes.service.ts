@@ -17,6 +17,12 @@ export default class SolicitudesService
             obj.creado = this.dateToTimestamp(obj.creado)
         }
 
+        if(!obj.alumno_id){
+            obj.alumno_id = ''
+        }
+
+        
+
         const data = {
             ...obj,
             estado:'NUEVO',

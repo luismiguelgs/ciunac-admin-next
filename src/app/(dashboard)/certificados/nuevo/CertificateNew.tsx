@@ -15,11 +15,13 @@ import CertificateDetail from "../(components)/CertificateDetail";
 import ButtonSave from "@/components/ButtonSave";
 import ButtonAsignRequest from "../(components)/ButtonAsignRequest";
 import { Isolicitud } from "@/interfaces/solicitud.interface";
+import { PROGRAMAS } from "@/lib/constants";
+import  LoadingDialog  from"@/components/MUI/Dialogs/DialogLoading"
 
 export default function CertificateNew({ session }: { session: Session | null }) 
 {
 	//HOOKS *************************************************
-
+    const [loading, setLoading] = React.useState<boolean>(false)
     const [reload, setReload] = React.useState<boolean>(false)
     const [dataRequest, setDataRequest] = React.useState<Isolicitud>()
     
@@ -30,6 +32,7 @@ export default function CertificateNew({ session }: { session: Session | null })
         initialValues:initialValues,
         validationSchema : validationSchema,
         onSubmit: async(values:Icertificado) =>{
+            setLoading(true)
             // Convert dayjs objects to JavaScript Date objects
             const formattedValues = {
                 ...values,
@@ -41,6 +44,7 @@ export default function CertificateNew({ session }: { session: Session | null })
             const id = await CertificadosService.newItem(Collection.Certificados, formattedValues)
             setId(id as string)
             navigate.push(`./${id}`)
+            setLoading(false)
         }
     })
 
@@ -49,7 +53,12 @@ export default function CertificateNew({ session }: { session: Session | null })
         formik.setFieldValue('alumno', dataRequest?.nombres ? dataRequest?.nombres + ' ' + dataRequest?.apellidos : '')
         formik.setFieldValue('idioma', dataRequest?.idioma)
         formik.setFieldValue('nivel', dataRequest?.nivel)
-        //console.log();
+        formik.setFieldValue('elaborador', session?.user?.email)
+        if(dataRequest?.idioma && dataRequest?.nivel){
+            const horas = PROGRAMAS.find(programa => programa.id === `${dataRequest?.idioma}-${dataRequest?.nivel}`)?.horas
+            formik.setFieldValue('horas', horas)
+            dataRequest.nivel === 'BASICO' ? formik.setFieldValue('numero_registro', 'B00 -Folio') : formik.setFieldValue('numero_registro', 'IA00 -Folio')
+        }
     }, [reload])
   
 	return (
@@ -72,7 +81,7 @@ export default function CertificateNew({ session }: { session: Session | null })
 					<CertificateDetail id_certificado={id} /> 
 				</Grid>
 			</Grid>
-            <p>{session?.user?.email}</p>
+            <LoadingDialog open={loading} message="Cargando..." />
 		</Box>
 	)
 }

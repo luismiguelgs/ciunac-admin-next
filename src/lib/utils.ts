@@ -147,3 +147,11 @@ export function validateUser(item:IUsuario, setVal:React.Dispatch<React.SetState
 
   return email && password && nombre
 }
+
+export const capitalizeFirstLetterOfEachWord = (str: string) => {
+	if (!str) return '';
+	return str
+		.split(' ') // Split the string by spaces
+		.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize the first letter of each word
+		.join(' '); // Join the words back together with spaces
+};

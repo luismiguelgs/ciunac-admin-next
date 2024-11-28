@@ -12,15 +12,16 @@ import { initialValues, validationSchema } from '../(components)/(form)/validati
 import { useFormik } from 'formik'
 import Grid from '@mui/material/Grid2'
 import BackButton from '@/components/BackButton'
-
 import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
 import CertificateDetail from '../(components)/CertificateDetail'
 import ButtonSave from '@/components/ButtonSave'
+import LoadingDialog from '@/components/MUI/Dialogs/DialogLoading'
 
 export default function CertificateDetailPage() 
 {
     
 	//HOOKS *************************************************
+    const [loading, setLoading] = React.useState<boolean>(false)
     const navigate = useRouter()
     const pathname = usePathname()
     const id = pathname.split('/').pop()
@@ -30,6 +31,7 @@ export default function CertificateDetailPage()
 
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
+            setLoading(true)
             const data = await CertificadosService.selectItem(id as string)
             console.log(data);
             const detailData = await CertificadosService.fetchItemsDetail(id as string)
@@ -48,10 +50,10 @@ export default function CertificateDetailPage()
                 curricula_antigua: data?.curricula_antigua || initialValues.curricula_antigua,
                 duplicado: data?.duplicado || initialValues.duplicado,
                 certificado_anterior: data?.certificado_anterior || initialValues.certificado_anterior
+                
             })
+            setLoading(false)
         }
-        console.log(id);
-        
         if(id) loadData(id as string)
     },[id])
 
@@ -95,6 +97,7 @@ export default function CertificateDetailPage()
 					<CertificateDetail id_certificado={id as string} idioma={formik.values.idioma}  nivel={formik.values.nivel}/> 
 				</Grid>
 			</Grid>
+            <LoadingDialog open={loading} message='Cargando...'/>
 		</Box>
 	)
 }
