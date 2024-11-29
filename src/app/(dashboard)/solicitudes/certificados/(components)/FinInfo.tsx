@@ -127,7 +127,7 @@ export default function FinInfo({item, handleChange, edit}:Props)
                 </Grid>
                 <Grid size={{xs: 12, }}>
                 {   item.voucher !== '' ?
-                        (<Link href={item?.voucher as string} style={{textDecoration:'underline'}} target='_blank' rel="noopener">VER VOUCHER</Link>) 
+                        (<Link href={item?.voucher as string || ''} style={{textDecoration:'underline'}} target='_blank' rel="noopener">VER VOUCHER</Link>) 
                     :null
                 }
                 </Grid>

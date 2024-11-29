@@ -67,7 +67,7 @@ export default function TaskCard({task}:Props)
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         {/*task.id*/} {task.solicitud}
                     </Typography>
-                    <Typography variant="subtitle2" sx={{fontWeight:'bold', color:'blue'}}>
+                    <Typography variant="subtitle2" sx={{fontWeight:'bold', color:'primary'}}>
                         {task.apellidos} {task.nombres}
                     </Typography>
                     <Typography variant="body2">

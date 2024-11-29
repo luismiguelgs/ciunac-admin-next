@@ -83,10 +83,18 @@ export default function RequestList({setOpenDialogFull, setRequest, setReload}:P
             <Box p={2}>
                 <Box p={2} style={{ minHeight: 400, width: '100%' }}>
                         <DataGrid
+                            rowHeight={25}
                             rows={data}
                             slots={{
                                 toolbar: GridToolbar,}}
                             columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 25,
+                                    },
+                                }
+                            }}
                             pageSizeOptions={[10, 25, 50,100]}
                             rowSelection={true}
                             onRowSelectionModelChange={(newSelectionModel) => {

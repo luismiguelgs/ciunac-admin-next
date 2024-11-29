@@ -118,6 +118,7 @@ export default class SolicitudesService
     
         const itemQuery = query(this.db, 
             where('creado',">=",new Date(primerDiaMes.toISOString().split('T')[0])),
+            where('solicitud',"!=",'EXAMEN_DE_UBICACION'),
             where('creado',"<=",new Date(ultimoDiaMes.toISOString().split('T')[0])), 
             orderBy('creado','asc'))
         
