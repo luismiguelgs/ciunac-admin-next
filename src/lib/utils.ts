@@ -88,7 +88,7 @@ export async function exportToExcel(data:Isolicitud[])
   window.URL.revokeObjectURL(url);
 }
 const formatearDatos =(data:Isolicitud[]) =>{
-	const excelData:string[][] = [['Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado']]
+	const excelData:string[][] = [['Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado','Fecha']]
 	data.forEach((row)=>{
 		excelData.push([
 			row.apellidos?.toUpperCase() || '',
@@ -98,7 +98,8 @@ const formatearDatos =(data:Isolicitud[]) =>{
 			row.nivel, 
 			row.pago, 
 			row.numero_voucher || '', 
-			row.estado || ''
+			row.estado || '',
+      row.creado || '',
 		])
 	})
 	return excelData

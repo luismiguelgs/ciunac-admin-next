@@ -10,9 +10,10 @@ type Props = {
     cols: GridColDef[],
     handleDetails(id:GridRowId): void
     handleDelete(id:GridRowId): void
+    extraActions?: (id: GridRowId) => React.ReactNode[];
 }
 
-export default function MyDataGrid({data, cols, handleDetails, handleDelete}:Props) 
+export default function MyDataGrid({data, cols,handleDetails, handleDelete, extraActions}:Props) 
 {
     const MyCustomToolbar = (props: GridToolbarProps)=> {
         return(
@@ -30,15 +31,16 @@ export default function MyDataGrid({data, cols, handleDetails, handleDelete}:Pro
         { 
             field: 'actions', 
             type: 'actions', 
-            getActions: (params:GridRowParams) => [
+            getActions: (params:GridRowParams): React.ReactElement[] => [
                 <GridActionsCellItem 
-                    key={1}
+                    key='details'
                     icon={<VisibilityIcon />}
                     label='Detalles'
                     onClick={()=>handleDetails(params.id)}
                 />,
+                ...(extraActions ? extraActions(params.id) as React.ReactElement[] : []),
                 <GridActionsCellItem 
-                    key={2}
+                    key='delete'
                     showInMenu
                     icon={<DeleteIcon />}
                     label='Borrar'

@@ -39,6 +39,7 @@ export default function CertificateDetailPage()
             
             formik.setValues({
                 alumno: data?.alumno || initialValues.alumno,
+                impreso: data?.impreso || false,
                 idioma: data?.idioma || initialValues.idioma,
                 nivel : data?.nivel || initialValues.nivel,
                 tipo: data?.tipo || initialValues.tipo,

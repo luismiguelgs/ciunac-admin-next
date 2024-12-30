@@ -5,13 +5,17 @@ import NewButton from '@/components/NewButton'
 import { Box, Chip } from '@mui/material'
 import MyDataGrid from '@/components/MUI/MyDataGrid'
 import { MyDialog } from '@/components/MUI'
-import { GridColDef, GridRowId } from '@mui/x-data-grid'
+import { GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid'
 import { Icertificado } from '@/interfaces/certificado.interface'
 import useStore from '@/hooks/useStore'
 import { useSubjectsStore } from '@/store/types.stores'
 import { useRouter } from 'next/navigation'
 import CertificadosService, { Collection } from '@/services/certificados.service'
 import { NIVEL } from '@/lib/constants'
+import PrintIcon from '@mui/icons-material/Print';
+import { PDFViewer } from '@react-pdf/renderer'
+import CertificateFormat from './(components)/CertificateFormat'
+import dayjs from 'dayjs'
 
 
 export default function CertificatesPage() 
@@ -20,11 +24,14 @@ export default function CertificatesPage()
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const navigate = useRouter()
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
+    const [ openPrint, setOpenPrint ] = React.useState<boolean>(false)
+    const [ selectData, setSelectData ] = React.useState<Icertificado | undefined>()
     const [rows, setRows] = React.useState<Icertificado[]>([])
     const [ID, setID] = React.useState<GridRowId | null>(null);
 
     const loadData = async () =>{
         const data = await CertificadosService.fetchItems()
+        //console.log(data)
         setRows(data)
     }
     React.useEffect(()=> {
@@ -52,6 +59,12 @@ export default function CertificatesPage()
     const handleDelete = async (id:GridRowId) => {
         setID(id)
         setOpenDialog(true)
+    }
+    const handlePrint = async (id:GridRowId) => {
+        const info = rows.find((row) => row.id === id)
+        setSelectData(info)
+        setOpenPrint(true)
+        //alert(JSON.stringify(selectData))
     }
     
 	//Columnas ***************
@@ -93,6 +106,14 @@ export default function CertificatesPage()
 					cols={columns}
 					handleDetails={handleDetails}
 					handleDelete={handleDelete}
+                    extraActions={(id:GridRowId) => [
+                        <GridActionsCellItem
+                            key='print'
+                            icon={<PrintIcon />}
+                            label='Imprimir'
+                            onClick={() => handlePrint(id)}
+                        />
+                    ]}
 				/>
 			</Grid>
 			<MyDialog 
@@ -103,6 +124,31 @@ export default function CertificatesPage()
 				setOpen={setOpenDialog}
 				actionFunc={handleConfirmDelete}
 			/>
+            <MyDialog
+                open={openPrint}
+                type='SIMPLE'
+                title='CERTIFICADO'
+                setOpen={setOpenPrint}
+                content={<>
+                    <PDFViewer width={800} height={500}>
+                        <CertificateFormat
+                            duplicado={selectData?.duplicado as boolean}
+                            curricula_antigua={selectData?.curricula_antigua as boolean}
+                            certificado_anterior={selectData?.certificado_anterior}
+                            id={selectData?.id as string}
+                            formato={selectData?.idioma === 'INGLES' && selectData.nivel === 'BASICO' ? 1 : 0}
+                            fecha_emision={dayjs(selectData?.fecha_emision).format('D [de] MMMM [de] YYYY' )}
+                            fecha_conclusion={dayjs(selectData?.fecha_conclusion).format('D [de] MMMM [de] YYYY' )} 
+                            idioma={subjects?.filter(item=>item.value === selectData?.idioma)[0]?.label}
+                            nivel={NIVEL.filter(item=>item.value === selectData?.nivel)[0]?.label} 
+                            url={`https://ciunac.unac.edu.pe/validacion-certificado/?url=${selectData?.id}`}
+                            alumno={selectData?.alumno as string} 
+                            horas={selectData?.horas as number}
+                            elaborador={selectData?.elaborador}
+                            numero_folio={selectData?.numero_registro as string}/>
+                    </PDFViewer>
+                </>}
+            />
 		</Grid>
     )
 }

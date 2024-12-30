@@ -1,5 +1,6 @@
 export interface Icertificado{
     id?:string,
+    impreso: boolean,
     alumno: string,
     tipo: 'virtual' | 'fisico'
     id_solicitud?: string,

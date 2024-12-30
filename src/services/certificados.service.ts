@@ -23,6 +23,7 @@ export default class CertificadosService
         if('alumno' in obj){ //Certificados
             data = {
                 ...obj,
+                impreso: false,
                 creado: serverTimestamp(),
                 modificado: serverTimestamp()
             }
@@ -67,6 +68,22 @@ export default class CertificadosService
         try{
             await updateDoc(docRef, dataToUpdate)
             console.log('update',docRef.id);
+        }catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            } else {
+                console.error('Error desconocido al actualizar el elemento:', err);
+            }
+        }
+    }
+    public static async updateStatus(collectionName: Collection, id:string, status: boolean):Promise<void>
+    {
+        const docRef = doc(firestore, collectionName, id)
+        try{
+            await updateDoc(docRef, {
+                estado: status,
+                modificado: serverTimestamp()
+            })
         }catch(err){
             if (err instanceof Error) {
                 console.error('Error al actualizar el elemento:', err.message);

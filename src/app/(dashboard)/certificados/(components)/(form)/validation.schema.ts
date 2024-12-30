@@ -25,6 +25,7 @@ const validationSchema = yup.object<Icertificado>({
 const initialValues:Icertificado ={
     alumno: '',
     idioma: '',
+    impreso: false,
     nivel : '',
     tipo: 'fisico',
     fecha_emision: new Date(),
