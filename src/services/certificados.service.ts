@@ -81,7 +81,7 @@ export default class CertificadosService
         const docRef = doc(firestore, collectionName, id)
         try{
             await updateDoc(docRef, {
-                estado: status,
+                impreso: status,
                 modificado: serverTimestamp()
             })
         }catch(err){
@@ -107,8 +107,9 @@ export default class CertificadosService
         }
     }
     //Examenes - funciones ****************************************
-    public static async fetchItems():Promise<Icertificado[]>{
+    public static async fetchItems(printed?: boolean):Promise<Icertificado[]>{
         try{
+
             const snapShot = await getDocs(this.db(Collection.Certificados))
             const data = snapShot.docs.map((item)=>{
                 return{
@@ -120,6 +121,8 @@ export default class CertificadosService
                     modificado: item.data().modificado ? changeDate(item.data().modificado) : null
                 } as Icertificado
             })
+            // Aplica el filtro solo si `printed` está definido
+            .filter((item) => (printed !== undefined ? item.impreso === printed : true));
             return data
         }
         catch(err){

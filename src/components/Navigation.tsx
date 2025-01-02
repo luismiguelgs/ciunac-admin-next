@@ -12,6 +12,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import PeopleIcon from '@mui/icons-material/People';
+import PrintIcon from '@mui/icons-material/Print';
 
 const NAVIGATION: Navigation = [
     {
@@ -58,10 +59,15 @@ const NAVIGATION: Navigation = [
       icon: <CardMembershipIcon />,
       children: [
         {
-            segment: '/',
-            title: 'Lista de Certificados',
+            segment: './',
+            title: 'Certificados Nuevos',
             icon: <LayersIcon />,
         },
+		{
+			segment: 'impresos',
+			title: 'Certificados Impresos',
+			icon: <PrintIcon />
+		},
         {
             segment: 'nuevo',
             title: 'Nuevo Certificado',

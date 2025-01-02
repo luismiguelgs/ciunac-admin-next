@@ -31,6 +31,7 @@ export default function CertificateForm({formik, id}:Props)
                     error={formik.touched.alumno && Boolean(formik.errors.alumno)}
                     type="text"
                     fullWidth
+                    disabled={id !== 'nuevo'}
                     variant="outlined"
                     onChange={formik.handleChange}
                     helperText={formik.touched.alumno && formik.errors.alumno}
@@ -127,6 +128,15 @@ export default function CertificateForm({formik, id}:Props)
                     label='Curricula Antigua'
                     name='curricula_antigua'
                     checked={formik.values.curricula_antigua as boolean}
+                    handleChange={formik.handleChange}
+                    sx={{mt:1}}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <MySwitch 
+                    label='Impreso'
+                    name='impreso'
+                    checked={formik.values.impreso as boolean}
                     handleChange={formik.handleChange}
                     sx={{mt:1}}
                 />
