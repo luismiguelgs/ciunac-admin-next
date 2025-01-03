@@ -5,7 +5,7 @@ import theme from '@/theme';
 import NAVIGATION from '@/components/Navigation';
 import { SessionProvider, signIn, signOut } from 'next-auth/react';
 import { auth } from '@/auth';
-import { Author, ThemeColorDescriptor } from 'next/dist/lib/metadata/types/metadata-types';
+import { Author} from 'next/dist/lib/metadata/types/metadata-types';
 
 export const metadata = {
 	title: "Ciunac Admin",
@@ -13,7 +13,6 @@ export const metadata = {
 	generator: "Next.js",
 	manifest: "/manifest.json",
 	keywords: ["nextjs", "nextjs14", "next14", "pwa", "next-pwa"],
-	themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
 	authors: [
 		{ name: "Luis Miguel" },
 		{
@@ -21,8 +20,6 @@ export const metadata = {
 			url: "https://pe.linkedin.com/in/luis-miguel-gs",
 		},
 	],
-	viewport:
-		"minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
 	icons: [
 		{ rel: "apple-touch-icon", url: "icons/icon-128x128.png" },
 		{ rel: "icon", url: "icons/icon-128x128.png" } ,
@@ -46,13 +43,9 @@ export default async function RootLayout({ children, }: Readonly<{  children: Re
 				<meta name="generator" content={metadata.generator as string} />
 				<link rel="manifest" href={metadata.manifest as string} />
 				<meta name="keywords" content={(metadata.keywords as string[]).join(", ")} />
-				{ (metadata.themeColor as ThemeColorDescriptor[]).map(({ media, color }, index) => (
-					<meta key={index} name="theme-color" media={media} content={color} />
-				))}
 				{(metadata.authors as Author[]).map(({ name, url }, index) => (
 					<meta key={index} name="author" content={name} {...(url && { href: url })} />
 				))}
-				<meta name="viewport" content={metadata.viewport as string} />
 				{(metadata.icons! ).map(({ rel, url }, index) => (
 					<link key={index} rel={rel} href={url} />
 				))}
