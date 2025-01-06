@@ -1,22 +1,24 @@
 import Grid from '@mui/material/Grid2';
 //import CardChart from './(components)/CardChart';
 //import MyPieChart from './(components)/MyPieChart';
-//import SolicitudesService from '@/services/solicitudes.service';
+import SolicitudesService from '@/services/solicitudes.service';
 //import MyLineChart from './(components)/MyLineChart';
 import { auth } from '@/auth';
 import { Typography } from '@mui/material';
 //import MyBarChartH from './(components)/MyBarChartH';
 //import MyBarChartV from './(components)/MyBarChartV';
-/*
+
 async function getData() {
     const res = await SolicitudesService.fetchItemsWODate();
     return res
 }
-*/
+
 export default async function Page() 
 {
     const session = await auth();
-    //const data = await getData()
+    const data = await getData()
+
+    console.log(data);
 
     return (
         <Grid container spacing={2}>
