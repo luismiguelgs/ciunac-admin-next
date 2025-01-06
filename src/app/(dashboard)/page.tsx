@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid2';
-//import CardChart from './(components)/CardChart';
-//import MyPieChart from './(components)/MyPieChart';
+import CardChart from './(components)/CardChart';
+import MyPieChart from './(components)/MyPieChart';
 import SolicitudesService from '@/services/solicitudes.service';
 //import MyLineChart from './(components)/MyLineChart';
 import { auth } from '@/auth';
@@ -25,12 +25,13 @@ export default async function Page()
             <Grid size={{xs: 12}}>
                 <Typography variant='subtitle2' gutterBottom>Bienvenido, {session?.user?.email}</Typography>
             </Grid>
-            {/*
+            
             <Grid size={{xs: 12, sm: 6}}>
                 <CardChart title='Solicitudes por Idioma'>
                     <MyPieChart data={data}/>
                 </CardChart>
             </Grid>
+            {/*
             <Grid size={{xs:12, sm:6}}>
                 <CardChart title='Solicitudes por mes'>
                     <MyLineChart data={data}/>
