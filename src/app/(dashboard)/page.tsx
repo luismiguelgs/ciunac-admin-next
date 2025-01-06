@@ -1,12 +1,12 @@
 import Grid from '@mui/material/Grid2';
-import CardChart from './(components)/CardChart';
-import MyPieChart from './(components)/MyPieChart';
+//import CardChart from './(components)/CardChart';
+//import MyPieChart from './(components)/MyPieChart';
 import SolicitudesService from '@/services/solicitudes.service';
-import MyLineChart from './(components)/MyLineChart';
+//import MyLineChart from './(components)/MyLineChart';
 import { auth } from '@/auth';
 import { Typography } from '@mui/material';
-import MyBarChartH from './(components)/MyBarChartH';
-import MyBarChartV from './(components)/MyBarChartV';
+//import MyBarChartH from './(components)/MyBarChartH';
+//import MyBarChartV from './(components)/MyBarChartV';
 
 async function getData() {
     const res = await SolicitudesService.fetchItemsWODate();
