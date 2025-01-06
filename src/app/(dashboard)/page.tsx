@@ -7,16 +7,16 @@ import { auth } from '@/auth';
 import { Typography } from '@mui/material';
 //import MyBarChartH from './(components)/MyBarChartH';
 //import MyBarChartV from './(components)/MyBarChartV';
-
+/*
 async function getData() {
     const res = await SolicitudesService.fetchItemsWODate();
     return res
 }
-
+*/
 export default async function Page() 
 {
     const session = await auth();
-    const data = await getData()
+    //const data = await getData()
 
     return (
         <Grid container spacing={2}>
