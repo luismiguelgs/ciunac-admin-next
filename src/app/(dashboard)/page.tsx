@@ -23,6 +23,7 @@ export default async function Page()
             <Grid size={{xs: 12}}>
                 <Typography variant='subtitle2' gutterBottom>Bienvenido, {session?.user?.email}</Typography>
             </Grid>
+            {/*
             <Grid size={{xs: 12, sm: 6}}>
                 <CardChart title='Solicitudes por Idioma'>
                     <MyPieChart data={data}/>
@@ -43,6 +44,7 @@ export default async function Page()
                     <MyBarChartV data={data} />
                 </CardChart>
             </Grid>
+            */}
         </Grid>
     );
 }
