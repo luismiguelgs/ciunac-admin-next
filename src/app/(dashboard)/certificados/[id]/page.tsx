@@ -92,6 +92,7 @@ export default function CertificateDetailPage()
                         formik={formik} 
                         id={id as string} 
                         data={detalle} 
+                        virtual={formik.values.tipo === 'virtual'}
                         cursos={subjects} />
 				</Grid>
                 <Grid size={{xs:12}}>

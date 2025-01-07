@@ -124,6 +124,18 @@ export default function CertificateForm({formik, id}:Props)
                 </LocalizationProvider>
             </Grid>
             <Grid size={{xs: 12, sm: 3}}>
+            <MySelect 
+                    data={[{label:'Físico', value:'fisico'},{label:'Virtual', value:'virtual'}]}
+                    handleChange={formik.handleChange}
+                    label='Tipo de Certificado'
+                    name='tipo'
+                    disabled={id !== 'nuevo'}
+                    error={formik.touched.tipo && Boolean(formik.errors.tipo)}
+                    value={formik.values.tipo}
+                    helperText={formik.touched.tipo && formik.errors.tipo}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
                 <MySwitch 
                     label='Curricula Antigua'
                     name='curricula_antigua'

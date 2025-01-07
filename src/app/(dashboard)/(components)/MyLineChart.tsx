@@ -5,6 +5,7 @@ import React from 'react'
 
 export default function MyLineChart(props:{data: Isolicitud[]}) 
 {
+	//console.log(props.data);
     //filtrar por el año actual
     const añoActual = new Date().getFullYear();
     const objetosConAñoActual = props.data.filter(objeto => parseInt((objeto.creado as string).split('/')[2]) === añoActual);
@@ -33,17 +34,17 @@ export default function MyLineChart(props:{data: Isolicitud[]})
     ]
     return (
         <React.Fragment>
-          <LineChart 
-            xAxis={[{data:[1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12]}]}
-            series={[
-                {
-                    data: info,
-                    area: true
-                },
-            ]}
-            width={500}
-            height={250}
-          />
+			<LineChart 
+				xAxis={[{data:[1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12]}]}
+				series={[
+					{
+						data: info,
+						area: true
+					},
+				]}
+				width={500}
+				height={250}
+			/>
       </React.Fragment>
     )
 }

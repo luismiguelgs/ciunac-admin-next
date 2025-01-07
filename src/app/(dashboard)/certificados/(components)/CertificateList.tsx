@@ -14,7 +14,7 @@ import CertificadosService, { Collection } from '@/services/certificados.service
 import { NIVEL } from '@/lib/constants'
 import PrintIcon from '@mui/icons-material/Print';
 import { PDFViewer } from '@react-pdf/renderer'
-import CertificateFormat from './CertificateFormat'
+import CertificateFormat from './(formats)/CertificateFormat'
 import dayjs from 'dayjs'
 
 type Props = {
@@ -86,7 +86,7 @@ export default function CertificateList({rows, setRows, printed}:Props)
             renderCell: (params) =>{
                 switch(params.value){
                     case 'virtual':
-                        return <Chip label='VIRTUAL' color="error" />
+                        return <Chip label='VIRTUAL' color="secondary" />
                     case 'fisico':
                         return <Chip label='FISICO' color="primary" />
                     default:

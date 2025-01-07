@@ -50,7 +50,7 @@ export default function CertificateNew({ session }: { session: Session | null })
 
     React.useEffect(() => {
         formik.setFieldValue('id_solicitud', dataRequest?.id)
-        formik.setFieldValue('alumno', dataRequest?.nombres ? dataRequest?.nombres + ' ' + dataRequest?.apellidos : '')
+        formik.setFieldValue('alumno', dataRequest?.nombres ?  dataRequest?.apellidos + ' ' +  dataRequest?.nombres  : '')
         formik.setFieldValue('idioma', dataRequest?.idioma)
         formik.setFieldValue('nivel', dataRequest?.nivel)
         formik.setFieldValue('elaborador', session?.user?.email)
