@@ -5,6 +5,7 @@ import selloDirector from '@/assets/firma.jpg'
 import selloCoordinadora from '@/assets/coordinadora.jpg'
 import selloElaborador  from '@/assets/elaborador.jpg'
 import waterMark from '@/assets/unac-logo.png'
+import logoCiunac from '@/assets/logo-ciunac-trans.png'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
 import React from 'react'
 import CertificadosService from '@/services/certificados.service'
@@ -24,18 +25,18 @@ export const generateSessionPDFQrCode = async (
 
 const styles = StyleSheet.create({
 	page:{
-		paddingTop: 45,
-    	paddingBottom: 45,
+		paddingTop: 25,
+    	paddingBottom: 25,
 		paddingHorizontal: 10,
 		backgroundColor: '#FAEBD7'
 	},
 	waterMark: {
 		position: 'absolute',
-		top: '50%',
-		left: '50%',
-		transform: 'translate(-70%, -50%)',
+		top: '35%',
+		left: '25%',
+		//transform: 'translate(-110%, -80%)',
 		opacity: 0.1,
-		width: 300,
+		width: 280,
 		height: 400,
 		zIndex: -1,	
 	},
@@ -160,15 +161,25 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
         <Document>
 			{/********************** PAGE 1 ********************/}
             <Page size="A4" style={[styles.page, {paddingHorizontal:75}]}>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2 }}>
+					<View>
+						<Image src={waterMark.src} style={{width: 70, height: 100}} />
+					</View>
+					<View style={{alignItems: 'center', flexDirection: 'column'}}>
+						<Text style={{fontSize: 20, fontFamily:'Roboto-Bold', marginTop: 10}} fixed>UNIVERSIDAD NACIONAL DEL CALLAO</Text>
+						<Text style={{fontSize: 16, fontFamily:'Roboto-Bold', marginTop: 2}} fixed>VICERRECTORADO ACADÉMICO</Text>
+						<Text style={{fontSize: 16, fontFamily:'Roboto-Bold', marginTop: 2}} fixed>CENTRO DE IDIOMAS</Text>
+					</View>
+				</View>
 				{/* Marca de agua */}
                 <Image src={waterMark.src} style={styles.waterMark} />
 
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 10 }}>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 1 }}>
 					<View>
 						<Text style={{fontSize: 20, fontFamily:'Dancing Script', marginTop: 120}} fixed>El director del Centro de Idiomas</Text>
 					</View>
 					<View>
-						<Image style={{ width: 120, marginTop: 70 }} src={QRCode} />
+						<Image style={{ width: 120, marginTop: 10 }} src={QRCode} />
 					</View>
 				</View>
 				
@@ -226,7 +237,7 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 					</View>
 				</View>
 				<View style={{marginTop: 10}}>
-					<Text style={[styles.text2,{marginTop: 50}]}>
+					<Text style={[styles.text2,{marginTop: 80}]}>
 						N° de Registro: <Text style={styles.text3}>{numero_folio}</Text>
 					</Text>
 				</View>  
@@ -318,6 +329,12 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 						<Text>Elaborado por: {elaborador}</Text>
 						<Text>Callao, {fecha_emision}</Text>
 					</View>
+				</View>
+				<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
+					<Image style={{ width: 140 }} src={logoCiunac.src} />
+					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold', marginTop: 1}}>
+						Av. Juan Pablo II N° 310 Bellavista - Callao
+					</Text>
 				</View>
             </Page>
         </Document>

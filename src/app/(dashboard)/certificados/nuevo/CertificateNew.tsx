@@ -33,6 +33,7 @@ export default function CertificateNew({ session }: { session: Session | null })
         validationSchema : validationSchema,
         onSubmit: async(values:Icertificado) =>{
             setLoading(true)
+            values.alumno = values.alumno.toUpperCase()
             // Convert dayjs objects to JavaScript Date objects
             const formattedValues = {
                 ...values,

@@ -38,6 +38,22 @@ export default function CertificateForm({formik, id}:Props)
                 />
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
+                <TextField
+                    autoFocus
+                    value={formik.values.id_solicitud}
+                    name='id_solicitud'
+                    label="ID Solicitud"
+                    error={formik.touched.id_solicitud && Boolean(formik.errors.id_solicitud)}
+                    type="text"
+                    fullWidth
+                    disabled={true}
+                    slotProps={{inputLabel: { shrink: true, }}}
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    helperText={formik.touched.id_solicitud && formik.errors.id_solicitud}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
                 <SelectSubjects 
                     disabled={id !== 'nuevo'}
                     error={formik.touched.idioma && Boolean(formik.errors.idioma)}

@@ -16,6 +16,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import { PDFViewer } from '@react-pdf/renderer'
 import CertificateFormat from './(formats)/CertificateFormat'
 import dayjs from 'dayjs'
+import SolicitudesService from '@/services/solicitudes.service'
 
 type Props = {
 	rows: Icertificado[],
@@ -42,6 +43,8 @@ export default function CertificateList({rows, setRows, printed}:Props)
             )
         );
         await CertificadosService.updateStatus(Collection.Certificados,id as string, checked)
+        const info = rows.find((row) => row.id === id)
+        await SolicitudesService.updateStatus(info?.id_solicitud as string, 'ELABORADO')
     }
     const handleConfirmDelete = async () => {
         if (ID) {

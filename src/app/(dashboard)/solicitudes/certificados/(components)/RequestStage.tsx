@@ -14,6 +14,7 @@ import { Box, Portal } from '@mui/material';
 import { IBaseData } from '@/interfaces/types.interface';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useRouter } from 'next/navigation';
+import { getIconByCode } from '@/lib/common';
 
 function MyCustomToolbar(props: GridToolbarContainerProps){
     return(
@@ -40,6 +41,7 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
     const columns: GridColDef[] = [
         {
             field: 'manual',
+            width: 80,
             type: 'boolean',
             headerName: 'ONLINE',
                 renderCell(params) {
@@ -50,14 +52,14 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
                     }
                 }
         },
-        { field: 'periodo', type: 'string', headerName: 'PERIODO' },
+        { field: 'periodo', type: 'string', headerName: 'PERIODO', width: 85 },
         { 
             field: 'solicitud', 
             type: 'singleSelect', 
             headerName: 'SOLICITUD',
             valueOptions: props.documents,
             editable: false,
-            width: 220
+            width: 210
         },
         {
             field: 'creado',
@@ -77,6 +79,7 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
         },
         { field: 'apellidos', type: 'string', headerName: 'APELLIDOS', width:160 },
         { field: 'nombres', type: 'string', headerName: 'NOMBRES', width:160 },
+        /*
         { 
             field: 'idioma', 
             type: 'singleSelect', 
@@ -85,7 +88,17 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
             editable: false,
             //width: 150
         },
-        { field: 'nivel', type: 'string', headerName: 'NIVEL', width: 150  },
+        */
+        {
+            field: 'idioma',
+            width: 80,
+            type: 'string',
+            headerName: 'IDIOMA',
+                renderCell(params) {
+                   return getIconByCode(params.value)
+                }
+        },
+        { field: 'nivel', type: 'string', headerName: 'NIVEL', width: 100  },
         { 
             field: 'actions', 
             type: 'actions', 
