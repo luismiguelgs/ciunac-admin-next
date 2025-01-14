@@ -51,8 +51,8 @@ export default function ExamDetailPage(params:{params:{id:string}})
     },[])
 
     const handleClickActa = () => {
-        const item = profesores.filter(item => item.id === data?.profesor_id)[0]
-        setProfesor(`${item.nombres} ${item.apellidos}`)
+        const item = profesores.filter(item => item.Codigo === data?.profesor_id)[0]
+        setProfesor(`${item.Primer_nombre} ${item.Primer_apellido} ${item.Segundo_apellido}`)
         setOpen(true)
     }
     const handleClickSave = async(values:Iexamen) => {

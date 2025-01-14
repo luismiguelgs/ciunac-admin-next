@@ -1,5 +1,5 @@
 'use client'
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import CertificateForm from '../(components)/(form)/CertificateForm'
 import useStore from '@/hooks/useStore'
@@ -16,6 +16,7 @@ import ButtonSeeCertificate from '../(components)/ButtonSeeCertificate'
 import CertificateDetail from '../(components)/CertificateDetail'
 import ButtonSave from '@/components/ButtonSave'
 import LoadingDialog from '@/components/MUI/Dialogs/DialogLoading'
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function CertificateDetailPage() 
 {
@@ -28,6 +29,7 @@ export default function CertificateDetailPage()
 	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
 	
 	const [detalle, setDetalle] = React.useState<IcertificadoDetalle[]>([])
+    const [edit, setEdit] = React.useState<boolean>(false)
 
 	React.useEffect(()=>{
         const loadData = async (id:string|undefined) =>{
@@ -80,15 +82,20 @@ export default function CertificateDetailPage()
 	return (
 		<Box>
 			<Typography variant="h5" gutterBottom>{`Certificado Detalle (${id})` }</Typography>
-			<CertificateForm formik={formik} id={id as string} />
+			<CertificateForm formik={formik} id={id as string} edit={edit}/>
 			<Grid container spacing={2} p={2} >
-				<Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<BackButton fullWidth />
 				</Grid>
-				<Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+                <Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+                    <Button fullWidth onClick={()=>setEdit(!edit)} variant="contained" color="primary" startIcon={<EditIcon />}>
+                        Editar
+                    </Button>
+				</Grid>
+				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
                     <ButtonSave fullWidth onClick={()=>formik.submitForm()}/>
 				</Grid>
-				<Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
+				<Grid size={{xs: 12, md: 3}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>
 					<ButtonSeeCertificate 
                         formik={formik} 
                         id={id as string} 

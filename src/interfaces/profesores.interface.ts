@@ -1,15 +1,14 @@
 export interface Iprofesor {
-    id?: string,
-    nombres: string,
-    apellidos: string,
-    genero: string,
-    email: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fecha_nacimiento: any,
-    telefono: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    creado?: any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    modificado?: any,
-    isNew?: boolean
+    Codigo?: string,
+    Primer_nombre: string,
+    Segundo_nombre: string,
+    Primer_apellido: string,
+    Segundo_apellido: string,
+    Codigo_tipo_identificacion: string,
+    Numero_identificacion: string,
+    Genero: string,
+    Email: string,
+    Telefono: string,
+    Celular: string,
+    Fecha_nacimiento: string,
 }

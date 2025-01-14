@@ -1,9 +1,25 @@
 import { Iprofesor } from '@/interfaces/profesores.interface';
-import { firestore } from '@/lib/firebase';
-import { collection, doc, updateDoc, serverTimestamp, addDoc, deleteDoc, getDocs, getDoc, Timestamp} from 'firebase/firestore'
+//import { firestore } from '@/lib/firebase';
+//import { collection, doc, updateDoc, serverTimestamp, addDoc, deleteDoc, getDocs, getDoc, Timestamp} from 'firebase/firestore'
 
 export default class ProfesoresService
 {
+    public static async fetchItems(): Promise<Iprofesor[]>
+    {
+        const res = await fetch('https://api.q10.com/v1/docentes?Limit=50', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache',
+                'Api-Key': process.env.API_KEY_Q10 || ''
+            }
+        })
+        let data:Iprofesor[] = await res.json()
+        data = data.filter((profesor:Iprofesor)=>Number(profesor.Telefono) > 0)
+        return data
+    }
+
+    /*
     private static dataCollection = 'profesores'
     private static db = collection(firestore, this.dataCollection)
 
@@ -82,4 +98,5 @@ export default class ProfesoresService
             }
         }
     }
+    */
 }

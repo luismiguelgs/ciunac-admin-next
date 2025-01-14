@@ -1,7 +1,7 @@
 'use client'
-import useStore from '@/hooks/useStore'
+//import useStore from '@/hooks/useStore'
 import { Isolicitud } from '@/interfaces/solicitud.interface'
-import { useFacultiesStore, useSubjectsStore } from '@/store/types.stores'
+//import { useFacultiesStore } from '@/store/types.stores'
 import React from 'react'
 import Grid from '@mui/material/Grid2'
 import { Chip, TextField } from '@mui/material'
@@ -12,6 +12,8 @@ import PowerIcon from '@mui/icons-material/Power';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { MySelect } from '@/components/MUI'
 import { ESTADO, NIVEL } from '@/lib/constants'
+import SelectSubjects from '@/components/SelectSubjects'
+import SelectFaculty from '@/components/SelectFaculty'
 
 type Props={
     item:Isolicitud
@@ -22,8 +24,7 @@ type Props={
 export default function BasicInfo({ item, edit, handleChange }:Props ) 
 {
     //HOOKS **************************************************
-    const faculties = useStore(useFacultiesStore, (state) => state.faculties)
-    const subjects = useStore(useSubjectsStore, (state) => state.subjects)
+    //const faculties = useStore(useFacultiesStore, (state) => state.faculties)
 
     return (
         <Grid container spacing={2} p={2}>
@@ -130,15 +131,11 @@ export default function BasicInfo({ item, edit, handleChange }:Props )
                 />
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
-                { subjects &&  <MySelect 
+                <SelectSubjects
                     disabled={!edit} 
-                    data={subjects} 
-                    name="idioma" 
-                    label="Idioma" 
-                    value={item?.idioma} 
-                    handleChange={handleChange}
-                    helperText={true && "Seleccionar el idioma"}
-                />}
+                    value={item.idioma} 
+                    handleChange={handleChange} 
+                />
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
                 <MySelect 
@@ -152,15 +149,11 @@ export default function BasicInfo({ item, edit, handleChange }:Props )
                 />
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
-                {faculties && <MySelect 
-                    disabled={!edit} 
-                    data={faculties} 
-                    name="facultad" 
-                    label="Facultad" 
-                    value={item?.facultad as string} 
+                <SelectFaculty 
+                    disabled={!edit}
+                    value={item.facultad as string}
                     handleChange={handleChange}
-                    helperText={true && "Seleccionar facultad"}
-                />}
+                />
             </Grid>
             <Grid size={{xs: 12, sm: 6}}>
                 <TextField

@@ -57,7 +57,7 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
             const examenData = {
                 ...rest,
                 profesor_id: profesor_id,
-                profesor: profesores.filter(item => item.id === profesor_id)[0].apellidos,
+                profesor: profesores.filter(item => item.Codigo === profesor_id)[0].Primer_apellido,
                 fecha_examen: fecha_examen ? new Date(fecha_examen) : null,
                 fecha_final: fecha_final ? new Date(fecha_final) : null,
             };
@@ -150,8 +150,8 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
                         label='Profesor'>
                         {
                             profesores.map((item,index)=>(
-                                <MenuItem key={index} value={item.id}>
-                                    {`${item.nombres} ${item.apellidos}`}
+                                <MenuItem key={index} value={item.Codigo}>
+                                    {`${item.Primer_nombre} ${item.Primer_apellido} ${item.Segundo_apellido}`}
                                 </MenuItem>
                             ))
                         }

@@ -9,10 +9,10 @@ import { Skeleton } from '@mui/material'
 
 type Props = {
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    error: boolean | undefined
+    error?: boolean | undefined
     value: string | number
     disabled?: boolean
-    helperText: React.ReactNode
+    helperText?: React.ReactNode
 }
 
 export default function SelectSubjects({handleChange, error, value, helperText, disabled}:Props) 

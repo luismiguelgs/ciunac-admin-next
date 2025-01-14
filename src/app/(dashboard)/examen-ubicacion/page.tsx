@@ -20,6 +20,10 @@ export default function UbicationExamsPage()
     const [ID, setID] = React.useState<GridRowId | null>(null);
 
 	//Funcions ***************
+    const loadData = async () => {
+        const data = await ExamenesService.fetchItems()
+        setRows(data)
+    }
     const handleConfirmDelete = async () => {
         if (ID) {
             //borrar su detalle
@@ -36,12 +40,16 @@ export default function UbicationExamsPage()
     };
     const handleDetails = (id:GridRowId) => {
         setID(id)
-        navigate.push(`./${id}`)
+        navigate.push(`./examen-ubicacion/${id}`)
     }
     const handleDelete = async (id:GridRowId) => {
         setID(id)
         setOpenDialog(true)
     }
+
+    React.useEffect(() => {
+        loadData() 
+    }, []);
 
 	//Columnas ***************
     const columns: GridColDef[] = [
@@ -87,7 +95,7 @@ export default function UbicationExamsPage()
         { field: 'idioma', headerName: 'Idioma', type: 'string', width: 120 },
         { field: 'nivel', headerName: 'NIVEL', width:100},
         { field: 'profesor', headerName: 'Profesor', type: 'string', width: 180 },
-        { field: 'salon', headerName: 'Salón', type: 'string', width: 100 },
+        { field: 'salon', headerName: 'Salón', type: 'string', width: 80 },
     ];
 
 

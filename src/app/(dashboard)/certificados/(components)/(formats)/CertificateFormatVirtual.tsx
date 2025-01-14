@@ -1,9 +1,6 @@
 'use client'
 import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
 import QRCode from 'qrcode'
-import selloDirector from '@/assets/firma.jpg'
-import selloCoordinadora from '@/assets/coordinadora.jpg'
-import selloElaborador  from '@/assets/elaborador.jpg'
 import waterMark from '@/assets/unac-logo.png'
 import logoCiunac from '@/assets/logo-ciunac-trans.png'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
@@ -291,18 +288,9 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 					
 				</View>
 				<Text style={{fontSize: 14, textAlign: 'center', fontFamily: 'Dancing Script', marginTop: 5, marginBottom: 20}}>Curso Concluido : {fecha_conclusion}</Text>
-				<View style={styles.table}>
-					<View style={styles.tableRow}>
-						<View style={[styles.tableCol, {width: '33.33%'}]}>
-							<Image style={styles.imageSello} src={selloElaborador.src}/>
-						</View>
-						<View style={[styles.tableCol, {width: '33.33%'}]}>
-							<Image style={styles.imageSello} src={selloCoordinadora.src}/>
-						</View>
-						<View style={[styles.tableCol, {width: '33.33%'}]}>
-							<Image style={styles.imageSello} src={selloDirector.src}/>
-						</View>
-					</View>
+				{/* Espacio para firma digital */}
+				<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 100}}>
+
 				</View>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 25 }}>
 					<View style={{ fontSize: 10 }}>
@@ -330,10 +318,13 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 						<Text>Callao, {fecha_emision}</Text>
 					</View>
 				</View>
-				<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
+				<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10 }}>
 					<Image style={{ width: 140 }} src={logoCiunac.src} />
-					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold', marginTop: 1}}>
+					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold'}}>
 						Av. Juan Pablo II N° 310 Bellavista - Callao
+					</Text>
+					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold'}}>
+						ciunac.unac.edu.pe - ciunac.certificados@unac.edu.pe
 					</Text>
 				</View>
             </Page>

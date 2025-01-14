@@ -4,7 +4,11 @@ import React from 'react'
 export default function CardChart(props:{children: React.ReactNode, title: string}) 
 {
     return (
-        <Card sx={{p:2, minWidth: 450}}>
+        <Card sx={{
+            p:2, 
+            minWidth: 450,
+            //backgroundColor: '#f9f9f9'
+        }}>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {props.title}

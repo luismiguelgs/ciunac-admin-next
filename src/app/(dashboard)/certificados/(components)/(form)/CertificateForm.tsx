@@ -14,11 +14,12 @@ import SelectSubjects from '@/components/SelectSubjects'
 
 type Props = {
     formik: FormikProps<Icertificado>,
-    id: string
+    id: string,
+    edit?: boolean
 }
 
 
-export default function CertificateForm({formik, id}:Props)
+export default function CertificateForm({formik, id, edit=false}:Props)
 {
     return (
         <Grid container spacing={2} p={2} component='form' onSubmit={formik.handleSubmit}>
@@ -96,7 +97,7 @@ export default function CertificateForm({formik, id}:Props)
                         value={dayjs(formik.values.fecha_emision)} 
                         onChange={(date)=>formik.setFieldValue('fecha_emision',date)} 
                         maxDate={dayjs(new Date())}
-                        disabled={id !== 'nuevo'}
+                        disabled={id !== 'nuevo' && !edit}
                         slotProps={{
                             textField:{
                                 fullWidth:true,
@@ -113,7 +114,7 @@ export default function CertificateForm({formik, id}:Props)
                     value={formik.values.numero_registro}
                     name='numero_registro'
                     label="Número de Registro"
-                    disabled={id !== 'nuevo'}
+                    disabled={id !== 'nuevo' && !edit}
                     error={formik.touched.numero_registro && Boolean(formik.errors.numero_registro)}
                     type="text"
                     fullWidth
@@ -128,6 +129,7 @@ export default function CertificateForm({formik, id}:Props)
                         label="Fecha Concluido"
                         value={dayjs(formik.values.fecha_conclusion)} 
                         onChange={(date)=>formik.setFieldValue('fecha_conclusion',dayjs(date))} 
+                        disabled={id !== 'nuevo' && !edit}
                         maxDate={dayjs(new Date())}
                         slotProps={{
                             textField:{
@@ -145,7 +147,7 @@ export default function CertificateForm({formik, id}:Props)
                     handleChange={formik.handleChange}
                     label='Tipo de Certificado'
                     name='tipo'
-                    disabled={id !== 'nuevo'}
+                    disabled={id !== 'nuevo' && !edit}
                     error={formik.touched.tipo && Boolean(formik.errors.tipo)}
                     value={formik.values.tipo}
                     helperText={formik.touched.tipo && formik.errors.tipo}
@@ -155,6 +157,7 @@ export default function CertificateForm({formik, id}:Props)
                 <MySwitch 
                     label='Curricula Antigua'
                     name='curricula_antigua'
+                    disabled={id !== 'nuevo' && !edit}
                     checked={formik.values.curricula_antigua as boolean}
                     handleChange={formik.handleChange}
                     sx={{mt:1}}
@@ -164,6 +167,7 @@ export default function CertificateForm({formik, id}:Props)
                 <MySwitch 
                     label='Impreso'
                     name='impreso'
+                    disabled={id !== 'nuevo' && !edit}
                     checked={formik.values.impreso as boolean}
                     handleChange={formik.handleChange}
                     sx={{mt:1}}
@@ -173,6 +177,7 @@ export default function CertificateForm({formik, id}:Props)
                 <MySwitch 
                     label='Duplicado'
                     name='duplicado'
+                    disabled={id !== 'nuevo' && !edit}
                     checked={formik.values.duplicado as boolean}
                     handleChange={formik.handleChange}
                     sx={{mt:1}}
