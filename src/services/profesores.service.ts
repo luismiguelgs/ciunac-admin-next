@@ -1,9 +1,10 @@
 import { Iprofesor } from '@/interfaces/profesores.interface';
-//import { firestore } from '@/lib/firebase';
-//import { collection, doc, updateDoc, serverTimestamp, addDoc, deleteDoc, getDocs, getDoc, Timestamp} from 'firebase/firestore'
+import { firestore } from '@/lib/firebase';
+import { collection, doc, updateDoc, serverTimestamp, addDoc, deleteDoc, getDocs, getDoc, Timestamp} from 'firebase/firestore'
 
 export default class ProfesoresService
 {
+    /*
     public static async fetchItems(): Promise<Iprofesor[]>
     {
         const res = await fetch('https://api.q10.com/v1/docentes?Limit=50', {
@@ -19,17 +20,22 @@ export default class ProfesoresService
         return data
     }
 
-    /*
+    */
     private static dataCollection = 'profesores'
     private static db = collection(firestore, this.dataCollection)
 
     public static async fetchItems(): Promise<Iprofesor[]>{
         const snapShot = await getDocs(this.db)
         const data = snapShot.docs.map((item)=>{
-            console.log(item.data());
+            //console.log(item.data());
             
             const firebaseTimestamp: Timestamp = item.data().fecha_nacimiento
-            return {...item.data(), id: item.id, fecha_nacimiento: firebaseTimestamp.toDate() } as Iprofesor
+            return {
+                ...item.data(), 
+                id: item.id, 
+                fecha_nacimiento: firebaseTimestamp.toDate().toISOString().split('T')[0], 
+                creado: firebaseTimestamp.toDate(), 
+                modificado: firebaseTimestamp.toDate() } as Iprofesor
         })
         return data
     }
@@ -46,12 +52,26 @@ export default class ProfesoresService
         //delete obj.isNew
         //delete obj.id
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id , isNew , ...rest } = obj
+        const { id , isNew , fecha_nacimiento, ...rest } = obj
+        
+        let fechaTimestamp:Date | null = null
+        if(fecha_nacimiento){
+            const fecha = new Date(fecha_nacimiento)
+            if(!isNaN(fecha.getTime())){
+                fechaTimestamp = fecha
+            }else{
+                console.error('Fecha de nacimiento no válida')
+                throw new Error('Fecha de nacimiento no válida')
+            }
+        }
+
         const data = {
             ...rest,
+            fecha_nacimiento: fechaTimestamp,
             creado: serverTimestamp(),
             modificado: serverTimestamp()
         }
+
         let docRef = null
         try{
             docRef = await addDoc(this.db, data)
@@ -67,11 +87,26 @@ export default class ProfesoresService
     }
     public static async updateItem(obj: Iprofesor): Promise<void> {
         delete obj.isNew
+        // Convertir las fechas en cadena a timestamps, si aplica
+        const { fecha_nacimiento, ...rest } = obj;
+        let fechaTimestamp: Date | null = null;        
+
+        if (fecha_nacimiento) {
+            const fecha = new Date(fecha_nacimiento);
+            if (!isNaN(fecha.getTime())) {
+                fechaTimestamp = fecha; // Es una fecha válida
+            } else {
+                console.error('La fecha proporcionada no es válida:', fecha_nacimiento);
+                throw new Error('Fecha inválida');
+            }
+        }
+
         const dataToUpdate = doc(firestore, this.dataCollection, obj.id as string);
       
         try {
             await updateDoc(dataToUpdate, {
-                ...obj,
+                ...rest,
+                fecha_nacimiento: fechaTimestamp, // Solo agrega fecha si es válida
                 modificado: serverTimestamp(),
             });
             console.log('Elemento actualizado correctamente');
@@ -98,5 +133,4 @@ export default class ProfesoresService
             }
         }
     }
-    */
 }

@@ -46,13 +46,14 @@ export default function ExamDetailPage(params:{params:{id:string}})
             setData(data)
             const participantes = await ExamenesService.fetchItemsDetail(id as string)
             setParticipantes(participantes)
+            setCalificacionesId(data?.calificacion_id ?? '')
         }
         loadData(id)
     },[])
 
     const handleClickActa = () => {
-        const item = profesores.filter(item => item.Codigo === data?.profesor_id)[0]
-        setProfesor(`${item.Primer_nombre} ${item.Primer_apellido} ${item.Segundo_apellido}`)
+        const item = profesores.filter(item => item.id === data?.profesor_id)[0]
+        setProfesor(`${item.nombres} ${item.apellidos}`)
         setOpen(true)
     }
     const handleClickSave = async(values:Iexamen) => {
@@ -76,7 +77,7 @@ export default function ExamDetailPage(params:{params:{id:string}})
                     handleClickSave={handleClickSave}
                 /> : <Typography variant='h6' gutterBottom>Loading...</Typography>
             }
-            <ExamParticipants id={id} calificacionesId={calificacionesId}/>  
+            { calificacionesId && <ExamParticipants id={id} calificacionesId={calificacionesId}/>  }
             <MyDialog 
                 open={open}
                 type='SIMPLE'

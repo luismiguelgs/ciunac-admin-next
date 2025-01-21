@@ -163,33 +163,46 @@ export default function CertificateFormat({certificado_anterior, curricula_antig
 						<Text style={styles.alumno}>{capitalizeFirstLetterOfEachWord(alumno)}</Text>
 					</View>
 				</View>
-				<View>
-					{
-						formato === 1 ? 
-						(
-							<Text style={[styles.text2,{textAlign: 'justify'}]} hyphenationCallback={(word)=>[word]}>
-								ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
-								del curso de  <Text style={styles.text3}>{idioma}</Text>, de acuerdo al <Text style={{fontFamily: 'Roboto-Bold'}}>MARCO COMÚN EUROPEO DE
-								REFERENCIA PARA LAS LENGUAS</Text>, en el nivel <Text style={styles.text3}>A2</Text>, en nuestra casa
-								Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>  horas.
-								Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
-							</Text>
-						):(
-							<>
-							<Text style={[styles.text2,{textAlign:'justify'}]} hyphenationCallback={(word)=>[word]}>
-								ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
-								del idioma <Text style={styles.text3}>{idioma}</Text>, en nuestra casa
-								Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>{' '}horas.
-							</Text>
-							<Text style={[styles.text2, { textAlign: 'justify' }]}>
-                				Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
-            				</Text>
-							<View style={{marginTop: 10}}></View>
-							</>
-						)
-					}
+				{
+					curricula_antigua ? (
+					<View>
+						<Text style={[styles.text2,{textAlign: 'justify'}]} hyphenationCallback={(word)=>[word]}>
+							ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
+							de la currícula antigua del idioma  <Text style={styles.text3}>{idioma}</Text>, en nuestra Casa
+							Superior de Estudios con un total de <Text style={styles.text3}>{240}</Text>  horas.
+							Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
+						</Text>
+					</View>
+					):(
+						<View>
+						{
+							formato === 1 ? 
+							(
+								<Text style={[styles.text2,{textAlign: 'justify'}]} hyphenationCallback={(word)=>[word]}>
+									ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
+									del idioma  <Text style={styles.text3}>{idioma}</Text>, de acuerdo al <Text style={{fontFamily: 'Roboto-Bold'}}>MARCO COMÚN EUROPEO DE
+									REFERENCIA PARA LAS LENGUAS</Text>, en el nivel <Text style={styles.text3}>A2</Text>, en nuestra Casa
+									Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>  horas.
+									Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
+								</Text>
+							):(
+								<>
+								<Text style={[styles.text2,{textAlign:'justify'}]} hyphenationCallback={(word)=>[word]}>
+									ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
+									del idioma <Text style={styles.text3}>{idioma}</Text>, en nuestra casa
+									Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>{' '}horas.
+								</Text>
+								<Text style={[styles.text2, { textAlign: 'justify' }]}>
+									Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
+								</Text>
+								<View style={{marginTop: 10}}></View>
+								</>
+							)
+						}
+						</View>
+					)
+				}
 					
-				</View>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 7 }}>
 					<View>
 						{

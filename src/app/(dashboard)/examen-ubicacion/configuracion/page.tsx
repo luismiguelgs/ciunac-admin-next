@@ -1,20 +1,20 @@
-
 import MyTabs, { PanelTab } from '@/components/MUI/MyTabs'
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import Classrooms from './(components)/Classrooms'
 import Teachers from './(components)/Teachers'
 import Qualifications from './(components)/Qualifications'
-import { Iprofesor } from '@/interfaces/profesores.interface'
-import ProfesoresService from '@/services/profesores.service'
-
+//import { Iprofesor } from '@/interfaces/profesores.interface'
+//import ProfesoresService from '@/services/profesores.service'
+import Cronograma from './(components)/Cronograma'
+/*
 async function loadData():Promise<Iprofesor[]> {
 	return await ProfesoresService.fetchItems()
 }
-
+*/
 export default async function UbicationConfigPage() 
 {
-	const data = await loadData()
+	//const data = await loadData()
 
     const panels:PanelTab[] = [
         {
@@ -27,8 +27,12 @@ export default async function UbicationConfigPage()
         },
         {
           label: 'Profesores',
-          content: <Teachers rows={data}/>
+          content: <Teachers />
         },
+        {
+          label: 'Cronograma',
+          content: <Cronograma />
+        }
     ]
 
     return (

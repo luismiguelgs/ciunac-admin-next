@@ -33,6 +33,7 @@ export default function ExamParticipants({id, calificacionesId}:Props)
         //cargar la matriz de ubicación
         const ubicacion = await CalificacionesService.fetchItemsDetail(calificacionesId as string)
         setUbication(ubicacion)
+        console.log('id',calificacionesId);
     }
 
     //hooks ****

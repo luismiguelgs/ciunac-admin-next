@@ -1,10 +1,10 @@
 'use client'
-import useStore from '@/hooks/useStore'
+//import useStore from '@/hooks/useStore'
 import { Icalificacion } from '@/interfaces/calificacion.interface'
 import { Iexamen } from '@/interfaces/examen.interface'
 import { Iprofesor } from '@/interfaces/profesores.interface'
 import { Isalon } from '@/interfaces/types.interface'
-import { useSubjectsStore } from '@/store/types.stores'
+//import { useSubjectsStore } from '@/store/types.stores'
 import { useFormik } from 'formik'
 import React from 'react'
 import validationSchema from './validation.schema'
@@ -20,6 +20,7 @@ import BackButton from '@/components/BackButton'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import SaveIcon from '@mui/icons-material/Save';
 import PreviewIcon from '@mui/icons-material/Preview';
+import SelectSubjects from '@/components/SelectSubjects'
 
 type Props = {
     ID: string | undefined,
@@ -35,7 +36,7 @@ type Props = {
 export default function ExamForm({ID, handleClickActa, salones, profesores, calificaciones, handleClickSave, data}:Props) 
 {
     //HOOKS *************************************************
-	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
+	//const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const [editar, setEditar] = React.useState<boolean>(false)
 
     const formik = useFormik<Iexamen>({
@@ -57,7 +58,7 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
             const examenData = {
                 ...rest,
                 profesor_id: profesor_id,
-                profesor: profesores.filter(item => item.Codigo === profesor_id)[0].Primer_apellido,
+                profesor: profesores.filter(item => item.id === profesor_id)[0].apellidos,
                 fecha_examen: fecha_examen ? new Date(fecha_examen) : null,
                 fecha_final: fecha_final ? new Date(fecha_final) : null,
             };
@@ -150,8 +151,8 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
                         label='Profesor'>
                         {
                             profesores.map((item,index)=>(
-                                <MenuItem key={index} value={item.Codigo}>
-                                    {`${item.Primer_nombre} ${item.Primer_apellido} ${item.Segundo_apellido}`}
+                                <MenuItem key={index} value={item.id}>
+                                    {`${item.nombres} ${item.apellidos}`}
                                 </MenuItem>
                             ))
                         }
@@ -160,7 +161,13 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
                 </FormControl>
             </Grid>
             <Grid size={{xs: 12, md: 4}} >
-                {
+                <SelectSubjects
+                    handleChange={formik.handleChange}
+                    error={formik.touched.idioma && Boolean(formik.errors.idioma)}
+                    value={formik.values.idioma}
+                    disabled={ID !== 'nuevo' && !editar}
+                />
+                {/*
                     subjects && 
                         <MySelect 
                             data={subjects}
@@ -172,7 +179,7 @@ export default function ExamForm({ID, handleClickActa, salones, profesores, cali
                             value={formik.values.idioma}
                             helperText={formik.touched.idioma && formik.errors.idioma}
                         />
-                }
+                */}
             </Grid>
             <Grid size={{xs: 12, md: 4}} >
                 <MySelect 
