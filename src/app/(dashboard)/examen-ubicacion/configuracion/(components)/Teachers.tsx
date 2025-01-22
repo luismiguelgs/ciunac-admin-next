@@ -52,8 +52,6 @@ export default function Teachers()
         const fetchData = async () => {
             const data = await ProfesoresService.fetchItems()
             setRows(data)
-            console.log(data);
-            
         }
         fetchData()
     },[])

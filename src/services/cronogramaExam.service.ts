@@ -1,49 +1,42 @@
+import IcronogramaExam from '@/interfaces/cronogramaExam.interface';
 import { firestore } from '@/lib/firebase';
-import { changeDate } from '@/lib/utils';
 import { collection, doc, updateDoc, serverTimestamp, addDoc, deleteDoc, getDoc, getDocs } from 'firebase/firestore'
 
-type IcronogramaExam = {
-    id?: string;
-    period: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    date: any;
-    createAt: string;
-    updateAt: string;
-    isNew?: boolean;
+enum CRUD {
+    CREATE = 'create',
+    READ = 'read',
+    UPDATE = 'update',
+    DELETE = 'delete'
 }
 
 export default class CronogramaExamService
 {
-    
-    private static dataCollection = 'examenes/cronograma'
+    private static dataCollection = 'cronograma_examenes'
     private static db = collection(firestore, this.dataCollection)
 
-    public static async getAll(): Promise<IcronogramaExam[]> 
+    public static async getAll(): Promise<IcronogramaExam[] | undefined> 
     {
         try{
-            const snapShot = await getDocs(this.db)
-            const data = snapShot.docs.map((item)=>{
-                return{
-                    ...item.data(),
+            const snapShot = await getDocs(this.db);
+            const data = snapShot.docs.map((item) => {
+                const rawData = item.data();
+                return {
+                    ...rawData,
                     id: item.id,
-                    date: item.data().date ? changeDate(item.data().date) : null,
-                    createAt: item.data().createdAt ? changeDate(item.data().createdAt) : null,
-                    updateAt: item.data().updatedAt ? changeDate(item.data().modificado) : null
-                } as IcronogramaExam
-            })
+                    date: rawData.date?.toDate ? rawData.date.toDate() : null, // Verifica si tiene .toDate()
+                    createAt: rawData.createAt?.toDate ? rawData.createAt.toDate().toLocaleString() : null,
+                    updateAt: rawData.updateAt?.toDate ? rawData.updateAt.toDate().toLocaleString() : null,
+                } as IcronogramaExam;
+            });
+        
             return data
         }
         catch(err){
-            if (err instanceof Error) {
-                console.error('Error al cargar elementos:', err.message);
-            } else {
-                console.error('Error desconocido al cargar elementos:', err);
-            }
-            throw err
+            this.errorHandler(err, CRUD.READ)
         }
     }
 
-    public static async getById(id: string): Promise<IcronogramaExam | null> 
+    public static async getById(id: string): Promise<IcronogramaExam | undefined> 
     {
         try{
             const docRef = doc(firestore, this.dataCollection, id);
@@ -51,19 +44,13 @@ export default class CronogramaExamService
             if (docSnap.exists()) {
                 return { ...docSnap.data(), id: docSnap.id } as IcronogramaExam;
             }
-            return null;
         }
         catch(err){
-            if (err instanceof Error) {
-                console.error('Error al carga elemento:', err.message);
-            } else {
-                console.error('Error desconocido al carga elemento:', err);
-            }
-            throw err
+            this.errorHandler(err, CRUD.READ)
         }
     }
 
-    public static async create(obj: IcronogramaExam): Promise<void | string> {
+    public static async create(obj: IcronogramaExam): Promise<undefined | string> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { id , isNew , date, ...rest } = obj
         
@@ -88,19 +75,16 @@ export default class CronogramaExamService
         let docRef = null
         try{
             docRef = await addDoc(this.db, data)
-            console.log('Elemento creado correctamente', docRef.id)
+            console.info('Elemento creado correctamente', docRef.id)
             return docRef.id
         }catch(err){
-            if (err instanceof Error) {
-                console.error('Error al crear elemento:', err.message);
-            } else {
-                console.error('Error desconocido al crear elemento:', err);
-            }
+            this.errorHandler(err, CRUD.CREATE)
         }
     }
 
-    public static async update(id: string, obj: Partial<IcronogramaExam>): Promise<void> {
+    public static async update(id: string, obj: IcronogramaExam): Promise<void> {
         delete obj.isNew
+        delete obj.createAt
         // Convertir las fechas en cadena a timestamps, si aplica
         const { date, ...rest } = obj;
         let fechaTimestamp: Date | null = null;        
@@ -115,21 +99,30 @@ export default class CronogramaExamService
             }
         }
 
-        const dataToUpdate = doc(firestore, this.dataCollection, obj.id as string);
+        const dataToUpdate = doc(firestore, this.dataCollection, id);
       
         try {
             await updateDoc(dataToUpdate, {
-                ...rest,
-                fecha_nacimiento: fechaTimestamp, // Solo agrega fecha si es válida
-                modificado: serverTimestamp(),
+                ...(rest.active !== undefined && { active: rest.active }), // Si active existe, lo incluye
+                ...(rest.period && { period: rest.period }), // Si period no es nulo ni undefined, lo incluye
+                ...(fechaTimestamp && { date: fechaTimestamp }), // Si fecha es válida, la incluye
+                updateAt: serverTimestamp(), // Siempre actualiza updateAt
             });
             console.log('Elemento actualizado correctamente');
         } catch (err) {
-            if (err instanceof Error) {
-                console.error('Error al actualizar el elemento:', err.message);
-            } else {
-                console.error('Error desconocido al actualizar el elemento:', err);
-            }
+            this.errorHandler(err, CRUD.UPDATE)
+        }
+    }
+    public static async updateStatus(id: string, status: boolean): Promise<void> {
+        const dataToUpdate = doc(firestore, this.dataCollection, id);
+        try {
+            await updateDoc(dataToUpdate, {
+                active: status,
+                updateAt: serverTimestamp(),
+            });
+            console.info('Elemento actualizado correctamente');
+        } catch (err) {
+            this.errorHandler(err, CRUD.UPDATE)
         }
     }
 
@@ -141,11 +134,28 @@ export default class CronogramaExamService
             console.log('registro borrado', id)
         }
         catch(err){
-            if (err instanceof Error) {
-                console.error('Error al actualizar el elemento:', err.message);
-            } else {
-                console.error('Error desconocido al actualizar el elemento:', err);
-            }
+           this.errorHandler(err, CRUD.DELETE)
         }
+    }
+    private static errorHandler(err: unknown, operation:string): void {
+        if (err instanceof Error) {
+            switch (operation){
+                case CRUD.CREATE:
+                    console.error('Error al crear el elemento:', err.message); 
+                    break;
+                case CRUD.UPDATE:
+                    console.error('Error al actualizar el elemento:', err.message);
+                    break;
+                case CRUD.DELETE:
+                    console.error('Error al borrar el elemento:', err.message);
+                    break;
+                case CRUD.READ:
+                    console.error('Error al cargar el elemento:', err.message);
+                    break;
+            }
+        } else {
+            console.error('Error desconocido al actualizar el elemento:', err);
+        }
+        throw err
     }
 }
