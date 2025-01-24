@@ -88,9 +88,10 @@ export async function exportToExcel(data:Isolicitud[])
   window.URL.revokeObjectURL(url);
 }
 const formatearDatos =(data:Isolicitud[]) =>{
-	const excelData:string[][] = [['Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado','Fecha']]
+	const excelData:string[][] = [['Online','Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado','Fecha']]
 	data.forEach((row)=>{
 		excelData.push([
+      row.manual? 'MANUAL': 'ONLINE',
 			row.apellidos?.toUpperCase() || '',
 			row.nombres?.toUpperCase() || '', 
 			row.dni || '', 

@@ -1,5 +1,5 @@
 import MyTabs, { PanelTab } from '@/components/MUI/MyTabs'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 import Classrooms from './(components)/Classrooms'
 import Teachers from './(components)/Teachers'
@@ -37,7 +37,6 @@ export default async function UbicationConfigPage()
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Typography variant="h5" gutterBottom>Configuración</Typography>
             <MyTabs panels={panels} />
         </Box>
     )
