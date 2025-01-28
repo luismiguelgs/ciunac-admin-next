@@ -34,7 +34,6 @@ export default function RequestsUbicationPage()
         setOpenDialogDelete(true)
     }
 
-
     return (
       	<React.Fragment>
             <MyTabs
@@ -84,8 +83,7 @@ export default function RequestsUbicationPage()
                         />}
                     />
                     
-                    */}
-                    
+                    */}   
         </React.Fragment>
     )
 }

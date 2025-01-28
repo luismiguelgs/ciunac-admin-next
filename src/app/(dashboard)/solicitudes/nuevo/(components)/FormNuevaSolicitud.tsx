@@ -17,9 +17,8 @@ import 'dayjs/locale/es';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';   
-
 import useStore from '@/hooks/useStore';
-import { useDocumentsStore, useFacultiesStore, useSubjectsStore } from '@/store/types.stores';
+import { useDocumentsStore, useFacultiesStore } from '@/store/types.stores';
 import SelectSubjects from '@/components/SelectSubjects';
 
 
