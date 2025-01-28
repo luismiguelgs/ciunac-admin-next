@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { Iexamen } from '@/interfaces/examen.interface'
 import { GridColDef, GridRowId } from '@mui/x-data-grid'
 import { Collection, ExamenesService } from '@/services/examenes.service'
+import { getIconByCode } from '@/lib/common'
 
 export default function UbicationExamsPage() 
 {
@@ -92,7 +93,15 @@ export default function UbicationExamsPage()
             )
         },
         { field: 'fecha_final', headerName: 'Fecha Final', type: 'date', width: 120 },
-        { field: 'idioma', headerName: 'Idioma', type: 'string', width: 120 },
+        {
+                    field: 'idioma',
+                    width: 80,
+                    type: 'string',
+                    headerName: 'IDIOMA',
+                        renderCell(params) {
+                           return getIconByCode(params.value)
+                        }
+                },
         { field: 'nivel', headerName: 'NIVEL', width:100},
         { field: 'profesor', headerName: 'Profesor', type: 'string', width: 180 },
         { field: 'salon', headerName: 'Salón', type: 'string', width: 80 },
@@ -125,6 +134,4 @@ export default function UbicationExamsPage()
 			/>
 		</Grid>
     )
-
-	
 }

@@ -18,6 +18,8 @@ import { MyDialog } from '@/components/MUI'
 import { PDFViewer } from '@react-pdf/renderer'
 import ActaFormat from '../(components)/ActaFormat'
 import dayjs from 'dayjs'
+import 'dayjs/locale/es';
+dayjs.locale('es');
 
 export default function ExamDetailPage(params:{params:{id:string}}) 
 {

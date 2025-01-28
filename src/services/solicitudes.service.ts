@@ -185,6 +185,20 @@ export default class SolicitudesService
           modificado: serverTimestamp()
         }).then(()=>{console.log('updateStatus');}).catch((err)=>console.log(err.message));  
     }
+    public static async fetchAllItems():Promise<Isolicitud[]>
+    {
+        const itemQuery = query(
+            this.db, 
+            where('solicitud',"==",'EXAMEN_DE_UBICACION'), 
+            orderBy('creado','asc')
+        )
+
+        const querySnapshot = await getDocs(itemQuery)
+        const data = querySnapshot.docs.map((item)=>{
+            return { ...item.data(), id:item.id, creado: changeDate(item.data().creado,false), modificado: changeDate(item.data().modificado,false)} as Isolicitud
+        })
+        return data
+    }
 
 	private static dateToTimestamp(date:string)
 	{

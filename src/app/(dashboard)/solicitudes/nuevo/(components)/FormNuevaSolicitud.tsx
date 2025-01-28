@@ -20,6 +20,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';  
 
 import useStore from '@/hooks/useStore';
 import { useDocumentsStore, useFacultiesStore, useSubjectsStore } from '@/store/types.stores';
+import SelectSubjects from '@/components/SelectSubjects';
 
 
 type Props = {
@@ -32,7 +33,6 @@ export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props)
     //hooks ***************************************************************************
     const documents = useStore(useDocumentsStore, (state) => state.documents)
     const faculties = useStore(useFacultiesStore, (state) => state.faculties)
-    const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     
     //Flag para guardar fecha de creacion
     const [fechaCreacion, setFechaCreacion] = React.useState(false)
@@ -142,15 +142,11 @@ export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props)
                     />
                 </Grid>
                 <Grid size={{xs: 12 , sm: 6}}>
-                    { subjects &&  <MySelect 
-                        data={subjects}
-                        error={formik.touched.idioma && Boolean(formik.errors.idioma)}
-                        name='idioma'
-                        label='Idioma'
-                        value={formik.values.idioma}
+                    <SelectSubjects 
                         handleChange={formik.handleChange}
-                        helperText={formik.touched.idioma && formik.errors.idioma}
-                    />}
+                        value={formik.values.idioma}
+                        error={formik.touched.idioma && Boolean(formik.errors.idioma)}
+                    />
                 </Grid>
                 <Grid size={{xs: 12 , sm: 6}}>
                     <MySelect 

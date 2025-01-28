@@ -4,14 +4,8 @@ import React from 'react'
 import Classrooms from './(components)/Classrooms'
 import Teachers from './(components)/Teachers'
 import Qualifications from './(components)/Qualifications'
-//import { Iprofesor } from '@/interfaces/profesores.interface'
-//import ProfesoresService from '@/services/profesores.service'
 import Cronograma from './(components)/Cronograma'
-/*
-async function loadData():Promise<Iprofesor[]> {
-	return await ProfesoresService.fetchItems()
-}
-*/
+
 export default async function UbicationConfigPage() 
 {
 	//const data = await loadData()
