@@ -1,4 +1,5 @@
 import { Isolicitud } from '@/interfaces/solicitud.interface'
+import { obtenerPeriodo } from '@/lib/utils'
 import * as yup from 'yup'
 
 const msgReq = 'Campo requerido'
@@ -29,5 +30,22 @@ const validationSchema = yup.object<Isolicitud>({
         otherwise: (schema:yup.Schema) => schema.required(msgReq)
     })
 })
+const initialValues: Isolicitud = {
+    solicitud: '',
+    apellidos: '',
+    nombres: '',
+    celular: '',
+    dni: '',
+    periodo: obtenerPeriodo(),
+    idioma: '',
+    nivel: 'BASICO',
+    facultad: 'PAR',
+    codigo: '',
+    numero_voucher: '',
+    pago: '',
+    fecha_pago: null, //dayjs(new Date()),
+    trabajador: false,
+    creado: null,
+}
 
-export default validationSchema
+export {validationSchema, initialValues}

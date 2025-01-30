@@ -1,5 +1,4 @@
 'use client';
-
 import React from 'react'
 import { MySelect, MySwitch } from '@/components/MUI'
 import { useMask } from '@react-input/mask'
@@ -8,31 +7,26 @@ import { Box, Button, InputAdornment, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2';
 import { Isolicitud } from '@/interfaces/solicitud.interface'
 import { NIVEL } from '@/lib/constants'
-import { obtenerPeriodo } from '@/lib/utils';
 import SaveIcon from '@mui/icons-material/Save';
 import dayjs, { Dayjs } from 'dayjs'
-import validationSchema from './form.schema';
+import {validationSchema, initialValues} from './form.schema';
 import BackButton from '@/components/BackButton';
 import 'dayjs/locale/es';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';   
-import useStore from '@/hooks/useStore';
-import { useDocumentsStore, useFacultiesStore } from '@/store/types.stores';
 import SelectSubjects from '@/components/SelectSubjects';
-
+import SelectDocuments from '@/components/SelectDocuments';
+import SelectFaculty from '@/components/SelectFaculty';
 
 type Props = {
     onSubmit(values:Isolicitud) : void
     ubicacion?: boolean
 }
 
-export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props) 
+export default function FormNuevaSolicitud({onSubmit}:Props) 
 {
-    //hooks ***************************************************************************
-    const documents = useStore(useDocumentsStore, (state) => state.documents)
-    const faculties = useStore(useFacultiesStore, (state) => state.faculties)
-    
+       
     //Flag para guardar fecha de creacion
     const [fechaCreacion, setFechaCreacion] = React.useState(false)
 
@@ -45,24 +39,8 @@ export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props)
     const pagoRef = useMask({ mask: '_____', replacement: { _: /^[0-9.]*$/ } });
 
     const formik = useFormik<Isolicitud>({
-        initialValues:{
-            solicitud: ubicacion ? 'EXAMEN_DE_UBICACION' : '',
-            apellidos: '',
-            nombres: '',
-            celular: '',
-            dni: '',
-            periodo: obtenerPeriodo(),
-            idioma: '',
-            nivel: 'BASICO',
-            facultad: 'PAR',
-            codigo: '',
-            numero_voucher: '',
-            pago: '',
-            fecha_pago: null, //dayjs(new Date()),
-            trabajador: false,
-            creado: null,
-        },
-        validationSchema: validationSchema,
+        initialValues,
+        validationSchema,
         onSubmit: async(values, {resetForm}) => {
             //alert(JSON.stringify(values.creado,null, 2))
             onSubmit(values)
@@ -74,15 +52,11 @@ export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props)
         <Box sx={{p: 1}} component='form' onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
                 <Grid size={{xs: 12 , sm: 6}} >
-                    {documents &&<MySelect 
-                        data={documents}
-                        error={formik.touched.solicitud && Boolean(formik.errors.solicitud)}
-                        name='solicitud'
-                        label='Tipo de Solicitud'
-                        value={formik.values.solicitud}
+                    <SelectDocuments 
                         handleChange={formik.handleChange}
-                        helperText={formik.touched.solicitud && formik.errors.solicitud}
-                    />}
+                        value={formik.values.solicitud}
+                        error={formik.touched.solicitud && Boolean(formik.errors.solicitud)}
+                    />
                 </Grid>
                 <Grid size={{xs: 12 , sm: 6}}>
                     <TextField
@@ -159,16 +133,11 @@ export default function FormNuevaSolicitud({onSubmit, ubicacion=false}:Props)
                     />
                 </Grid>
                 <Grid size={{xs: 12 , sm: 6}}>
-                    {
-                        faculties && <MySelect 
-                            data={faculties}
-                            name='facultad'
-                            label='Facultad'
-                            value={formik.values.facultad as string}
-                            handleChange={formik.handleChange}
-                            helperText={formik.touched.facultad && formik.errors.facultad}
-                        />
-                    }
+                    <SelectFaculty 
+                        handleChange={formik.handleChange}
+                        value={formik.values.facultad as string}
+                        error={formik.touched.facultad && Boolean(formik.errors.facultad)}
+                    />
                 </Grid>
                 <Grid size={{xs: 12 , sm: 6}}>
                     <TextField
