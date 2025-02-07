@@ -1,5 +1,4 @@
 'use client'
-
 import React from 'react'
 import Grid from '@mui/material/Grid2'
 import NewButton from '@/components/NewButton'
@@ -106,7 +105,6 @@ export default function UbicationExamsPage()
         { field: 'profesor', headerName: 'Profesor', type: 'string', width: 180 },
         { field: 'salon', headerName: 'Salón', type: 'string', width: 80 },
     ];
-
 
     return (
 		<Grid container spacing={2} p={1}>
