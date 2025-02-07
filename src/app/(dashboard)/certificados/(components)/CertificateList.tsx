@@ -7,8 +7,6 @@ import MyDataGrid from '@/components/MUI/MyDataGrid'
 import { MyDialog } from '@/components/MUI'
 import { GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid'
 import { Icertificado } from '@/interfaces/certificado.interface'
-import useStore from '@/hooks/useStore'
-import { useSubjectsStore } from '@/store/types.stores'
 import { useRouter } from 'next/navigation'
 import CertificadosService, { Collection } from '@/services/certificados.service'
 import { NIVEL } from '@/lib/constants'
@@ -17,6 +15,7 @@ import { PDFViewer } from '@react-pdf/renderer'
 import CertificateFormat from './(formats)/CertificateFormat'
 import dayjs from 'dayjs'
 import SolicitudesService from '@/services/solicitudes.service'
+import useSubjects from '@/hooks/useSubjects'
 
 type Props = {
 	rows: Icertificado[],
@@ -27,7 +26,8 @@ type Props = {
 export default function CertificateList({rows, setRows, printed}:Props) 
 {
 	//Hooks ************************************************************
-	const subjects = useStore(useSubjectsStore, (state) => state.subjects)
+	const { data } = useSubjects()
+    const subjects = data;
     const navigate = useRouter()
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
     const [ openPrint, setOpenPrint ] = React.useState<boolean>(false)
