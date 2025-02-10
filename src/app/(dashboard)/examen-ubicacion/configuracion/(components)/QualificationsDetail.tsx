@@ -155,7 +155,7 @@ export default function QualificationsDetail({id, setOpen, setReload}:Props)
                     </Button>
                 </Grid>
                 <Grid size={{xs: 12}} >
-                    <QualificationsRange id={ID as string}/>                    
+                    <QualificationsRange id={formik.values.codigo as string}/>                    
                 </Grid>
             </Grid>
         </Box>

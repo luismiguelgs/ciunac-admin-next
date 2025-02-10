@@ -16,6 +16,7 @@ const cols:GridColDef[] = [
     {field: 'dni', headerName: 'DNI', editable:false, width: 120},
     {field: 'apellidos', headerName: 'APELLIDOS', editable: false, width:150},
     {field: 'nombres', headerName: 'NOMBRES', editable: false, width:150},
+    {field: 'nivel', headerName: 'NIVEL', editable: false, type: 'singleSelect',  width:150},
     {field: 'nota', headerName: 'NOTA', editable: true, width:150},
     {field: 'ubicacion', headerName: 'UBICACIÓN', editable: false, width:200},
 ]
@@ -30,9 +31,11 @@ export default function ExamParticipants({id, calificacionesId}:Props)
     const loadData = async (id:string | undefined) =>{
         const data = await ExamenesService.fetchItemsDetail(id as string)
         setRows(data)
+        
         //cargar la matriz de ubicación
         const ubicacion = await CalificacionesService.fetchItemsDetail(calificacionesId as string)
         setUbication(ubicacion)
+        console.log(ubicacion);
         console.log('id',calificacionesId);
     }
 
@@ -69,21 +72,22 @@ export default function ExamParticipants({id, calificacionesId}:Props)
         setOpenDialog(true)
     };
 
-    const obtenerResultado = (nota: number): string => {
+    const obtenerResultado = (nota: number, nivel: string): string => {
+        console.log(nivel);
         for (const calificacion of ubication) {
-          const minimo = Number(calificacion.minimo)
-          const maximo = Number(calificacion.maximo)
-      
-          if (nota >= minimo && nota <= maximo) {
-            return calificacion.resultado as string;
-          }
+            const minimo = Number(calificacion.minimo)
+            const maximo = Number(calificacion.maximo)
+        
+            if (nota >= minimo && nota <= maximo) {
+                return calificacion.resultado as string;
+            }
         }
         return "Nota fuera de rango";
     };
 
     const processRowUpdate = async(newRow: GridRowModel) => {
         //actualizar la ubicacion 
-        newRow.ubicacion = obtenerResultado(newRow.nota)
+        newRow.ubicacion = obtenerResultado(newRow.nota, newRow.nivel)
         //actualizar la base de datos
         ExamenesService.updateItem(Collection.Examenes_notas, newRow as IexamenNotas)
         

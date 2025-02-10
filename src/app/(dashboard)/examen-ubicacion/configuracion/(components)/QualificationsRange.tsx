@@ -12,6 +12,7 @@ const cols:GridColDef[] = [
     {field: 'minimo', headerName: 'NOTA MÍNIMA', editable: true, width:150},
     {field: 'maximo', headerName: 'NOTA MÁXIMA', editable: true, width:150},
     {field: 'resultado', headerName: 'RESULTADO', editable: true, width:200},
+    {field: 'id_calificacion', headerName: 'CÓDIGO', editable: true, width:300},
 ]
 type Props = {
     id: string | null

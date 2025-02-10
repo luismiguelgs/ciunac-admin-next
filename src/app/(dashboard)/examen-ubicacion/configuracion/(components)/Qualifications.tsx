@@ -68,7 +68,7 @@ export default function Qualifications()
             field: 'codigo',
             type: 'string',
             headerName: 'CÓDIGO CALIFICACIÓN',
-            width: 280
+            width: 350
         },
         {
             field: 'idioma', 
