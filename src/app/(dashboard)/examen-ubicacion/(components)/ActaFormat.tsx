@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	tableColHeader: {
-		//width: '33.33%',
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: '#bfbfbf',
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
 		padding: 5,
 	},
 	tableCol: {
-		//width: '33.33%',
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: '#bfbfbf',
@@ -116,65 +114,172 @@ type Props = {
 }
 export default function ActaFormat({idioma,	fecha,	profesor, data }:Props) 
 {
-    return (
-      	<Document>
-			<Page size="A4" style={styles.page}>
-				<Image style={styles.image} src={logoCiunac.src} />
-				<Text style={styles.header} fixed>Universidad Nacional del Callao</Text>
-				<Text style={styles.header} fixed>Dirección del Centro de Idiomas</Text>
-				<Text style={styles.title} fixed>{`EXAMEN DE UBICACIÓN - ${idioma}` }</Text>
-				<Text style={styles.subtitle} fixed>{fecha}</Text>
-				<View style={styles.table}>
-					<View style={styles.tableRow}>
-						<View style={[styles.tableColHeader, styles.tableColNombre]}>
-            				<Text style={styles.tableCellHeader}>APELLIDOS</Text>
-          				</View>
-						<View style={[styles.tableColHeader, styles.tableColNombre]}>
-            				<Text style={styles.tableCellHeader}>NOMBRES</Text>
-          				</View>
-						<View style={[styles.tableColHeader, styles.tableColDatos]}>
-            				<Text style={styles.tableCellHeader}>DNI</Text>
-          				</View>
-						<View style={[styles.tableColHeader, styles.tableColDatos]}>
-            				<Text style={styles.tableCellHeader}>NIVEL</Text>
-          				</View>
-						<View style={[styles.tableColHeader, styles.tableColDatos]}>
-            				<Text style={styles.tableCellHeader}>IDIOMA</Text>
-          				</View>
-						<View style={[styles.tableColHeader, styles.tableColNota]}>
-            				<Text style={styles.tableCellHeader}>NOTA</Text>
-          				</View>
+	// Número máximo de filas por página
+	const rowsPerPage = 14;
+
+	// Dividir los datos en páginas
+	const pages = [];
+	for (let i = 0; i < data.length; i += rowsPerPage) {
+	  pages.push(data.slice(i, i + rowsPerPage));
+	}
+
+	return (
+		<Document>
+		  {pages.map((pageData, pageIndex) => (
+			<Page key={pageIndex} size="A4" style={styles.page}>
+			  <Image style={styles.image} src={logoCiunac.src} />
+			  <Text style={styles.header} fixed>
+				Universidad Nacional del Callao
+			  </Text>
+			  <Text style={styles.header} fixed>
+				Dirección del Centro de Idiomas
+			  </Text>
+			  <Text style={styles.title} fixed>{`EXAMEN DE UBICACIÓN - ${idioma}`}</Text>
+			  <Text style={styles.subtitle} fixed>
+				{fecha}
+			  </Text>
+			  <View style={styles.table}>
+				{/* Encabezados de la tabla */}
+				<View style={styles.tableRow}>
+				  <View style={[styles.tableColHeader, styles.tableColNombre]}>
+					<Text style={styles.tableCellHeader}>APELLIDOS</Text>
+				  </View>
+				  <View style={[styles.tableColHeader, styles.tableColNombre]}>
+					<Text style={styles.tableCellHeader}>NOMBRES</Text>
+				  </View>
+				  <View style={[styles.tableColHeader, styles.tableColDatos]}>
+					<Text style={styles.tableCellHeader}>DNI</Text>
+				  </View>
+				  <View style={[styles.tableColHeader, styles.tableColDatos]}>
+					<Text style={styles.tableCellHeader}>NIVEL</Text>
+				  </View>
+				  <View style={[styles.tableColHeader, styles.tableColDatos]}>
+					<Text style={styles.tableCellHeader}>IDIOMA</Text>
+				  </View>
+				  <View style={[styles.tableColHeader, styles.tableColNota]}>
+					<Text style={styles.tableCellHeader}>NOTA</Text>
+				  </View>
+				</View>
+				{/* Datos de la tabla */}
+				{pageData.map((item, index) => (
+				  <View style={styles.tableRow} key={index}>
+					<View style={[styles.tableCol, styles.tableColNombre]}>
+					  <Text style={styles.tableCell}>{item.apellidos.toLocaleUpperCase()}</Text>
 					</View>
-					{
-						data.map((item,index)=>(
-							<View style={styles.tableRow} key={index}>
-								<View style={[styles.tableCol, styles.tableColNombre]}>
-									<Text style={styles.tableCell}>{item.apellidos.toLocaleUpperCase()}</Text>
-								</View>
-								<View style={[styles.tableCol, styles.tableColNombre]}>
-									<Text style={styles.tableCell}>{item.nombres.toLocaleUpperCase()}</Text>
-								</View>
-								<View style={[styles.tableCol, styles.tableColDatos]}>
-									<Text style={styles.tableCell}>{item.dni}</Text>
-								</View>
-								<View style={[styles.tableCol, styles.tableColDatos]}>
-									<Text style={styles.tableCell}>{item.nivel}</Text>
-								</View>
-								<View style={[styles.tableCol, styles.tableColDatos]}>
-									<Text style={styles.tableCell}>{item.idioma}</Text>
-								</View>
-								<View style={[styles.tableCol, styles.tableColNota]}>
-									<Text style={styles.tableCell}>{item.nota}</Text>
-								</View>
-							</View>
-						))
-					}
-				</View>
-				<View style={{display:'flex', }}>
-					<Text style={styles.profesor}>PROFESOR:</Text><Text style={{fontSize:12}}>{profesor}</Text>
-				</View>
-				<Text style={styles.firma}>FIRMA DEL DOCENTE</Text>
+					<View style={[styles.tableCol, styles.tableColNombre]}>
+					  <Text style={styles.tableCell}>{item.nombres.toLocaleUpperCase()}</Text>
+					</View>
+					<View style={[styles.tableCol, styles.tableColDatos]}>
+					  <Text style={styles.tableCell}>{item.dni}</Text>
+					</View>
+					<View style={[styles.tableCol, styles.tableColDatos]}>
+					  <Text style={styles.tableCell}>{item.nivel}</Text>
+					</View>
+					<View style={[styles.tableCol, styles.tableColDatos]}>
+					  <Text style={styles.tableCell}>{item.idioma}</Text>
+					</View>
+					<View style={[styles.tableCol, styles.tableColNota]}>
+					  <Text style={styles.tableCell}>{item.nota}</Text>
+					</View>
+				  </View>
+				))}
+			  </View>
+			  {/* Mostrar información del profesor y firma solo en la última página */}
+			  {pageIndex === pages.length - 1 && (
+				<>
+				  <View style={{ display: 'flex' }}>
+					<Text style={styles.profesor}>PROFESOR:</Text>
+					<Text style={{ fontSize: 12 }}>{profesor}</Text>
+				  </View>
+				  <Text style={styles.firma}>FIRMA DEL DOCENTE</Text>
+				</>
+			  )}
 			</Page>
+		  ))}
 		</Document>
-    )
+	  );
+
+	/*
+
+	// Número máximo de filas por página
+	const rowsPerPage = 15;
+
+	// Dividir los datos en páginas
+	const pages = [];
+	for (let i = 0; i < data.length; i += rowsPerPage) {
+	  pages.push(data.slice(i, i + rowsPerPage));
+	}
+
+	return (
+	  <Document>
+		{pages.map((pageData, pageIndex) => (
+		  <Page key={pageIndex} size="A4" style={styles.page}>
+			<Image style={styles.image} src={logoCiunac.src} />
+			<Text style={styles.header} fixed>
+			  Universidad Nacional del Callao
+			</Text>
+			<Text style={styles.header} fixed>
+			  Dirección del Centro de Idiomas
+			</Text>
+			<Text style={styles.title} fixed>{`EXAMEN DE UBICACIÓN - ${idioma}`}</Text>
+			<Text style={styles.subtitle} fixed>
+			  {fecha}
+			</Text>
+			<View style={styles.table}>
+			 
+			  <View style={styles.tableRow}>
+				<View style={[styles.tableColHeader, styles.tableColNombre]}>
+				  <Text style={styles.tableCellHeader}>APELLIDOS</Text>
+				</View>
+				<View style={[styles.tableColHeader, styles.tableColNombre]}>
+				  <Text style={styles.tableCellHeader}>NOMBRES</Text>
+				</View>
+				<View style={[styles.tableColHeader, styles.tableColDatos]}>
+				  <Text style={styles.tableCellHeader}>DNI</Text>
+				</View>
+				<View style={[styles.tableColHeader, styles.tableColDatos]}>
+				  <Text style={styles.tableCellHeader}>NIVEL</Text>
+				</View>
+				<View style={[styles.tableColHeader, styles.tableColDatos]}>
+				  <Text style={styles.tableCellHeader}>IDIOMA</Text>
+				</View>
+				<View style={[styles.tableColHeader, styles.tableColNota]}>
+				  <Text style={styles.tableCellHeader}>NOTA</Text>
+				</View>
+			  </View>
+			  
+			  {pageData.map((item, index) => (
+				<View style={styles.tableRow} key={index}>
+				  <View style={[styles.tableCol, styles.tableColNombre]}>
+					<Text style={styles.tableCell}>{item.apellidos.toLocaleUpperCase()}</Text>
+				  </View>
+				  <View style={[styles.tableCol, styles.tableColNombre]}>
+					<Text style={styles.tableCell}>{item.nombres.toLocaleUpperCase()}</Text>
+				  </View>
+				  <View style={[styles.tableCol, styles.tableColDatos]}>
+					<Text style={styles.tableCell}>{item.dni}</Text>
+				  </View>
+				  <View style={[styles.tableCol, styles.tableColDatos]}>
+					<Text style={styles.tableCell}>{item.nivel}</Text>
+				  </View>
+				  <View style={[styles.tableCol, styles.tableColDatos]}>
+					<Text style={styles.tableCell}>{item.idioma}</Text>
+				  </View>
+				  <View style={[styles.tableCol, styles.tableColNota]}>
+					<Text style={styles.tableCell}>{item.nota}</Text>
+				  </View>
+				</View>
+			  ))}
+			</View>
+			
+			<View style={{ display: 'flex' }}>
+			  <Text style={styles.profesor}>PROFESOR:</Text>
+			  <Text style={{ fontSize: 12 }}>{profesor}</Text>
+			</View>
+			<Text style={styles.firma}>FIRMA DEL DOCENTE</Text>
+		  </Page>
+		))}
+	  </Document>
+	);
+	*/
 }
