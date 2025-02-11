@@ -21,6 +21,8 @@ type Props = {
 export default function QualificationsRange({id}:Props) 
 {
     const loadData = async (id:string | null) =>{
+        console.log('id QualificationsRange',id);
+        
         const data = await CalificacionesService.fetchItemsDetail(id as string)
         setRows(data)
     }

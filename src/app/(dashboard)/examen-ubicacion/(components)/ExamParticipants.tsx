@@ -23,27 +23,27 @@ const cols:GridColDef[] = [
 
 type Props = {
     id:string | undefined,
-    calificacionesId: string | undefined
 }
 
-export default function ExamParticipants({id, calificacionesId}:Props) 
+export default function ExamParticipants({id}:Props) 
 {
+    
     const loadData = async (id:string | undefined) =>{
         const data = await ExamenesService.fetchItemsDetail(id as string)
         setRows(data)
-        
         //cargar la matriz de ubicación
-        const ubicacion = await CalificacionesService.fetchItemsDetail(calificacionesId as string)
-        setUbication(ubicacion)
-        console.log(ubicacion);
-        console.log('id',calificacionesId);
+        const ubicacionB = await CalificacionesService.fetchItemsDetail(`EXAMEN-UBICACION-${data[0].idioma}-BASICO`)
+        setUbicationBasic(ubicacionB)
+        const ubicationI = await CalificacionesService.fetchItemsDetail(`EXAMEN-UBICACION-${data[0].idioma}-INTERMEDIO`)
+        setUbicationInter(ubicationI)
     }
 
     //hooks ****
     const [rows, setRows] = React.useState<IexamenNotas[]>([])
     const [ reload, setReload ] = React.useState<boolean>(false)
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
-    const [ ubication, setUbication] = React.useState<IcalificacionDetalle[]>([])
+    const [ ubicationBasic, setUbicationBasic] = React.useState<IcalificacionDetalle[]>([])
+    const [ ubicationInter, setUbicationInter] = React.useState<IcalificacionDetalle[]>([])
     const [ openDialogFull, setOpenDialogFull ] = React.useState<boolean>(false)
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const [idToDelete, setIdToDelete] = React.useState<GridRowId | null>(null);
@@ -73,8 +73,14 @@ export default function ExamParticipants({id, calificacionesId}:Props)
     };
 
     const obtenerResultado = (nota: number, nivel: string): string => {
-        console.log(nivel);
-        for (const calificacion of ubication) {
+        let ubicacion:IcalificacionDetalle[] = []
+        if (nivel === 'BASICO') {
+            ubicacion = ubicationBasic
+        } else if (nivel === 'INTERMEDIO') {
+            ubicacion = ubicationInter
+        }
+        
+        for (const calificacion of ubicacion) {
             const minimo = Number(calificacion.minimo)
             const maximo = Number(calificacion.maximo)
         

@@ -131,7 +131,9 @@ export class CalificacionesService
     }
     
     //Calificaciones Detalle - funciones ************************
-    public static async fetchItemsDetail(itemId: string):Promise<IcalificacionDetalle[]>{
+    public static async fetchItemsDetail(itemId: string):Promise<IcalificacionDetalle[]>
+    {
+        
         try{
             const q = query(this.db(Collection.Calificaciones_Detalle),where('id_calificacion','==',itemId))
             const snapShot = await getDocs(q)

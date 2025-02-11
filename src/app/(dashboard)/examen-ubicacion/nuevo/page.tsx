@@ -22,7 +22,7 @@ export default function NewUbicationExamPage()
     const [profesores, setProfesores] = React.useState<Iprofesor[]>([])
     const [salones, setSalones] = React.useState<Isalon[]>([]) 
     const [calificaciones, setCalificaciones] = React.useState<Icalificacion[]>()
-    const [calificacionesId, setCalificacionesId] = React.useState<string>('')
+    //const [calificacionesId, setCalificacionesId] = React.useState<string>('')
 
     React.useEffect(()=>{
         const loadData = async () =>{
@@ -42,7 +42,7 @@ export default function NewUbicationExamPage()
         //setOpen(true)
     }
     const handleClickSave = async(values:Iexamen) => {
-        setCalificacionesId(values.calificacion_id)
+        //setCalificacionesId(values.calificacion_id)
         const id = await ExamenesService.newItem(CollectionExam.Examenes, values)
         navigate.push(`/examen-ubicacion/${id}`)
         //alert(JSON.stringify(examenData, null, 2))
@@ -56,7 +56,7 @@ export default function NewUbicationExamPage()
                 calificaciones={calificaciones}
                 handleClickSave={handleClickSave}
                 handleClickActa={handleClickActa} />
-            <ExamParticipants id={ID} calificacionesId={calificacionesId}/>          
+            <ExamParticipants id={ID} />          
         </Box>
 	)
 }

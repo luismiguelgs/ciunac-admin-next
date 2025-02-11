@@ -149,10 +149,10 @@ export default function ActaFormat({idioma,	fecha,	profesor, data }:Props)
 						data.map((item,index)=>(
 							<View style={styles.tableRow} key={index}>
 								<View style={[styles.tableCol, styles.tableColNombre]}>
-									<Text style={styles.tableCell}>{item.apellidos}</Text>
+									<Text style={styles.tableCell}>{item.apellidos.toLocaleUpperCase()}</Text>
 								</View>
 								<View style={[styles.tableCol, styles.tableColNombre]}>
-									<Text style={styles.tableCell}>{item.nombres}</Text>
+									<Text style={styles.tableCell}>{item.nombres.toLocaleUpperCase()}</Text>
 								</View>
 								<View style={[styles.tableCol, styles.tableColDatos]}>
 									<Text style={styles.tableCell}>{item.dni}</Text>

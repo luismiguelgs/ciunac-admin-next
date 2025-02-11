@@ -79,7 +79,7 @@ export default function ExamDetailPage(params:{params:{id:string}})
                     handleClickSave={handleClickSave}
                 /> : <Typography variant='h6' gutterBottom>Loading...</Typography>
             }
-            { calificacionesId && <ExamParticipants id={id} calificacionesId={calificacionesId}/>  }
+            { calificacionesId && <ExamParticipants id={id} />  }
             <MyDialog 
                 open={open}
                 type='SIMPLE'

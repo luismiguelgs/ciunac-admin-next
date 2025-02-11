@@ -8,12 +8,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import * as yup from 'yup'
 import { useFormik } from 'formik';
 import { Icalificacion } from '@/interfaces/calificacion.interface';
-import useStore from '@/hooks/useStore';
-import { useSubjectsStore } from '@/store/types.stores';
 import { CalificacionesService, Collection } from '@/services/calificaciones.service';
 import { MySelect } from '@/components/MUI';
 import { NIVEL } from '@/lib/constants';
 import QualificationsRange from './QualificationsRange';
+import SelectSubjects from '@/components/SelectSubjects';
 
 
 type Props = {
@@ -34,17 +33,19 @@ const validationSchema = yup.object<Icalificacion>({
 export default function QualificationsDetail({id, setOpen, setReload}:Props) 
 {
     //hooks
-    const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const [ID, setID] = React.useState<string | undefined>(id)
+    const [data, setData] = React.useState<Icalificacion>()
     const [editar, setEditar] = React.useState<boolean>(false)
 
     const loadData = async (id:string | null) =>{
-        const data = await CalificacionesService.selectItem(id as string)
-        //setData(d)
+        const d = await CalificacionesService.selectItem(id as string)
+        setData(d)
+        console.log(d);
+        
         formik.setValues({
-            codigo: data?.codigo || '',
-            idioma: data?.idioma || '',
-            nivel: data?.nivel || ''
+            codigo: d?.codigo || '',
+            idioma: d?.idioma || '',
+            nivel: d?.nivel || ''
         })
     }
 
@@ -84,16 +85,13 @@ export default function QualificationsDetail({id, setOpen, setReload}:Props)
         <Box>
             <Grid container spacing={2} p={3} component='form' onSubmit={formik.handleSubmit}>
                 <Grid size={{xs: 12, md: 4}}>
-                    {subjects && <MySelect 
-                        data={subjects}
+                    <SelectSubjects
                         handleChange={formik.handleChange}
                         error={formik.touched.idioma && Boolean(formik.errors.idioma)}
-                        label='Curso'
-                        name='idioma'
                         disabled={ID !== null && !editar}
                         value={formik.values.idioma}
-                        helperText={formik.touched.idioma && formik.errors.idioma}
-                    />}
+                        helperText={formik.touched.idioma && formik.errors.idioma} 
+                    />
                 </Grid>
                 <Grid size={{xs: 12, md: 4}}>
                     <MySelect 
@@ -155,7 +153,7 @@ export default function QualificationsDetail({id, setOpen, setReload}:Props)
                     </Button>
                 </Grid>
                 <Grid size={{xs: 12}} >
-                    <QualificationsRange id={formik.values.codigo as string}/>                    
+                    { data && <QualificationsRange id={data?.codigo as string}/> }                  
                 </Grid>
             </Grid>
         </Box>
