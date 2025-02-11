@@ -2,7 +2,7 @@ import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/
 import logoCiunac from '../../../../../public/logo-ciunac.jpg'
 import { IexamenNotas } from '@/interfaces/examen.interface'
 
-Font.register({family:'Roboto', src:'http://fonts.gstatic.com/s/roboto/v16/zN7GBFwfMP4uA6AR0HCoLQ.ttf'})
+Font.register({family:'Roboto', src:'https://fonts.gstatic.com/s/roboto/v16/zN7GBFwfMP4uA6AR0HCoLQ.ttf'})
 
 const styles = StyleSheet.create({
 	page:{
