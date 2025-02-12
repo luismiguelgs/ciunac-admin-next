@@ -42,7 +42,8 @@ export default function ExamRequests({examenId, setReload, setOpenDialogFull}:Pr
                 numero_voucher: element.numero_voucher as string,
                 monto: +element.pago,
                 nota: 0,
-                ubicacion: ''
+                ubicacion: '',
+                terminado: false
             }
             //asigna participante
             asignarExamen(item)

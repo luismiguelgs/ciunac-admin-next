@@ -33,5 +33,6 @@ export interface IexamenNotas{
     numero_voucher: string,
     monto: number,
     nota: number,
-    ubicacion: string
+    ubicacion: string,
+    terminado: boolean,
 }

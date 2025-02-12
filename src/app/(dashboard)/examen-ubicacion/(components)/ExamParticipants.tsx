@@ -3,7 +3,7 @@ import { IexamenNotas } from '@/interfaces/examen.interface'
 import { CalificacionesService } from '@/services/calificaciones.service'
 import { Collection, ExamenesService } from '@/services/examenes.service'
 import SolicitudesService from '@/services/solicitudes.service'
-import { Button } from '@mui/material'
+import { Button, Checkbox } from '@mui/material'
 import { GridColDef, GridRowId, GridRowModel, GridRowModesModel } from '@mui/x-data-grid'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
@@ -12,22 +12,8 @@ import { MyDialog } from '@/components/MUI'
 import DialogFull from '@/components/MUI/Dialogs/DialogFull'
 import ExamRequests from './ExamRequests'
 
-const cols:GridColDef[] = [
-    {field: 'dni', headerName: 'DNI', editable:false, width: 120},
-    {field: 'apellidos', headerName: 'APELLIDOS', editable: false, width:150},
-    {field: 'nombres', headerName: 'NOMBRES', editable: false, width:150},
-    {field: 'nivel', headerName: 'NIVEL', editable: false, type: 'singleSelect',  width:150},
-    {field: 'nota', headerName: 'NOTA', editable: true, width:150},
-    {field: 'ubicacion', headerName: 'UBICACIÓN', editable: false, width:200},
-]
-
-type Props = {
-    id:string | undefined,
-}
-
-export default function ExamParticipants({id}:Props) 
+export default function ExamParticipants({id}:{id:string | undefined}) 
 {
-    
     const loadData = async (id:string | undefined) =>{
         const data = await ExamenesService.fetchItemsDetail(id as string)
         setRows(data)
@@ -38,7 +24,7 @@ export default function ExamParticipants({id}:Props)
         setUbicationInter(ubicationI)
     }
 
-    //hooks ****
+    //hooks ******************
     const [rows, setRows] = React.useState<IexamenNotas[]>([])
     const [ reload, setReload ] = React.useState<boolean>(false)
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
@@ -110,7 +96,8 @@ export default function ExamParticipants({id}:Props)
             numero_voucher: newRow.numero_voucher,
             monto: newRow.monto,
             nota: newRow.nota,
-            ubicacion: newRow.ubicacion
+            ubicacion: newRow.ubicacion,
+            terminado: newRow.terminado
         };
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
         return updatedRow;
@@ -119,7 +106,40 @@ export default function ExamParticipants({id}:Props)
     const handleNewClick = () => {
         setOpenDialogFull(true)
     }
+    const handleCheckboxChange = async (id:GridRowId, checked:boolean) => {
+        setRows((prevRows) =>
+            prevRows.map((row) =>
+                row.id === id ? { ...row, impreso: checked } : row
+            )
+        );
+        const info = rows.find((row) => row.id === id)
+        await ExamenesService.updateItem(Collection.Examenes_notas, {...info, terminado: checked} as IexamenNotas)
+        
+        //alert(JSON.stringify(info))
+        await SolicitudesService.updateStatus(info?.solicitud_id as string, 'ENTREGADO')
+    }
 
+    //Columns *********************************************************
+    const cols:GridColDef[] = [
+        {field: 'dni', headerName: 'DNI', editable:false, width: 100},
+        {field: 'apellidos', headerName: 'APELLIDOS', editable: false, width:150},
+        {field: 'nombres', headerName: 'NOMBRES', editable: false, width:150},
+        {field: 'nivel', headerName: 'NIVEL', editable: false, type: 'singleSelect',  width:120},
+        {field: 'nota', headerName: 'NOTA', editable: true, width:100},
+        {field: 'ubicacion', headerName: 'UBICACIÓN', editable: false, width:200},
+        {
+            field: 'terminado',
+            headerName: 'TERMINADO',
+            width: 100,
+            renderCell: (params) => {
+                return <Checkbox 
+                    checked={params.value as boolean}
+                    onChange={(e)=>{handleCheckboxChange(params.id as GridRowId, e.target.checked)}} 
+                    inputProps={{'aria-label': 'Checkbox Terminado'}}
+                    />
+            }
+        }
+    ]
 
     return (
         <React.Fragment>
