@@ -2,8 +2,8 @@
 import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
 import QRCode from 'qrcode'
 import selloDirector from '@/assets/firma.jpg'
-//import selloCoordinadora from '@/assets/coordinadora.jpg'
-import selloCoordinadoraTeporal from '@/assets/sello.jpg'
+import selloCoordinadora from '@/assets/coordinadora.jpg'
+//import selloCoordinadoraTeporal from '@/assets/sello.jpg'
 import selloElaborador  from '@/assets/elaborador.jpg'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
 import React from 'react'
@@ -284,7 +284,7 @@ export default function CertificateFormat({certificado_anterior, curricula_antig
 							<Image style={styles.imageSello} src={selloElaborador.src}/>
 						</View>
 						<View style={[styles.tableCol, {width: '33.33%'}]}>
-							<Image style={styles.imageSello} src={selloCoordinadoraTeporal.src}/>
+							<Image style={styles.imageSello} src={selloCoordinadora.src}/>
 						</View>
 						<View style={[styles.tableCol, {width: '33.33%'}]}>
 							<Image style={styles.imageSello} src={selloDirector.src}/>
