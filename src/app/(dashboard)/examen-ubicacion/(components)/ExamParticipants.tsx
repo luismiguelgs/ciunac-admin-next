@@ -7,13 +7,28 @@ import { Button, Checkbox } from '@mui/material'
 import { GridColDef, GridRowId, GridRowModel, GridRowModesModel } from '@mui/x-data-grid'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
-import EditableDataGrid from '@/components/MUI/EditableDataGrid'
+import EditableDataGrid, { GridAction } from '@/components/MUI/EditableDataGrid'
 import { MyDialog } from '@/components/MUI'
 import DialogFull from '@/components/MUI/Dialogs/DialogFull'
 import ExamRequests from './ExamRequests'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import { PDFViewer } from '@react-pdf/renderer'
+import ConstanciaFormat from './ConstanciaFormat'
 
 export default function ExamParticipants({id}:{id:string | undefined}) 
-{
+{   
+    const customActions:GridAction[] = [
+        {
+            icon: <HistoryEduIcon />,
+            label: 'Ver Detalles',
+            onClick: (id: GridRowId) => () => {
+                const info = rows.find((row) => row.id === id)
+                setSelectData(info)
+                setOpenConstacia(true)
+            },
+            color: 'primary',
+        },
+    ]
     const loadData = async (id:string | undefined) =>{
         const data = await ExamenesService.fetchItemsDetail(id as string)
         setRows(data)
@@ -28,6 +43,8 @@ export default function ExamParticipants({id}:{id:string | undefined})
     const [rows, setRows] = React.useState<IexamenNotas[]>([])
     const [ reload, setReload ] = React.useState<boolean>(false)
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
+    const [ openConstacia, setOpenConstacia ] = React.useState<boolean>(false)
+    const [ selectData, setSelectData ] = React.useState<IexamenNotas | undefined>()
     const [ ubicationBasic, setUbicationBasic] = React.useState<IcalificacionDetalle[]>([])
     const [ ubicationInter, setUbicationInter] = React.useState<IcalificacionDetalle[]>([])
     const [ openDialogFull, setOpenDialogFull ] = React.useState<boolean>(false)
@@ -138,7 +155,8 @@ export default function ExamParticipants({id}:{id:string | undefined})
                     inputProps={{'aria-label': 'Checkbox Terminado'}}
                     />
             }
-        }
+        },
+        
     ]
 
     return (
@@ -159,6 +177,7 @@ export default function ExamParticipants({id}:{id:string | undefined})
                 setRowModesModel={setRowModesModel}
                 handleDeleteClick={handleDeleteClick}
                 processRowUpdate={processRowUpdate}
+                actions={customActions}
             />
             <MyDialog
                 type='ALERT'
@@ -168,6 +187,19 @@ export default function ExamParticipants({id}:{id:string | undefined})
                 setOpen={setOpenDialog}
                 actionFunc={handleConfirmDelete} 
             /> 
+            <MyDialog
+                type='SIMPLE'
+                title='Constancia'
+                setOpen={setOpenConstacia}
+                open={openConstacia}
+                content={
+                    <>
+                        <PDFViewer width={800} height={500}>
+                            <ConstanciaFormat data={selectData} />
+                        </PDFViewer>
+                    </>
+                }
+            />
             <DialogFull
                 title='Solicitudes' 
                 open={openDialogFull}

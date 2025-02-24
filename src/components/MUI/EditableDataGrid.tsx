@@ -6,6 +6,14 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import React from 'react';
 
+export type GridAction = {
+    icon: React.ReactElement,
+    label: string,
+    onClick: (id: GridRowId) => () => void,
+    color?: 'inherit' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning'; // Color del botón
+    showInEditMode?: boolean; // Si el botón debe mostrarse en modo edición
+}
+
 type Props = {
     columns: GridColDef[],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,9 +24,10 @@ type Props = {
     setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>
     handleDeleteClick(id:GridRowId): React.MouseEventHandler<HTMLButtonElement>
     processRowUpdate(newRow:GridRowModel):GridValidRowModel
+    actions?:GridAction[]
 }
 
-export default function EditableDataGrid({columns, rows, setRows, handleDeleteClick, processRowUpdate}:Props) 
+export default function EditableDataGrid({columns, rows, setRows, handleDeleteClick, processRowUpdate, actions=[]}:Props) 
 {
     //hooks
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
@@ -83,9 +92,10 @@ export default function EditableDataGrid({columns, rows, setRows, handleDeleteCl
                     ]
                 }
 
-                return [
+                // Botones por defecto (Editar y Borrar)
+                const defaultActions = [
                     <GridActionsCellItem
-                        key={1}
+                        key="edit"
                         icon={<EditIcon />}
                         label="Editar"
                         className="textPrimary"
@@ -93,13 +103,28 @@ export default function EditableDataGrid({columns, rows, setRows, handleDeleteCl
                         color="inherit"
                     />,
                     <GridActionsCellItem
-                        key={2}
+                        key="delete"
                         icon={<DeleteIcon />}
                         label="Borrar"
                         onClick={handleDeleteClick(id)}
-                        color="inherit"
+                        color="error"
                     />,
-                ]
+                ];
+
+                // Botones personalizados
+                 const customActions = actions
+                 .filter((action) => !action.showInEditMode || isInEditMode) // Filtrar por modo edición
+                 .map((action, index) => (
+                     <GridActionsCellItem
+                         key={`custom-${index}`}
+                         icon={action.icon}
+                         label={action.label}
+                         onClick={action.onClick(id)}
+                         color={action.color || 'inherit'}
+                     />
+                 ));
+
+             return [ ...customActions,...defaultActions,];
             },
         }
     ]
