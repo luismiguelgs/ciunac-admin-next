@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Grid from '@mui/material/Grid2'
 import NewButton from '@/components/NewButton';
-import { Box, Chip, Portal } from '@mui/material';
+import { Box, Portal } from '@mui/material';
 import { IBaseData } from '@/interfaces/types.interface';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useRouter } from 'next/navigation';
@@ -26,14 +26,17 @@ function MyCustomToolbar(props: GridToolbarContainerProps){
         </React.Fragment>
     )
 }
-export function RequestState(props:{state:string, documents?:IBaseData[]|undefined, subjects:IBaseData[]|undefined, handleDetails:(id:GridRowId) => void, handleDelete:(id:GridRowId) => void}) 
+
+
+export function RequestState(props:{state:string, documents:IBaseData[]|undefined, subjects:IBaseData[]|undefined, handleDetails:(id:GridRowId) => void, handleDelete:(id:GridRowId) => void}) 
 {
     const [data, setData] = React.useState<Isolicitud[]>([]);
     const router = useRouter();
 
     React.useEffect(()=>{
-        SolicitudesService.fetchItemQuery(setData, props.state,'EXAMEN');
+        SolicitudesService.fetchItemQuery(setData, props.state, 'CONSTANCIAS')
     },[]);
+
 
     const columns: GridColDef[] = [
         {
@@ -49,24 +52,18 @@ export function RequestState(props:{state:string, documents?:IBaseData[]|undefin
                     }
                 }
         },
+        { field: 'periodo', type: 'string', headerName: 'PERIODO', width: 85 },
         { 
-            field: 'estado', 
-            headerName: 'ESTADO' ,
-            width: 130,
-            renderCell: (params) =>{
-                switch(params.value){
-                    case 'NUEVO':
-                        return <Chip label={params.value} color="error" />
-                    case 'ELABORADO':
-                        return <Chip label='ASIGNADO' color="primary" />
-                    default:
-                        return <Chip label='TERMINADO' />
-                }
-                
-            }
+            field: 'solicitud', 
+            type: 'singleSelect', 
+            headerName: 'SOLICITUD',
+            valueOptions: props.documents,
+            editable: false,
+            width: 210
         },
         {
             field: 'creado',
+            type: 'string',
             width: 160,
             renderHeader:() => (
                 <strong>
@@ -77,7 +74,7 @@ export function RequestState(props:{state:string, documents?:IBaseData[]|undefin
                 </strong>
             ),
             valueFormatter: (value) => {
-                return formatDate(value)
+                formatDate(value)
             } 
         },
         { field: 'apellidos', type: 'string', headerName: 'APELLIDOS', width:160 },
@@ -119,7 +116,6 @@ export function RequestState(props:{state:string, documents?:IBaseData[]|undefin
             ]
         }
     ]
-
     return(
         <Grid container spacing={2}>
             <Grid size={{xs: 12, sm: 6}} >

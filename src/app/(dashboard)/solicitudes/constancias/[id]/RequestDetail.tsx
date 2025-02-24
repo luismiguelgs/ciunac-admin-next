@@ -8,9 +8,8 @@ import { PanelData } from '@/components/MUI/MyAccordion'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import SaveIcon from '@mui/icons-material/Save';
 import { Isolicitud } from '@/interfaces/solicitud.interface'
-import BasicInfo from '../../(componets)/BasicInfo'
-import FinInfo from '../../(componets)/FinInfo'
-import Info2010 from '../(components)/Info2010'
+import BasicInfo from '@/app/(dashboard)/solicitudes/(componets)/BasicInfo'
+import FinInfo from '@/app/(dashboard)/solicitudes/(componets)/FinInfo'
 import BackButton from '@/components/BackButton'
 
 export default function RequestDetail(props:{id:string}) 
@@ -72,11 +71,6 @@ export default function RequestDetail(props:{id:string})
             content: <img src={item?.certificado_trabajo} width={280}/>,
             disabled: !item.trabajador
         },
-        {
-            title: 'Información de cursos anteriores al 2009',
-            content: <Info2010 id={item.id as string}/>,
-            disabled: !item.antiguo
-        }
     ]
 	return (
 		<React.Fragment>

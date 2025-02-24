@@ -21,7 +21,7 @@ export default function RequestList({setOpenDialogFull, setRequest, setReload}:P
     const [selectionModel, setSelectionModel] = React.useState<GridRowSelectionModel>([]);
 
     React.useEffect(() => {
-        SolicitudesService.fetchItemQuery(setData, 'NUEVO', true)
+        SolicitudesService.fetchItemQuery(setData, 'NUEVO', 'CERTIFICADO')
     }, []);
 
     const handleSaveSelection = async() => {

@@ -13,6 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import PeopleIcon from '@mui/icons-material/People';
 import PrintIcon from '@mui/icons-material/Print';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
 const NAVIGATION: Navigation = [
     {
@@ -46,6 +47,11 @@ const NAVIGATION: Navigation = [
           title: 'Certificados',
           icon: <CardMembershipIcon />,
         },
+		{
+			segment: 'constancias',
+			title: 'Constancias',
+			icon: <HistoryEduIcon />
+		},
         {
           segment: 'ubicacion',
           title: 'Examen de Ubicación',

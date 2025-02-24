@@ -44,10 +44,56 @@ export default class SolicitudesService
             }
 		}
   	}
-    public static fetchItemQuery( setData:React.Dispatch<React.SetStateAction<Isolicitud[]>>, searchParams:string | null,  certificados=true)
+    public static fetchItemQuery( setData:React.Dispatch<React.SetStateAction<Isolicitud[]>>, searchParams:string | null,  tipoSolicitud: 'EXAMEN' | 'CONSTANCIAS' | 'CERTIFICADO' ="CERTIFICADO")
     {
         let itemQuery: Query
-  
+        const condicionesExamen = ['EXAMEN_DE_UBICACION'];
+        const condicionesCertificados = ['CERTIFICADO_DE_ESTUDIO', 'DUPLICADO_DE_CERTIFICADO'];
+        const condicionesConstancias = ['CONSTANCIA_DE_MATRICULA', 'CONSTANCIA_DE_NOTAS'];
+
+        switch(tipoSolicitud){
+            case 'EXAMEN': 
+                itemQuery = query(this.db, 
+                    where('estado',"==",searchParams), 
+                    where('solicitud',"in",condicionesExamen), 
+                    orderBy('creado','asc')
+                );
+                break;
+        
+            case 'CONSTANCIAS': 
+                itemQuery = query(this.db,
+                    where('estado',"==",searchParams),
+                    where('solicitud',"in",condicionesConstancias),
+                    orderBy('creado','asc')
+                ); 
+                break; 
+                    
+            case 'CERTIFICADO': 
+                itemQuery = query(this.db,
+                    where('estado',"==",searchParams),
+                    where('solicitud',"in",condicionesCertificados),
+                    orderBy('creado','asc')
+                ); 
+                break; 
+
+            default:
+                throw new Error('Tipo de solicitud no válido');
+        }
+
+        onSnapshot(itemQuery, (data)=>{
+            setData(data.docs.map((item) => {
+                const creado = tipoSolicitud === 'EXAMEN'
+                    ? new Date(changeDate(item.data().creado, false, true) as string)
+                    : changeDate(item.data().creado, true, true);
+    
+                return {
+                    ...item.data(),
+                    id: item.id,
+                    creado
+                } as Isolicitud;
+            }));
+        });
+        /*
         if(certificados){
             itemQuery =  query(
                 this.db, 
@@ -80,7 +126,8 @@ export default class SolicitudesService
                       return { ...item.data(), id:item.id, creado:new Date(changeDate(item.data().creado,false,true) as string) } as Isolicitud
                   }));
               });
-          }   
+        }   
+        */
     }
     public static async fetchItemsWODate():Promise<Isolicitud[]>{
         const querySnapshot = await getDocs(this.db)
