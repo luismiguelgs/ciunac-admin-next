@@ -5,7 +5,6 @@ import React from 'react'
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbar, GridToolbarContainerProps, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import LanguageIcon from '@mui/icons-material/Language';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
-import { formatDate } from '@/lib/utils';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Grid from '@mui/material/Grid2'
@@ -68,6 +67,7 @@ export function RequestState(props:{state:string, documents?:IBaseData[]|undefin
         {
             field: 'creado',
             width: 160,
+            type: 'string',
             renderHeader:() => (
                 <strong>
                     {'FECHA '}
@@ -77,7 +77,7 @@ export function RequestState(props:{state:string, documents?:IBaseData[]|undefin
                 </strong>
             ),
             valueFormatter: (value) => {
-                return formatDate(value)
+                return (value as string).split('-').reverse().join('-')
             } 
         },
         { field: 'apellidos', type: 'string', headerName: 'APELLIDOS', width:160 },

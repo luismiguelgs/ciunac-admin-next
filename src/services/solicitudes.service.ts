@@ -81,9 +81,10 @@ export default class SolicitudesService
         }
 
         onSnapshot(itemQuery, (data)=>{
+    
             setData(data.docs.map((item) => {
                 const creado = tipoSolicitud === 'EXAMEN'
-                    ? new Date(changeDate(item.data().creado, false, true) as string)
+                    ? changeDate(item.data().creado, false, true)//new Date(changeDate(item.data().creado, false, true) as string)
                     : changeDate(item.data().creado, true, true);
     
                 return {

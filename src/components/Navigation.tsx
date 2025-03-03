@@ -14,6 +14,7 @@ import HandymanIcon from '@mui/icons-material/Handyman';
 import PeopleIcon from '@mui/icons-material/People';
 import PrintIcon from '@mui/icons-material/Print';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import Groups2Icon from '@mui/icons-material/Groups2';
 
 const NAVIGATION: Navigation = [
     {
@@ -100,6 +101,11 @@ const NAVIGATION: Navigation = [
                 segment: 'nuevo',
                 title: 'Nuevo Examen',
                 icon: <AddBoxIcon />,
+            },
+            {
+                segment: 'participantes',
+                title: 'Participantes',
+                icon: <Groups2Icon />
             },
             {
                 segment: 'prospectos',

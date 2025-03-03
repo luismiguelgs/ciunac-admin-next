@@ -1,3 +1,4 @@
+''
 import { Portal } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbar, GridToolbarProps, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import React from "react";
@@ -11,9 +12,10 @@ type Props = {
     handleDetails(id:GridRowId): void
     handleDelete(id:GridRowId): void
     extraActions?: (id: GridRowId) => React.ReactNode[];
+    actions?: boolean
 }
 
-export default function MyDataGrid({data, cols,handleDetails, handleDelete, extraActions}:Props) 
+export default function MyDataGrid({data, cols,handleDetails, handleDelete, extraActions, actions=true}:Props) 
 {
     const MyCustomToolbar = (props: GridToolbarProps)=> {
         return(
@@ -49,6 +51,7 @@ export default function MyDataGrid({data, cols,handleDetails, handleDelete, extr
             ]
         }
     ]
+    if(!actions) columns.pop();
     return (
         <DataGrid 
             pageSizeOptions={[10,25,100]}

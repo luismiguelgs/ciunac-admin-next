@@ -168,4 +168,23 @@ export class ExamenesService
             throw err
         }
     }
+    public static async fetchExamenesNotas():Promise<IexamenNotas[] | undefined>
+    {
+        try{
+            const snapShot = await getDocs(this.db(Collection.Examenes_notas))
+            const data = snapShot.docs.map((item)=>{
+                return{
+                    ...item.data(),
+                    id: item.id,
+                    
+                } as IexamenNotas
+            })
+            return data
+        }
+        catch(err){
+            if (err instanceof Error) {
+                console.error('Error al actualizar el elemento:', err.message);
+            }
+        }
+    }
 }
