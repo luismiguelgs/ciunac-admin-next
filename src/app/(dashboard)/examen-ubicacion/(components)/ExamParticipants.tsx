@@ -15,7 +15,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import { PDFViewer } from '@react-pdf/renderer'
 import ConstanciaFormat from './ConstanciaFormat'
 
-export default function ExamParticipants({id}:{id:string | undefined}) 
+export default function ExamParticipants({id, idioma}:{id:string | undefined, idioma:string|undefined}) 
 {   
     const customActions:GridAction[] = [
         {
@@ -207,7 +207,7 @@ export default function ExamParticipants({id}:{id:string | undefined})
                 content={
                     <ExamRequests 
                         examenId={id as string} 
-                        idioma={rows[0]?.idioma}
+                        idioma={idioma as string}
                         setReload={setReload}
                         setOpenDialogFull={setOpenDialogFull}
                     />
