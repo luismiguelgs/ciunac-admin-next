@@ -16,6 +16,8 @@ import CertificateFormat from './(formats)/CertificateFormat'
 import dayjs from 'dayjs'
 import SolicitudesService from '@/services/solicitudes.service'
 import useSubjects from '@/hooks/useSubjects'
+import 'dayjs/locale/es';
+dayjs.locale('es');
 
 type Props = {
 	rows: Icertificado[],

@@ -181,7 +181,7 @@ export default function CertificateFormat({certificado_anterior, curricula_antig
 							(
 								<Text style={[styles.text2,{textAlign: 'justify'}]} hyphenationCallback={(word)=>[word]}>
 									ha concluido satisfactoriamente el <Text style={styles.text3}>{` NIVEL ${nivel} `}</Text> 
-									del idioma  <Text style={styles.text3}>{idioma}</Text>, de acuerdo al <Text style={{fontFamily: 'Roboto-Bold'}}>MARCO COMÚN EUROPEO DE
+									del idioma <Text style={styles.text3}>{idioma}</Text>, de acuerdo al <Text style={{fontFamily: 'Roboto-Bold'}}>MARCO COMÚN EUROPEO DE
 									REFERENCIA PARA LAS LENGUAS</Text>, en el nivel <Text style={styles.text3}>A2</Text>, en nuestra Casa
 									Superior de Estudios con un total de <Text style={styles.text3}>{horas}</Text>  horas.
 									Se le expide el presente, a solicitud de la parte interesada para los fines pertinentes.
@@ -310,7 +310,7 @@ export default function CertificateFormat({certificado_anterior, curricula_antig
 								</View>
 							)
 						}
-						
+						<Text>{alumno}</Text>
 						<Text>Registrado en el libro de Certificados</Text>
 						<Text>Nivel {nivel} bajo el N° {numero_folio}</Text>
 						<Text>Elaborado por: {elaborador}</Text>
