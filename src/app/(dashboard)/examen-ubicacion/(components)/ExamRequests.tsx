@@ -13,11 +13,12 @@ import { Box, Button } from '@mui/material'
 
 type Props = {
     examenId : string,
+    idioma : string,
     setReload: React.Dispatch<React.SetStateAction<boolean>>,
     setOpenDialogFull : React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ExamRequests({examenId, setReload, setOpenDialogFull}:Props) 
+export default function ExamRequests({examenId, setReload, setOpenDialogFull, idioma}:Props) 
 {
     const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const [data, setData] = React.useState<Isolicitud[]>([]);
@@ -77,7 +78,7 @@ export default function ExamRequests({examenId, setReload, setOpenDialogFull}:Pr
         },
         {
             field: 'creado',
-            type: 'date',
+            type: 'string',
             renderHeader:() => (
                 <strong>
                     {'FECHA '}
@@ -85,7 +86,10 @@ export default function ExamRequests({examenId, setReload, setOpenDialogFull}:Pr
                         📆
                     </span>
                 </strong>
-            ) 
+            ), 
+            renderCell: (params) => (
+                <strong>{new Date(params.value).toLocaleDateString('es-ES')}</strong>
+            )
         },
         { field: 'apellidos', type: 'string', headerName: 'APELLIDOS', width:200 },
         { field: 'nombres', type: 'string', headerName: 'NOMBRES', width:200 },
@@ -114,7 +118,7 @@ export default function ExamRequests({examenId, setReload, setOpenDialogFull}:Pr
             <Box p={2}>
                 <Box p={2} style={{ minHeight: 400, width: '100%' }}>
                     <DataGrid
-                        rows={data}
+                        rows={data.filter((row) => row.idioma === idioma)}
                         columns={columns}
                         checkboxSelection
                         onRowSelectionModelChange={(newSelectionModel) => {

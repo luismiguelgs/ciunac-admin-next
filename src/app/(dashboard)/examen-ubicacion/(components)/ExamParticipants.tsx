@@ -207,6 +207,7 @@ export default function ExamParticipants({id}:{id:string | undefined})
                 content={
                     <ExamRequests 
                         examenId={id as string} 
+                        idioma={rows[0]?.idioma}
                         setReload={setReload}
                         setOpenDialogFull={setOpenDialogFull}
                     />
