@@ -26,7 +26,7 @@ export default class SolicitudesService
         const data = {
             ...obj,
             estado:'NUEVO',
-            pago:+obj.pago,
+            pago:Number(obj.pago),
             manual:true,
             periodo: obtenerPeriodo(),
             creado: obj.creado,
@@ -154,7 +154,7 @@ export default class SolicitudesService
         delete obj.id
         updateDoc(dataToUpdate,{
         ...obj,
-        pago:+obj.pago,
+        pago:Number(obj.pago),
         modificado: serverTimestamp()
         }).then(()=>{console.log('update');}).catch((err)=>console.log(err.message));
     }

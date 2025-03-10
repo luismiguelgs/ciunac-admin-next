@@ -22,7 +22,7 @@ export default function NewRequestPage()
             facultad: values.facultad as string,
             email: values.email || '', 
             codigo: values.codigo,
-            trabajador: values.trabajador,
+            trabajador: values.trabajador as boolean,
         }
         const idProspecto = await ProspectosService.newItem(prospecto)
 
@@ -33,7 +33,7 @@ export default function NewRequestPage()
             nombres: values.nombres,
             periodo: values.periodo,
             numero_voucher: values.numero_voucher,
-            pago: values.pago.toString(),
+            pago: values.pago?.toString(),
             idioma: values.idioma,
             nivel: values.nivel,
             fecha_pago: new Date(values.fecha_pago).toISOString().split('T')[0],

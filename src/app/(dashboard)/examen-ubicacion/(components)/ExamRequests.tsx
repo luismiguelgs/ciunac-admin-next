@@ -35,13 +35,13 @@ export default function ExamRequests({examenId, setReload, setOpenDialogFull, id
             const item : IexamenNotas = {
                 examen_id: examenId,
                 solicitud_id: element.id as string,
-                idioma: element.idioma,
-                nivel: element.nivel,
+                idioma: element.idioma as string,
+                nivel: element.nivel as string,
                 apellidos: element.apellidos as string,
                 nombres: element.nombres as string,
                 dni: element.dni as string,
                 numero_voucher: element.numero_voucher as string,
-                monto: +element.pago,
+                monto: Number(element.pago ?? 0),
                 nota: 0,
                 ubicacion: '',
                 terminado: false

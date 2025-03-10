@@ -11,6 +11,9 @@ const withPWA = nextPWA({
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+    images: {
+        domains: ['firebasestorage.googleapis.com'],
+    },
 };
 
 export default withPWA(nextConfig);

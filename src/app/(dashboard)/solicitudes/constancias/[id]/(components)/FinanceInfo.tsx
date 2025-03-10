@@ -2,7 +2,6 @@
 import Grid from '@mui/material/Grid2';
 import { Button, FormControlLabel,  InputAdornment, TextField, Checkbox } from '@mui/material'
 import pdfLogo from '@/assets/pdf.png'
-import { DatePicker, DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import  Link  from '@mui/material/Link'
 import { useFormik } from 'formik'
@@ -10,27 +9,36 @@ import React from 'react'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import SaveIcon from '@mui/icons-material/Save';
 import noImage from '@/assets/no_disponible.png'
-import validationSchema from './validation.schema'
+import {validationSchemaFinance} from './validation.schema'
 import { Isolicitud } from '@/interfaces/solicitud.interface'
 import useStore from '@/hooks/useStore';
-import { useDocumentsStore,  useSubjectsStore } from '@/store/types.stores';
+import { useDocumentsStore, } from '@/store/types.stores';
 import { MySelect } from '@/components/MUI';
 import { ESTADO, NIVEL } from '@/lib/constants';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import 'dayjs/locale/es';
+import SelectSubjects from '@/components/SelectSubjects';
+import Image from 'next/image';
+import MyDatePicker from '@/components/MyDatePicker';
 
 type Props = {
-  item: Isolicitud,
-  saveItem(values:Isolicitud) : void
+    item: Isolicitud,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    saveItem:(values:any) => void
 }
 
 export default function FinanceInfo({item, saveItem}:Props) 
 {
+    let voucher = null
+
+    if(item.voucher){
+        voucher = item.voucher
+    }else{
+        voucher = item.img_voucher
+    }
+    
     const documents = useStore(useDocumentsStore, (state) => state.documents)
-    const subjects = useStore(useSubjectsStore, (state) => state.subjects)
     const [edit, setEdit] = React.useState<boolean>(false)
-    const isPdf = item.img_voucher?.split('?')[0].slice(-3) === 'pdf'
-    const hasImage = Boolean(item.img_voucher)
+    const isPdf = voucher?.split('?')[0].slice(-3) === 'pdf'
+    const hasImage = Boolean(voucher)
 
     if (item.creado && item.creado.seconds) {
         item.creado = dayjs(new Date(item.creado.seconds * 1000 + (item.creado.nanoseconds || 0) / 1e6))
@@ -38,7 +46,7 @@ export default function FinanceInfo({item, saveItem}:Props)
     if (item.modificado && item.modificado.seconds) {
         item.modificado = dayjs(new Date(item.modificado.seconds * 1000 + (item.modificado.nanoseconds || 0) / 1e6))
     }
-    
+
     const formik = useFormik<Isolicitud>({
         initialValues:{
             periodo: item.periodo,
@@ -51,7 +59,7 @@ export default function FinanceInfo({item, saveItem}:Props)
             fecha_pago: dayjs(new Date(item.fecha_pago)),
             trabajador: item.trabajador,
         },
-        validationSchema: validationSchema,
+        validationSchema: validationSchemaFinance,
         onSubmit: (values)=>{
             saveItem(values)
             setEdit(false)
@@ -62,7 +70,7 @@ export default function FinanceInfo({item, saveItem}:Props)
     const handleClickEdit = () =>{
         setEdit(true)
     }
-
+    
     return (
         <Grid container spacing={2} p={1}>
             <Grid container spacing={2} size={{xs:12, md:8}} component='form' onSubmit={formik.handleSubmit}>
@@ -92,16 +100,13 @@ export default function FinanceInfo({item, saveItem}:Props)
                 </Grid>
                 {/**Idioma */}
                 <Grid size={{xs:12, sm:6}}>
-                    {subjects && <MySelect 
-                        data={subjects}
-                        disabled={!edit} 
-                        error={formik.touched.idioma && Boolean(formik.errors.idioma)}
-                        name='idioma'
-                        label='Idioma'
-                        value={formik.values.idioma as string}
+                    <SelectSubjects
                         handleChange={formik.handleChange}
+                        value={formik.values.idioma as string}
+                        error={formik.touched.idioma && Boolean(formik.errors.idioma)}
                         helperText={formik.touched.idioma && formik.errors.idioma}
-                    />}
+                        disabled={!edit}
+                    />
                 </Grid>
                 {/**Nivel */}
                 <Grid size={{xs:12, sm:6}}>
@@ -149,22 +154,15 @@ export default function FinanceInfo({item, saveItem}:Props)
                     />
                 </Grid>
                 <Grid size={{xs:12, sm:6}}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
-                        <DatePicker 
-                            label="Fecha de Pago"
-                            disabled={!edit}
-                            value={formik.values.fecha_pago} 
-                            onChange={(date)=>formik.setFieldValue('fecha_pago',date)} 
-                            maxDate={dayjs(new Date())}
-                            slotProps={{
-                                textField:{
-                                    fullWidth:true,
-                                    error: Boolean(formik.touched.fecha_pago) && Boolean(formik.errors.fecha_pago),
-                                    helperText: (formik.touched.fecha_pago && formik.errors.fecha_pago) as React.ReactNode
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
+                    <MyDatePicker
+                        label='Fecha de Pago'
+                        name='fecha_pago'
+                        edit={edit}
+                        formik={formik}
+                        value={formik.values.fecha_pago}
+                        error={Boolean(formik.touched.fecha_pago) && Boolean(formik.errors.fecha_pago)}
+                        helperText={(formik.touched.fecha_pago && formik.errors.fecha_pago) as React.ReactNode}
+                    />  
                 </Grid>
                 <Grid size={{xs:12, sm:6}}>
                     <TextField
@@ -182,42 +180,26 @@ export default function FinanceInfo({item, saveItem}:Props)
                     <FormControlLabel disabled={!edit} control={<Checkbox checked={item.trabajador} />} label="Trabajador" />
                 </Grid>
                 <Grid size={{xs:12, sm:6}}>
-                {   Boolean(item.img_voucher) ?
-                        (<Link href={item?.img_voucher} underline='always' target='_blank' rel="noopener">VER VOUCHER</Link>) 
+                {   Boolean(voucher) ?
+                        (<Link href={voucher} underline='always' target='_blank' rel="noopener">VER VOUCHER</Link>) 
                     :null
                 }
                 </Grid>
                 <Grid size={{xs:12, sm:6}}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
-                        <DateTimePicker 
-                            label="Fecha de creación"
-                            disabled
-                            value={dayjs(new Date(item.creado))}
-                            ampm
-                            slotProps={{
-                                textField:{
-                                    fullWidth:true,
-                                    variant: 'standard'
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
+                    <MyDatePicker
+                        label="Fecha de creación"
+                        name="creado"
+                        ampm={true}
+                        value={dayjs(new Date(item.creado))}
+                    />
                 </Grid>
                 <Grid size={{xs:12, sm:6}}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
-                        <DateTimePicker
-                            label="Fecha de última edición"
-                            ampm
-                            disabled
-                            value={dayjs(new Date(item.modificado))}
-                            slotProps={{
-                                textField:{
-                                    fullWidth:true,
-                                    variant:'standard'
-                                }
-                            }}
-                        />
-                    </LocalizationProvider>
+                    <MyDatePicker
+                        label="Fecha de última edición"
+                        name="modificado"
+                        ampm={true}
+                        value={dayjs(new Date(item.modificado))}
+                    />
                 </Grid>
                 <Grid size={{xs:12, sm:6}}>
                     <Button
@@ -246,13 +228,13 @@ export default function FinanceInfo({item, saveItem}:Props)
             </Grid>
             <Grid container spacing={1} size={{xs:12, md:4}}>
                     {/*Imagen*/}
-                    <Grid size={{xs:12}} display='flex' alignContent='center' alignItems='center'>
+                    <Grid size={{xs:12}} sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     { 
                         isPdf ? 
-                            (<img src={pdfLogo.src} style={{maxHeight:'440px', width:'100%'}}/>):
+                            (<Image src={pdfLogo.src} style={{width:'100%', height:'100%', objectFit: 'contain'}} alt='pdf' width={1000} height={1000} priority/>) :
                             hasImage ?
-                                (<img src={item?.img_voucher} style={{maxHeight:'440px', margin:'0 auto'}}/>) : 
-                                (<img src={noImage.src} style={{ maxHeight:'440px', margin:'0 auto'}}/>)
+                                (<Image src={voucher as string} style={{width:'100%', height:'100%', objectFit: 'contain'}} alt='voucher' width={1000} height={1000} priority/>) : 
+                                (<Image src={noImage.src} style={{width:'100%', height:'100%', objectFit: 'contain'}} alt='no image' width={1000} height={1000} priority/>)
                     }
                     </Grid>
                 </Grid>

@@ -42,7 +42,7 @@ export default function FinInfo({item, handleChange, edit}:Props)
                         sx={{mb:2}}
                         label='Tipo de Solicitud'
                         handleChange={handleChange}
-                        value={item.solicitud}
+                        value={item.solicitud as string}
                         data={documents}
                 />}
                 </Grid>

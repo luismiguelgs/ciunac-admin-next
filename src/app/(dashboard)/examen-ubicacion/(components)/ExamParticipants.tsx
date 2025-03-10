@@ -15,7 +15,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import { PDFViewer } from '@react-pdf/renderer'
 import ConstanciaFormat from './ConstanciaFormat'
 
-export default function ExamParticipants({id, idioma}:{id:string | undefined, idioma:string|undefined}) 
+export default function ExamParticipants({id, idioma}:{id:string | undefined, idioma?:string|undefined}) 
 {   
     const customActions:GridAction[] = [
         {
@@ -33,9 +33,9 @@ export default function ExamParticipants({id, idioma}:{id:string | undefined, id
         const data = await ExamenesService.fetchItemsDetail(id as string)
         setRows(data)
         //cargar la matriz de ubicación
-        const ubicacionB = await CalificacionesService.fetchItemsDetail(`EXAMEN-UBICACION-${data[0].idioma}-BASICO`)
+        const ubicacionB = await CalificacionesService.fetchItemsDetail(`EXAMEN-UBICACION-${idioma}-BASICO`)
         setUbicationBasic(ubicacionB)
-        const ubicationI = await CalificacionesService.fetchItemsDetail(`EXAMEN-UBICACION-${data[0].idioma}-INTERMEDIO`)
+        const ubicationI = await CalificacionesService.fetchItemsDetail(`EXAMEN-UBICACION-${idioma}-INTERMEDIO`)
         setUbicationInter(ubicationI)
     }
 

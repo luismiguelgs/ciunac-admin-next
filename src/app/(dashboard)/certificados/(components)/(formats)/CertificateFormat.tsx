@@ -298,7 +298,7 @@ export default function CertificateFormat({certificado_anterior, curricula_antig
 						<View style={{ marginTop: 10 }}>
 							<Text>*EX.U. EXAMEN DE UBICACIÓN.</Text>
 							<Text>*C.I. CICLO INTENSIVO.</Text>
-							<Text>*C.I. CICLO REGULAR.</Text>
+							<Text>*C.R. CICLO REGULAR.</Text>
 						</View>
 					</View>
 					<View style={{ position:'absolute', alignItems: 'center', fontSize: 9, bottom: -10, right: -20, width: '50%', paddingTop:20}}>

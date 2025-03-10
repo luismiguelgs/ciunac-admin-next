@@ -104,7 +104,7 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
                     showInMenu
                     icon={<PlayArrowIcon />}
                     label='Detalles'
-                    onClick={()=>router.push(`/solicitudes/certificados/${params.id}`)}
+                    onClick={()=>router.push(`/solicitudes/constancias/${params.id}`)}
                 />,
                 <GridActionsCellItem 
                     key={3}

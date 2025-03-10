@@ -133,7 +133,7 @@ export default function BasicInfo({ item, edit, handleChange }:Props )
             <Grid size={{xs: 12, sm: 6}}>
                 <SelectSubjects
                     disabled={!edit} 
-                    value={item.idioma} 
+                    value={item.idioma as string} 
                     handleChange={handleChange} 
                 />
             </Grid>
@@ -143,7 +143,7 @@ export default function BasicInfo({ item, edit, handleChange }:Props )
                     data={NIVEL} 
                     name="nivel" 
                     label="Nivel" 
-                    value={item?.nivel} 
+                    value={item?.nivel as string} 
                     handleChange={handleChange}
                     helperText={true && "Seleccionar el nivel"}
                 />

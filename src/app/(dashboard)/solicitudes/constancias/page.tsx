@@ -7,7 +7,7 @@ import { GridRowId } from '@mui/x-data-grid';
 import useStore from '@/hooks/useStore';
 import { useDocumentsStore, useSubjectsStore } from '@/store/types.stores';
 import { RequestState } from './(components)/RequestStage';
-import RequestDetail from './[id]/RequestDetail';
+import RequestDetail from './[id]/(components)/RequestDetail';
 
 
 export default function RequestsConstansPage() 

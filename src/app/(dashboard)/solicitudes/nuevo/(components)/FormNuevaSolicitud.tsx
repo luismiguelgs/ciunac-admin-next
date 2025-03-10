@@ -54,7 +54,7 @@ export default function FormNuevaSolicitud({onSubmit}:Props)
                 <Grid size={{xs: 12 , sm: 6}} >
                     <SelectDocuments 
                         handleChange={formik.handleChange}
-                        value={formik.values.solicitud}
+                        value={formik.values.solicitud as string}
                         error={formik.touched.solicitud && Boolean(formik.errors.solicitud)}
                     />
                 </Grid>
@@ -117,7 +117,7 @@ export default function FormNuevaSolicitud({onSubmit}:Props)
                 <Grid size={{xs: 12 , sm: 6}}>
                     <SelectSubjects 
                         handleChange={formik.handleChange}
-                        value={formik.values.idioma}
+                        value={formik.values.idioma as string}
                         error={formik.touched.idioma && Boolean(formik.errors.idioma)}
                     />
                 </Grid>
@@ -127,7 +127,7 @@ export default function FormNuevaSolicitud({onSubmit}:Props)
                         error={formik.touched.nivel && Boolean(formik.errors.nivel)}
                         name='nivel'
                         label='Nivel'
-                        value={formik.values.nivel}
+                        value={formik.values.nivel as string}
                         handleChange={formik.handleChange}
                         helperText={formik.touched.nivel && formik.errors.nivel}
                     />
