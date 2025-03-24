@@ -15,6 +15,7 @@ import FinanceInfo from './FinanceInfo'
 import BackButton from '@/components/BackButton'
 import IProspecto from '@/interfaces/prospecto.interface'
 import ProspectosService from '@/services/prospectos.service'
+import InfoExtra from './InfoExtra';
 
 export default function RequestDetail(props:{id:string}) 
 {
@@ -65,11 +66,11 @@ export default function RequestDetail(props:{id:string})
             content: solicitud && (<BasicInfo item={solicitud as Isolicitud} saveItem={saveItem} /> ),
             disabled: false
         },
-        /*{
+        {
             title: 'Información Adicional',
             content: solicitud && (<InfoExtra item={solicitud}/>),
             disabled: false
-        },*/
+        },
     ]
 	
 	return (

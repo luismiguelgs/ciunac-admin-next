@@ -2,16 +2,17 @@ import { Button } from '@mui/material'
 import React from 'react'
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DialogFull from '@/components/MUI/Dialogs/DialogFull';
-import RequestList from './RequestList';
+import RequestList from '../app/(dashboard)/certificados/(components)/RequestList';
 import { Isolicitud } from '@/interfaces/solicitud.interface';
 
 type Props = {
     setReload: React.Dispatch<React.SetStateAction<boolean>>
     setData: React.Dispatch<React.SetStateAction<Isolicitud |  undefined>>
+    filtro?: 'EXAMEN' | 'CONSTANCIAS' | 'CERTIFICADO'
 }
 
 
-export default function ButtonAsignRequest({ setReload, setData }: Props) 
+export default function ButtonAsignRequest({ setReload, setData, filtro='CERTIFICADO' }: Props) 
 {
     //Mostrar las solicitudes nuevas en un modal full
     const [ openDialogFull, setOpenDialogFull ] = React.useState<boolean>(false)
@@ -36,7 +37,12 @@ export default function ButtonAsignRequest({ setReload, setData }: Props)
                 open={openDialogFull}
                 setOpen={setOpenDialogFull}
                 content={
-                    <RequestList setOpenDialogFull={setOpenDialogFull} setReload={setReload} setRequest={setData} />
+                    <RequestList
+                        setOpenDialogFull={setOpenDialogFull} 
+                        setReload={setReload} 
+                        setRequest={setData} 
+                        filtro={filtro}    
+                    />
                 }
             />
         </React.Fragment>

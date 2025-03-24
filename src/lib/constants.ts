@@ -3,6 +3,21 @@ import packageJson from '../../package.json';
 export const VERSION = packageJson.version
 export const DRAWER_WIDTH = 240
 
+export const MESES = [
+    {value:'ENERO', label:'Enero'},
+    {value:'FEBRERO', label:'Febrero'},
+    {value:'MARZO', label:'Marzo'},
+    {value:'ABRIL', label:'Abril'},
+    {value:'MAYO', label:'Mayo'},
+    {value:'JUNIO', label:'Junio'},
+    {value:'JULIO', label:'Julio'},
+    {value:'AGOSTO', label:'Agosto'},
+    {value:'SEPTIEMBRE', label:'Septiembre'},
+    {value:'OCTUBRE', label:'Octubre'},
+    {value:'NOVIEMBRE', label:'Noviembre'},
+    {value:'DICIEMBRE', label:'Diciembre'},
+]
+
 export const ESTADO = [
     {value:'NUEVO',label:'Nuevo'},
     {value:'ASIGNADO',label:'Asignado'},

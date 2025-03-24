@@ -12,9 +12,9 @@ export default function CertificatesPage()
         const data = await CertificadosService.fetchItems(false)
         setRows(data)
     }
-        React.useEffect(()=> {
+    React.useEffect(()=> {
             loadData()
-        },[])
+    },[])
     
     return (
         <CertificateList rows={rows} setRows={setRows} printed={false}/>

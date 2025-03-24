@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid2';
 import BackButton from "@/components/BackButton";
 import CertificateDetail from "../(components)/CertificateDetail";
 import ButtonSave from "@/components/ButtonSave";
-import ButtonAsignRequest from "../(components)/ButtonAsignRequest";
+import ButtonAsignRequest from "../../../../components/ButtonAsignRequest";
 import { Isolicitud } from "@/interfaces/solicitud.interface";
 import { PROGRAMAS } from "@/lib/constants";
 import  LoadingDialog  from"@/components/MUI/Dialogs/DialogLoading"
@@ -77,6 +77,7 @@ export default function CertificateNew({ session }: { session: Session | null })
 					<ButtonAsignRequest
                         setReload={setReload}
                         setData={setDataRequest} 
+                        filtro="CERTIFICADO"
                     />
 				</Grid>
                 <Grid size={{xs: 12, md: 4}} display='flex' alignItems='center' justifyContent='center' alignContent='center'>

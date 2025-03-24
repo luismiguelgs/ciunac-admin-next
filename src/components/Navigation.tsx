@@ -87,6 +87,28 @@ const NAVIGATION: Navigation = [
         }
       ]
     },
+	{
+		segment: 'constancias',
+		title: 'Constancias',
+		icon: <HistoryEduIcon />,
+		children: [
+			{
+				segment: './',
+				title: 'Constancias Nuevas',
+				icon: <LayersIcon />,
+			},
+			{
+				segment: 'impresas',
+				title: 'Constancias Impresas',
+				icon: <PrintIcon />
+			},
+			{
+				segment: 'nuevo',
+				title: 'Nueva Constancia',
+				icon: <AddBoxIcon />,
+			},
+		]
+	},
     {
         segment: 'examen-ubicacion',
         title: 'Examen de Ubicación',

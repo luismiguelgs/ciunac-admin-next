@@ -13,15 +13,16 @@ type Props = {
     setRequest: React.Dispatch<React.SetStateAction<Isolicitud | undefined>>,
     setReload: React.Dispatch<React.SetStateAction<boolean>>,
     setOpenDialogFull : React.Dispatch<React.SetStateAction<boolean>>
+    filtro?: 'EXAMEN' | 'CONSTANCIAS' | 'CERTIFICADO'
 }
 
-export default function RequestList({setOpenDialogFull, setRequest, setReload}:Props) 
+export default function RequestList({setOpenDialogFull, setRequest, setReload, filtro='CERTIFICADO'}:Props) 
 {
     const [data, setData] = React.useState<Isolicitud[]>([]);
     const [selectionModel, setSelectionModel] = React.useState<GridRowSelectionModel>([]);
 
     React.useEffect(() => {
-        SolicitudesService.fetchItemQuery(setData, 'NUEVO', 'CERTIFICADO')
+        SolicitudesService.fetchItemQuery(setData, 'NUEVO', filtro)
     }, []);
 
     const handleSaveSelection = async() => {
