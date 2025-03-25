@@ -39,7 +39,7 @@ export default function ConstanciaDetail({id_constancia, idioma, nivel, setDetal
         const getRows = async() => {
             const data = await ConstanciasService.fetchItemsDetalle(id_constancia)
             setDetalle(data as IconstanciaDetalle[])
-            setDetalle(data as IconstanciaDetalle[])
+            // Remove duplicate setDetalle call
         }
         getRows()
     }, [id_constancia])
@@ -86,24 +86,17 @@ export default function ConstanciaDetail({id_constancia, idioma, nivel, setDetal
         let id:string | undefined
         if(newRow.isNew){
             id = await ConstanciasService.newItem(Collection.CONSTANCIAS_NOTAS, newRow as IconstanciaDetalle)
-        }else{
-            ConstanciasService.updateItem(Collection.CONSTANCIAS_NOTAS, newRow as IconstanciaDetalle)
+            const updatedRow: IconstanciaDetalle = {
+                ...newRow,
+                id: id,
+                isNew: false
+            } as IconstanciaDetalle;
+            setDetalle(oldRows => oldRows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+            return updatedRow;
+        } else {
+            await ConstanciasService.updateItem(Collection.CONSTANCIAS_NOTAS, newRow as IconstanciaDetalle)
+            return newRow;
         }
-        const updatedRow:IconstanciaDetalle = {
-            id:newRow.isNew ? id : newRow.id, 
-            id_constancia: newRow.id_constancia, 
-            idioma: newRow.idioma,
-            nivel: newRow.nivel,
-            ciclo: newRow.ciclo,
-            modalidad: newRow.modalidad,
-            mes: newRow.mes,
-            año: newRow.año,
-            estado: newRow.estado,
-            nota: newRow.nota,
-            isNew: false 
-        };
-        setDetalle(detalle.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
     };
 
     const cols:GridColDef[] = [

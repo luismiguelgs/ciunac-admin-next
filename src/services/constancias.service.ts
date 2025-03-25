@@ -24,7 +24,9 @@ export class ConstanciasService
                 updateAt: serverTimestamp()
             }
         }else{
-           data = obj;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { isNew, ...cleanObj } = obj;
+            data = cleanObj;
         }
 
         let docRef = null
@@ -153,17 +155,24 @@ export class ConstanciasService
     public static async fetchItemsDetalle(id:string): Promise<IconstanciaDetalle[]>
     {
         try{
-            const q = query(this.db(Collection.CONSTANCIAS_NOTAS),where('id_constancia','==',id))
+            const q = query(this.db(Collection.CONSTANCIAS_NOTAS), where('id_constancia', '==', id))
             const snapShot = await getDocs(q)
-            const data = snapShot.docs.map((item)=>{
-                return{
-                   ...item.data(),
-                    id: item.id,
-                } as IconstanciaDetalle
-            })
-            return data
+            
+            if (snapShot.empty) {
+                console.log('No matching documents for id_constancia:', id);
+                return [];
+            }
+
+            const data = snapShot.docs.map((doc) => {
+                const docData = doc.data();
+                return {
+                    ...docData,
+                    id: doc.id,
+                } as IconstanciaDetalle;
+            });
+            return data;
         }
-        catch(err){
+        catch(err: unknown){
             if (err instanceof Error) {
                 console.error('Error al mostrar el elemento:', err.message);
             } else {

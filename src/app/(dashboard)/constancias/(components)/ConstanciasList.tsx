@@ -39,7 +39,7 @@ export default function ConstanciasList({rows, setRows, printed}: Props)
 	const handleDetails = (id:GridRowId) => {
         setID(id)
 		if(printed){
-			navigate.push(`./constancias/impresos/${id}`)
+			navigate.push(`../constancias/${id}`)
 		}else{
 			navigate.push(`./constancias/${id}`)
 		}
