@@ -10,11 +10,12 @@ import {  useFacultiesStore } from '@/store/types.stores';
 
 type Props = {
     item: IProspecto
+    tipoTrabajador: string
     imagen_dni: string
     edit:boolean
 }
 
-export default function BasicInfo({item, edit, imagen_dni}:Props) 
+export default function BasicInfo({item, tipoTrabajador, edit, imagen_dni}:Props) 
 {
     const faculties = useStore(useFacultiesStore, (state) => state.faculties)
     const isPdf = imagen_dni?.split('?')[0].slice(-3) === 'pdf'
@@ -112,6 +113,16 @@ export default function BasicInfo({item, edit, imagen_dni}:Props)
                         label="Email"
                         slotProps={{ inputLabel: { shrink: true, } }}
                         helperText={false && "Campo requerido, mínimo 8 dígitos"}
+                    />
+                </Grid>
+                <Grid size={{xs: 12, sm: 6}}>
+                    <MySelect 
+                        data={[{value:'DOCENTE',label:'DOCENTE Y FAMILIARES'},{value:'ADMINISTRATIVO',label:'ADMINISTRATIVO CAS/NOMBRADO'}]}
+                        name='tipo_trabajador'
+                        disabled={!edit}
+                        handleChange={()=>{}}
+                        label='Tipo de Trabajador'
+                        value={tipoTrabajador}
                     />
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}} alignContent='center'>

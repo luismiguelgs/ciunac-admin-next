@@ -88,7 +88,7 @@ export async function exportToExcel(data:Isolicitud[])
   window.URL.revokeObjectURL(url);
 }
 const formatearDatos =(data:Isolicitud[]) =>{
-	const excelData:string[][] = [['Online','Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Recibo','Estado','Fecha']]
+	const excelData:string[][] = [['Online','Apellidos','Nombres','DNI','Idioma','Nivel','Pago','Fecha Pago','Recibo','Estado','Fecha Solicitud','Trabajador','Tipo Trabajador']]
 	data.forEach((row)=>{
 		excelData.push([
       row.manual? 'MANUAL': 'ONLINE',
@@ -98,9 +98,12 @@ const formatearDatos =(data:Isolicitud[]) =>{
 			row.idioma, 
 			row.nivel, 
 			row.pago, 
+      row.fecha_pago || '',
 			row.numero_voucher || '', 
 			row.estado || '',
       row.creado || '',
+      row.trabajador? 'SI': 'NO',
+      row.tipo_trabajador || '',
 		])
 	})
 	return excelData

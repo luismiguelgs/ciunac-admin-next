@@ -28,6 +28,7 @@ export default function ReportCertificate()
     
     React.useEffect(()=>{
         SolicitudesService.fetchItemQueryDate(setData,fechaInicial,fechaFinal)
+        console.log(data)
     },[fechaInicial,fechaFinal]);
 
     //aumenta un dia la fecha final

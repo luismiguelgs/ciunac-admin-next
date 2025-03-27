@@ -32,6 +32,8 @@ export default function FinInfo({item, handleChange, edit}:Props)
         item.modificado = fechaM.toLocaleString()
     }
 
+    console.log(item)
+
     return (
         <Grid container spacing={2} p={2}>
             <Grid size={{xs: 12, md: 6}}>
@@ -45,6 +47,18 @@ export default function FinInfo({item, handleChange, edit}:Props)
                         value={item.solicitud as string}
                         data={documents}
                 />}
+                </Grid>
+                <Grid size={{xs: 12}}>
+                    <MySelect 
+                        data={[{value:'DOCENTE',label:'DOCENTE Y FAMILIARES'},{value:'ADMINISTRATIVO',label:'ADMINISTRATIVO CAS/NOMBRADO'}]}
+                        name='tipo_trabajador'
+                        sx={{mb:2}}
+                        disabled={!edit}
+                        label='Tipo de Trabajador'
+                        value={item.tipo_trabajador as string}
+                        handleChange={handleChange}
+                        
+                    />
                 </Grid>
                 <Grid size={{xs: 12}}>
                     <TextField

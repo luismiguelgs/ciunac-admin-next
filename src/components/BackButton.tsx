@@ -3,10 +3,12 @@ import { useRouter } from 'next/navigation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 type Props = {
-	fullWidth?: boolean
+	fullWidth?: boolean,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+  sx?: any,
 }
 
-const BackButton = ({fullWidth=false}:Props) => {
+const BackButton = ({fullWidth=false, sx}:Props) => {
   const router = useRouter();
 
   // Función para navegar atrás
@@ -17,7 +19,7 @@ const BackButton = ({fullWidth=false}:Props) => {
   return (
     <Button 
 		fullWidth={fullWidth}
-      	sx={{mr:1}} 
+      	sx={{...sx, mr:1}} 
 		onClick={handleBack} 
 		variant="contained" 
 		color="secondary" 

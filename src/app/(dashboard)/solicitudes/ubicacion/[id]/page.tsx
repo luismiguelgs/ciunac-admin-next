@@ -61,7 +61,13 @@ export default function RequestUbicationDetail(params: {params:{id: string}})
         },
         {
             title: 'Información de Alumno',
-            content: prospecto && (<BasicInfo item={prospecto as IProspecto} edit={false} imagen_dni={solicitud?.img_dni as string}/>),
+            content: prospecto && (
+                <BasicInfo 
+                    item={prospecto as IProspecto} 
+                    edit={false} 
+                    imagen_dni={solicitud?.img_dni as string}
+                    tipoTrabajador={solicitud?.tipo_trabajador as string}
+                />),
             disabled: false
         },
         {
@@ -69,7 +75,6 @@ export default function RequestUbicationDetail(params: {params:{id: string}})
             content: solicitud && (<InfoExtra item={solicitud}/>),
             disabled: false
         },
-
     ]
 
     return (

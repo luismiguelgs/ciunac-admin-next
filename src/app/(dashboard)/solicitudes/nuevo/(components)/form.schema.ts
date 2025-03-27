@@ -28,7 +28,8 @@ const validationSchema = yup.object<Isolicitud>({
         is:true,
         then: (schema:yup.Schema) => schema.optional().nullable(),
         otherwise: (schema:yup.Schema) => schema.required(msgReq)
-    })
+    }),
+    tipo_trabajador: yup.string().trim()
 })
 const initialValues: Isolicitud = {
     solicitud: '',
@@ -46,6 +47,7 @@ const initialValues: Isolicitud = {
     fecha_pago: null, //dayjs(new Date()),
     trabajador: false,
     creado: null,
+    tipo_trabajador: '',
 }
 
 export {validationSchema, initialValues}
