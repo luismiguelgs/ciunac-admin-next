@@ -32,7 +32,7 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                     error={formik.touched.alumno && Boolean(formik.errors.alumno)}
                     type="text"
                     fullWidth
-                    disabled={id !== 'nuevo'}
+                    disabled={id !== 'nuevo' && !edit}
                     variant="outlined"
                     onChange={formik.handleChange}
                     helperText={formik.touched.alumno && formik.errors.alumno}

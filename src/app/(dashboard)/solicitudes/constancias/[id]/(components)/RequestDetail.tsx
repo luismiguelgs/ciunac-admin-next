@@ -10,12 +10,12 @@ import PowerIcon from '@mui/icons-material/Power';
 import { Chip, Typography } from '@mui/material'
 import { PanelData } from '@/components/MUI/MyAccordion'
 import { Isolicitud } from '@/interfaces/solicitud.interface'
-import BasicInfo from './BasicInfo'
-import FinanceInfo from './FinanceInfo'
+import BasicInfo from '../../../(componets)/BasicInfo'
+import FinanceInfo from '../../../(componets)/FinanceInfo'
 import BackButton from '@/components/BackButton'
 import IProspecto from '@/interfaces/prospecto.interface'
 import ProspectosService from '@/services/prospectos.service'
-import InfoExtra from './InfoExtra';
+import InfoExtra from '../../../(componets)/InfoExtra';
 
 export default function RequestDetail(props:{id:string}) 
 {

@@ -4,7 +4,6 @@ import React from 'react'
 import { collection, onSnapshot, query, where} from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
 
-
 const columns: Column[] = [
     { id: 'anno', label: 'Año', minWidth: 60 },
     { id: 'ciclo', label: 'Ciclo', minWidth: 60 },
@@ -12,9 +11,9 @@ const columns: Column[] = [
     { id: 'profesor', label: 'Profesor', minWidth: 90, align: 'right' },
 ];
 
-
 export default function Info2010(props:{id:string}) 
 {
+    console.log(props.id)
     const [data, setData] = React.useState<I2010[]>([])
     const collectionRef = collection(firestore,'solicitudes_2010')
     const itemQuery = query(collectionRef, where('documento',"==",props.id))

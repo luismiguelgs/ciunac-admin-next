@@ -141,7 +141,6 @@ export default function BasicInfo({item, tipoTrabajador, edit, imagen_dni}:Props
                        (<img src={noImage.src} width='100%'/>)
             }
             </Grid>
-            
         </Grid>
     )
 }

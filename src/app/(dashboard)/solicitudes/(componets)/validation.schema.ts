@@ -18,7 +18,7 @@ export const validationSchemaFinance = yup.object<Isolicitud>({
         is:true,
         then: (schema:yup.Schema) => schema.optional().nullable(),
         otherwise: (schema:yup.Schema) => schema.required(msgReq)
-    })
+    }),
 })
 
 export const validationSchemaBasic = yup.object<Isolicitud>({
@@ -26,4 +26,5 @@ export const validationSchemaBasic = yup.object<Isolicitud>({
     nombres: yup.string().required(msgReq),
     dni: yup.string().required(msgReq),
     celular : yup.string().required(msgReq),
+    tipo_trabajador: yup.string()
 })

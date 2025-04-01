@@ -9,25 +9,25 @@ type Props = {
 }
 
 const BackButton = ({fullWidth=false, sx}:Props) => {
-  const router = useRouter();
+	const router = useRouter();
 
-  // Función para navegar atrás
-  const handleBack = () => {
-    router.back();
-  };
+	// Función para navegar atrás
+	const handleBack = () => {
+		router.back();
+	};
 
-  return (
-    <Button 
-		fullWidth={fullWidth}
-      	sx={{...sx, mr:1}} 
-		onClick={handleBack} 
-		variant="contained" 
-		color="secondary" 
-		startIcon={<ArrowBackIcon />}
-	>
-        Atras
-    </Button>
-  );
+	return (
+		<Button 
+			fullWidth={fullWidth}
+			sx={{...sx, mr:1}} 
+			onClick={handleBack} 
+			variant="contained" 
+			color="secondary" 
+			startIcon={<ArrowBackIcon />}
+		>
+			Atras
+		</Button>
+	);
 };
 
 export default BackButton;

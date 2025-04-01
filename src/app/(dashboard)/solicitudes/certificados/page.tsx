@@ -83,6 +83,7 @@ export default function RequestsCertificatesPage()
 				title="Detalle de Solicitud"
 				content={<RequestDetail
 					id={ID as string} 
+					setOpen={setOpenDialogFullDetail}
             	/>}
         	/>
 		</React.Fragment>
