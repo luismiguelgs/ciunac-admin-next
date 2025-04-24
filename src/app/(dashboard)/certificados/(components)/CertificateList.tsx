@@ -46,7 +46,10 @@ export default function CertificateList({rows, setRows, printed}:Props)
         );
         await CertificadosService.updateStatus(Collection.Certificados,id as string, checked)
         const info = rows.find((row) => row.id === id)
-        await SolicitudesService.updateStatus(info?.id_solicitud as string, 'ELABORADO')
+        if(checked)
+            await SolicitudesService.updateStatus(info?.id_solicitud as string, 'ENTREGADO')
+        else
+            await SolicitudesService.updateStatus(info?.id_solicitud as string, 'ELABORADO')
     }
     const handleConfirmDelete = async () => {
         if (ID) {

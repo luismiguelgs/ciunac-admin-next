@@ -50,7 +50,7 @@ export default function RequestsCertificatesPage()
                             subjects={subjects}/>,
 					},
 					{
-						label: 'Elaboaradas',
+						label: 'En Proceso',
 						content: <RequestState 
                             handleDelete={handleDelete}
                             handleDetails={handleDetails}

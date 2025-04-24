@@ -17,6 +17,7 @@ import ButtonAsignRequest from "../../../../components/ButtonAsignRequest";
 import { Isolicitud } from "@/interfaces/solicitud.interface";
 import { PROGRAMAS } from "@/lib/constants";
 import  LoadingDialog  from"@/components/MUI/Dialogs/DialogLoading"
+import SolicitudesService from "@/services/solicitudes.service";
 
 export default function CertificateNew({ session }: { session: Session | null }) 
 {
@@ -41,8 +42,9 @@ export default function CertificateNew({ session }: { session: Session | null })
                 fecha_emision: dayjs(values.fecha_emision).toDate(),
                 fecha_conclusion: dayjs(values.fecha_conclusion).toDate()
             } as Icertificado;
-            //alert(JSON.stringify(values,null, 2))
+            
             const id = await CertificadosService.newItem(Collection.Certificados, formattedValues)
+            await SolicitudesService.updateStatus(values?.id_solicitud as string, 'ELABORADO')
             setId(id as string)
             navigate.push(`./${id}`)
             setLoading(false)

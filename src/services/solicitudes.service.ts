@@ -21,8 +21,6 @@ export default class SolicitudesService
             obj.alumno_id = ''
         }
 
-        
-
         const data = {
             ...obj,
             estado:'NUEVO',
@@ -83,58 +81,26 @@ export default class SolicitudesService
         onSnapshot(itemQuery, (data)=>{
     
             setData(data.docs.map((item) => {
-                const creado = tipoSolicitud === 'EXAMEN'
-                    ? changeDate(item.data().creado, false, true)//new Date(changeDate(item.data().creado, false, true) as string)
-                    : changeDate(item.data().creado, true, true);
-    
+                const raw = item.data();
                 return {
-                    ...item.data(),
+                    ...raw,
                     id: item.id,
-                    creado
+                    creado : raw.creado && typeof raw.creado.toDate === 'function' ? raw.creado.toDate() : raw.creado,
+                    modificado: raw.modificado && typeof raw.modificado.toDate === 'function' ? raw.modificado.toDate() : raw.modificado,
                 } as Isolicitud;
             }));
         });
-        /*
-        if(certificados){
-            itemQuery =  query(
-                this.db, 
-                where('estado',"==",searchParams),
-                where('solicitud',"!=",'EXAMEN_DE_UBICACION'),
-                orderBy('creado','asc')
-            )
-            onSnapshot(itemQuery, (data)=>{
-                setData(data.docs.map((item)=>{
-                      return { ...item.data(), id:item.id, creado: changeDate(item.data().creado,true,true) } as Isolicitud
-                }));
-            });
-        }else{
-              if (searchParams){
-                  itemQuery =  query(
-                      this.db, 
-                      where('estado',"==",searchParams),
-                      where('solicitud',"==",'EXAMEN_DE_UBICACION'),
-                      orderBy('creado','asc')
-                  )
-              }else{
-                  itemQuery =  query(
-                      this.db, 
-                      where('solicitud',"==",'EXAMEN_DE_UBICACION'),
-                      orderBy('creado','asc')
-                  )
-              }
-              onSnapshot(itemQuery, (data)=>{
-                  setData(data.docs.map((item)=>{
-                      return { ...item.data(), id:item.id, creado:new Date(changeDate(item.data().creado,false,true) as string) } as Isolicitud
-                  }));
-              });
-        }   
-        */
     }
     public static async fetchItemsWODate():Promise<Isolicitud[]>{
         const querySnapshot = await getDocs(this.db)
         const data = querySnapshot.docs.map((item)=>{
-            //console.log(item.data());
-            return { ...item.data(), id:item.id, creado: changeDate(item.data().creado,false), modificado: changeDate(item.data().modificado,false)} as Isolicitud
+            const raw = item.data();
+            return { 
+                ...raw, 
+                id: item.id,
+                creado: raw.creado && typeof raw.creado.toDate === 'function' ? raw.creado.toDate() : raw.creado,
+                modificado: raw.modificado && typeof raw.modificado.toDate === 'function' ? raw.modificado.toDate() : raw.modificado,
+            } as Isolicitud
         })
         
         return data

@@ -8,12 +8,16 @@ export default function MyLineChart(props:{data: Isolicitud[]})
 	//console.log(props.data);
     //filtrar por el año actual
     const añoActual = new Date().getFullYear();
-    const objetosConAñoActual = props.data.filter(objeto => parseInt((objeto.creado as string).split('/')[2]) === añoActual);
+    //const objetosConAñoActual = props.data.filter(objeto => parseInt((objeto.creado as string).split('/')[2]) === añoActual);
+
+    const objetosConAñoActual = props.data.filter(objeto => Number(objeto?.periodo) === añoActual);
 
     const mes = []
 
     for (let index = 0; index < 12; index++) {
-      mes[index] = objetosConAñoActual.filter(objeto => parseInt((objeto.creado as string).split('/')[1]) === index + 1)
+      	//mes[index] = objetosConAñoActual.filter(objeto => parseInt((objeto.creado as string).split('/')[1]) === index + 1)
+
+        mes[index] = objetosConAñoActual.filter(objeto => Number(objeto?.periodo?.slice(-2)) === index + 1);
     }
 
     // Datos para el gráfico de líneas

@@ -4,19 +4,32 @@ import { Isolicitud } from '@/interfaces/solicitud.interface';
 import { IUsuario } from "@/interfaces/usuario.interface";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function formatDate(fecha:any, whours=false):string{
-    const date = new Date(fecha)
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-    if(whours){
-      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-    }
-    return `${day}/${month}/${year}`;  
-    
+export function formatDate(createdValue:any)
+{
+	if (!createdValue) return ''; // Si no hay valor, devuelve cadena vacía
+
+	let date: Date | null = null;
+
+	// Intenta obtener un objeto Date válido
+	if (createdValue instanceof Date && !isNaN(createdValue.getTime())) {
+		date = createdValue;
+	} else {
+		const parsedDate = new Date(createdValue);
+		if (!isNaN(parsedDate.getTime())) {
+			date = parsedDate;
+		}
+	}
+
+	// Si tenemos una fecha válida, la formateamos
+	if (date) {
+		return date.toLocaleString('es-PE', { // Usar locale adecuado
+		year: 'numeric', month: '2-digit', day: '2-digit',
+		hour: '2-digit', minute: '2-digit', second: '2-digit'
+		});
+	}
+
+	// Si no se pudo obtener una fecha válida, devuelve el valor original si es string, o vacío
+	return typeof createdValue === 'string' ? createdValue : '';
 }
 
 export const changeDate = (date:Timestamp, hora=true, formato=false):string|undefined => {

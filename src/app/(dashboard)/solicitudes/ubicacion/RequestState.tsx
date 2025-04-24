@@ -14,6 +14,7 @@ import { IBaseData } from '@/interfaces/types.interface';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useRouter } from 'next/navigation';
 import { getIconByCode } from '@/lib/common';
+import { formatDate } from '@/lib/utils';
 
 function MyCustomToolbar(props: GridToolbarContainerProps){
     return(
@@ -76,9 +77,10 @@ export function RequestState(props:{state:string, documents?:IBaseData[]|undefin
                     </span>
                 </strong>
             ),
-            valueFormatter: (value) => {
-                return (value as string).split('-').reverse().join('-')
-            } 
+            valueGetter: (_value, row) => { // Accede a la fila para obtener 'creado'
+                const createdValue = row.creado;
+                return formatDate(createdValue);
+            },
         },
         { field: 'apellidos', type: 'string', headerName: 'APELLIDOS', width:160 },
         { field: 'nombres', type: 'string', headerName: 'NOMBRES', width:160 },

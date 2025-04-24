@@ -73,9 +73,10 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
                     </span>
                 </strong>
             ),
-            valueFormatter: (value) => {
-                formatDate(value)
-            } 
+            valueGetter: (_value, row) => { // Accede a la fila para obtener 'creado'
+                const createdValue = row.creado;
+                return formatDate(createdValue);
+            },
         },
         { field: 'apellidos', type: 'string', headerName: 'APELLIDOS', width:160 },
         { field: 'nombres', type: 'string', headerName: 'NOMBRES', width:160 },

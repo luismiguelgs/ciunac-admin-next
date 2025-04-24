@@ -19,10 +19,10 @@ export const MESES = [
 ]
 
 export const ESTADO = [
-    {value:'NUEVO',label:'Nuevo'},
-    {value:'ASIGNADO',label:'Asignado'},
-    {value:'ELABORADO',label:'Elaborado'},
-    {value:'ENTREGADO',label:'Entregado'},
+    {value:'NUEVO',label:'NUEVO'},
+    {value:'ASIGNADO',label:'ASIGNADO'},
+    {value:'ELABORADO',label:'EN PROCESO'},
+    {value:'ENTREGADO',label:'TERMINADO'},
 ]
 export const ESTADO_EXAMEN = [
     {value:'PROGRAMADO',label:'Programado'},
