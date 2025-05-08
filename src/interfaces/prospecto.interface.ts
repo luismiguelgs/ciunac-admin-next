@@ -5,6 +5,7 @@ export default interface IProspecto {
     apellidos: string,
     telefono: string,
     facultad: string,
+    escuela: string,
     email?: string,
     codigo?: string
     trabajador : boolean,

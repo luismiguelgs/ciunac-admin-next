@@ -2,7 +2,7 @@ import MyTabs, { PanelTab } from '@/components/MUI/MyTabs'
 import { Box } from '@mui/material'
 import React from 'react'
 import OptText from './(components)/OptText'
-import OptDocuments from './(components)/OptDocuments'
+import OpDocuments from '@/modules/opciones/components/OpDocuments'
 import OptSubjects from './(components)/OptSubjects'
 import OptFaculties from './(components)/OptFaculties'
 
@@ -11,7 +11,7 @@ export default function OptionsPage()
 	const panels:PanelTab[] = [
         {
           label: 'Solicitudes',
-          content: <OptDocuments />
+          content: <OpDocuments />
         },
         {
           label: 'Textos',

@@ -37,6 +37,7 @@ export default function LeadsForm({ onSubmit, data }: Props)
             facultad: data?.facultad ? data.facultad : 'PAR',
             email: data?.email ? data.email : '',
             codigo: data?.codigo ? data.codigo : '',
+            escuela: data?.escuela? data.escuela : '',
             trabajador: data?.trabajador ? data.trabajador : false
         },
         validationSchema: validationSchema,

@@ -16,27 +16,26 @@ const cols:GridColDef[] = [
     {field: 'precio', headerName: 'PRECIO S/', editable: true},
     {field: 'creado', headerName: 'CREADO', editable:false, width:160},
 ]
-export default function OptDocuments() 
+export default function OpDocuments() 
 {
     const loadData = async () => {
         const data = await OpcionesService.fetchItems<Icertificado>(Collection.Certificados)
-        setCertificados(data)
+        setRows(data)
     }
     //Hooks *****************************************************************
     const documents = useStore(useDocumentsStore, (state) => state.documents)
-    const [ certificados, setCertificados ] = React.useState<Icertificado[] | undefined>([])
     const [ openDialog, setOpenDialog ] = React.useState<boolean>(false)
-    const [rows, setRows] = React.useState<Icertificado[]>(certificados as Icertificado[])
+    const [rows, setRows] = React.useState<Icertificado[]>([])
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const [idToDelete, setIdToDelete] = React.useState<GridRowId | null>(null);
 
     React.useEffect(()=>{
-        setCertificados(documents)
+        if(!documents){
+            loadData()
+        }else{
+            setRows(documents as Icertificado[])
+        }
     },[])
-
-    React.useEffect(()=>{
-        loadData()
-    },[rows])
 
     //Dialog ***************************************************************
     const handleConfirmDelete = async () => {

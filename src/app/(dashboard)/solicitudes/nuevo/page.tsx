@@ -23,6 +23,7 @@ export default function NewRequestPage()
             apellidos: (values.apellidos as string).toLocaleUpperCase(),
             telefono: values.celular as string,
             facultad: values.facultad as string,
+            escuela: values.escuela as string || '',
             email: values.email || '', 
             codigo: values.codigo,
             trabajador: values.trabajador as boolean,

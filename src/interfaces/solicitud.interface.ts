@@ -10,6 +10,7 @@ export interface Isolicitud {
     codigo?:string,
     dni?:string,
     email?:string,
+    escuela?:string,
     idioma?:string,
     nivel?:string,
     numero_voucher?:string,

@@ -42,9 +42,10 @@ export default class SolicitudesService
             }
 		}
   	}
-    public static fetchItemQuery( setData:React.Dispatch<React.SetStateAction<Isolicitud[]>>, searchParams:string | null,  tipoSolicitud: 'EXAMEN' | 'CONSTANCIAS' | 'CERTIFICADO' ="CERTIFICADO")
+    public static fetchItemQuery( setData:React.Dispatch<React.SetStateAction<Isolicitud[]>>, searchParams:string | null,  tipoSolicitud:'BECA'| 'EXAMEN' | 'CONSTANCIAS' | 'CERTIFICADO' ="CERTIFICADO")
     {
         let itemQuery: Query
+        const condicionesBecas = ['BECA']
         const condicionesExamen = ['EXAMEN_DE_UBICACION'];
         const condicionesCertificados = ['CERTIFICADO_DE_ESTUDIO', 'DUPLICADO_DE_CERTIFICADO'];
         const condicionesConstancias = ['CONSTANCIA_DE_MATRICULA', 'CONSTANCIA_DE_NOTAS'];
@@ -73,7 +74,13 @@ export default class SolicitudesService
                     orderBy('creado','asc')
                 ); 
                 break; 
-
+            case 'BECA':
+                itemQuery = query(this.db,
+                    where('estado',"==",searchParams),
+                    where('solicitud',"in",condicionesBecas),
+                    orderBy('creado','asc')
+                );
+                break;
             default:
                 throw new Error('Tipo de solicitud no válido');
         }

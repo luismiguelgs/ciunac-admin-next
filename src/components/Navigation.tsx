@@ -15,6 +15,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import PrintIcon from '@mui/icons-material/Print';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import Groups2Icon from '@mui/icons-material/Groups2';
+import SchoolIcon from '@mui/icons-material/School';
 
 const NAVIGATION: Navigation = [
     {
@@ -58,6 +59,11 @@ const NAVIGATION: Navigation = [
           title: 'Examen de Ubicación',
           icon: <TranslateIcon />,
         },
+		{
+			segment: 'becas',
+			title: 'Becas CIUNAC',
+			icon: <SchoolIcon />
+		},
       ],
     },
     {

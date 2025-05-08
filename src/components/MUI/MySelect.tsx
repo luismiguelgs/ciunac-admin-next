@@ -1,4 +1,4 @@
-import { MenuItem, TextField } from '@mui/material'
+import { MenuItem, TextField, TextFieldVariants } from '@mui/material'
 import React from 'react'
 
 type Props = {
@@ -10,18 +10,20 @@ type Props = {
     helperText?: React.ReactNode,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data:any[] | undefined,
+    variant?:TextFieldVariants,
     error?:boolean,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     sx?:any
 }
 
-export default function MySelect({disabled=false,name,handleChange,label, helperText='', data,value,error=false, sx={}}:Props) {
+export default function MySelect({variant='outlined', disabled=false,name,handleChange,label, helperText='', data,value,error=false, sx={}}:Props) {
   return (
     <React.Fragment>
         <TextField
             select
             disabled={disabled}
             fullWidth
+            variant={variant}
             onChange={e=>handleChange(e)}
             name={name}
             label={label}
