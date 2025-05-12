@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid2';
 import React from 'react'
 import InfoStudent from './infoStudent';
 import InfoSol from './infoSol';
+import Observaciones from './observaciones';
 
 type TEstado = 'NUEVO' | 'APROBADO' | 'RECHAZADO'
 
@@ -65,6 +66,11 @@ export default function RequestDetail(props:{id:string})
             content: solicitud && (<InfoSol item={solicitud} />),
             disabled: false
         },
+        {
+            title: 'Observaciones',
+            content: solicitud && (<Observaciones item={solicitud} />),
+            disabled: false
+        }
     ]
 
     return (

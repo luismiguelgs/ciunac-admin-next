@@ -29,6 +29,7 @@ export interface Isolicitud {
     manual?:boolean,
     tipo_trabajador?:string,
     alumno_id?: string,
+    observaciones?:string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     creado?:any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

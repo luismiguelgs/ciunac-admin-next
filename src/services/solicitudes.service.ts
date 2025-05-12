@@ -179,6 +179,14 @@ export default class SolicitudesService
             }));
         });
     }
+    public static updateComentario = (id:string, comentario:string) =>{
+        const dataToUpdate = doc(firestore, this.dataCollection, id);
+        console.log(comentario, id)
+        updateDoc(dataToUpdate,{
+          observaciones:comentario,
+          modificado: serverTimestamp()
+        }).then(()=>{console.log('updateObs');}).catch((err)=>console.log(err.message));
+    }
     public static updateStatus = (id:string, status:string) =>{
         const dataToUpdate = doc(firestore, this.dataCollection, id);
         updateDoc(dataToUpdate,{
