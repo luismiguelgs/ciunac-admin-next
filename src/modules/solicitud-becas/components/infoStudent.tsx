@@ -9,6 +9,7 @@ import { ESCUELAS } from '@/lib/constants';
 
 export default function InfoStudent({item}:{item:IProspecto}) 
 {
+    console.log(item)
     const faculties = useStore(useFacultiesStore, (state) => state.faculties)
 
     return (
