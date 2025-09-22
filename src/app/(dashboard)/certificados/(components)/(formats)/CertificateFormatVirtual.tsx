@@ -1,15 +1,19 @@
 'use client'
-import { StyleSheet, Document, Page, View, Text, Font, Image } from '@react-pdf/renderer'
+import { StyleSheet, Document, Page, View, Text, Font, Image, Link } from '@react-pdf/renderer'
 import QRCode from 'qrcode'
 import waterMark from '@/assets/unac-logo.png'
+import firmaDirector from '@/assets/firma-director.png'
 import logoCiunac from '@/assets/logo-ciunac-trans.png'
+import logoUnac from '@/assets/unac-logo.png'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
 import React from 'react'
 import CertificadosService from '@/services/certificados.service'
 import { capitalizeFirstLetterOfEachWord } from '@/lib/utils'
+import banderas from '@/assets/banderas.png'
 
 Font.register({family:'Dancing Script', src:'/fonts/DancingScript-VariableFont_wght.ttf'})
 Font.register({family: 'PinyonScript', src:'/fonts/PinyonScript-Regular.ttf'})
+Font.register({family:'Roboto', src:'https://fonts.gstatic.com/s/roboto/v16/zN7GBFwfMP4uA6AR0HCoLQ.ttf'})
 Font.register({family: 'Roboto-Bold', src:'/fonts/Roboto-Bold.ttf'})
 
 export const generateSessionPDFQrCode = async (
@@ -25,8 +29,18 @@ const styles = StyleSheet.create({
 		paddingTop: 25,
     	paddingBottom: 25,
 		paddingHorizontal: 10,
-		backgroundColor: '#FAEBD7'
+		backgroundColor: '#FCFCF0'
 	},
+	header:{
+		flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+	},
+	subtitle: {
+        fontSize: 14,
+        marginTop: 5,
+    },
 	waterMark: {
 		position: 'absolute',
 		top: '35%',
@@ -100,6 +114,7 @@ const styles = StyleSheet.create({
         textAlign: 'center', // Centrado del texto
         width: 'auto', // Ajusta el ancho al contenido
         alignSelf: 'center', // Centrado horizontal
+		marginLeft: 55,
 	},
 	doubleText: {
 		fontFamily: 'Roboto-Bold', // Fuente Roboto-Bold
@@ -107,7 +122,18 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		alignSelf: 'center',
         textTransform: 'uppercase', // Convierte el texto a mayúsculas
-	}
+	},
+	banner: {
+		position: 'absolute',
+		bottom: 5,
+		left: 0,
+		right: 0,
+		flexDirection: 'row',
+		alignItems: 'flex-end',
+	},
+	bannerImage: {
+		height: 14,
+	},
 })
 
 type Props = {
@@ -157,37 +183,39 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
     return (
         <Document>
 			{/********************** PAGE 1 ********************/}
-            <Page size="A4" style={[styles.page, {paddingHorizontal:75}]}>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2 }}>
-					<View>
-						<Image src={waterMark.src} style={{width: 70, height: 100}} />
-					</View>
-					<View style={{alignItems: 'center', flexDirection: 'column'}}>
-						<Text style={{fontSize: 20, fontFamily:'Roboto-Bold', marginTop: 10}} fixed>UNIVERSIDAD NACIONAL DEL CALLAO</Text>
-						<Text style={{fontSize: 16, fontFamily:'Roboto-Bold', marginTop: 2}} fixed>VICERRECTORADO ACADÉMICO</Text>
-						<Text style={{fontSize: 16, fontFamily:'Roboto-Bold', marginTop: 2}} fixed>CENTRO DE IDIOMAS</Text>
-					</View>
-				</View>
+            <Page size="A4" style={[styles.page, {paddingHorizontal:25}]}>
+				<View style={styles.header}>
+                    {/* Logo izquierdo */}
+                    <Image src={logoUnac.src} style={{width: 80, height: 110}} />
+                    {/* Textos en el medio */}
+					<View style={{textAlign: 'center', fontFamily: 'Roboto', flex: 1, alignItems: 'center', marginLeft: 20}}>
+                        <Text style={{fontSize: 18, fontWeight: 'bold', fontFamily: 'Roboto-Bold'}}>UNIVERSIDAD NACIONAL DEL CALLAO</Text>
+                        <Text style={{fontSize: 25, fontWeight: 'bold', fontFamily: 'Roboto-Bold'}}>CENTRO DE IDIOMAS</Text>
+                    </View>
+                    {/* Logo derecho */}
+                    <Image src={logoCiunac.src} style={{width: 100, height: 100}} />
+                </View>
+
 				{/* Marca de agua */}
                 <Image src={waterMark.src} style={styles.waterMark} />
 
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom:2, marginTop: 1 }}>
+				{/* Subtítulo */}  			
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginBottom:2, marginTop: 1 }}>
 					<View>
-						<Text style={{fontSize: 20, fontFamily:'Dancing Script', marginTop: 120}} fixed>El director del Centro de Idiomas</Text>
-					</View>
-					<View>
-						<Image style={{ width: 120, marginTop: 10 }} src={QRCode} />
+						<Text style={{fontSize: 20, fontFamily:'Dancing Script', textAlign: 'center', marginTop: 10}} fixed>El director del Centro de Idiomas</Text>
 					</View>
 				</View>
-				
-				<Text style={{fontSize: 70, textAlign: 'center', fontFamily: 'PinyonScript', marginTop: 40, marginBottom: 40}} fixed>Certifica</Text>
-				<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom:2 }}>
+  				
+				<Text style={{fontSize: 70, textAlign: 'center', fontFamily: 'PinyonScript', marginTop: 20, marginBottom: 40}} fixed>Certifica</Text>
+
+				{/* Certificado */}
+				<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom:2, paddingHorizontal:55 }}>
 					<Text style={styles.text2}>Que</Text>
 					<View style={{ flexGrow: 1, borderBottomWidth: 1, borderBottomColor: 'black', borderBottomStyle: 'solid', marginLeft: 5, marginRight: 5 }}>
 						<Text style={styles.alumno}>{capitalizeFirstLetterOfEachWord(alumno)}</Text>
 					</View>
 				</View>
-				<View>
+				<View style={{ paddingHorizontal:55 }}>
 					{
 						formato === 1 ? 
 						(
@@ -225,19 +253,36 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 						}
 						{/*<Image style={{ width: 120 }} src={QRCode} />*/}
 					</View>
-					<View>
+					<View style={{paddingRight:55}}>
 						<Text style={styles.text2}>
 							Callao, <Text style={{ fontSize: 16, fontWeight: 'bold'}}>
 								{fecha_emision}</Text>
 						</Text>
 						{/*<Image style={{marginBottom: 10, marginHorizontal: 20, width: 150, marginTop: 30}} src={selloDirector.src}/>*/}
-					</View>
+	  				</View>
 				</View>
+				{/* Firma */}
+				<View style={{ alignItems: 'flex-start', marginTop: 5, paddingLeft:55 }}>
+					<View style={{ width: 200, alignItems: 'center', marginBottom: 6 }}>
+						<Image style={{ width: 80 }} src={firmaDirector.src} />
+					</View>
+					<View style={{ width: 200, borderBottomWidth: 1, borderBottomColor: 'black' }} />
+					<Text style={{ width: 200, fontSize: 12, fontFamily: 'Roboto-Bold', marginTop: 6, textAlign: 'center' }}>Dr. Nestor Gomero Ostos</Text>
+					<Text style={{ width: 200, fontSize: 10, textAlign: 'center' }}>Director del Centro de Idiomas</Text>
+				</View>
+				{/* Espacio para firma digital */}
 				<View style={{marginTop: 10}}>
-					<Text style={[styles.text2,{marginTop: 80}]}>
-						N° de Registro: <Text style={styles.text3}>{numero_folio}</Text>
+					{/* N° de Registro */}
+					<Text style={[styles.text2,{marginTop: 10, paddingLeft:55, fontSize: 14}]}> 
+						N° de Registro: <Text style={[styles.text3,{fontSize: 14}]}>{numero_folio}</Text>
 					</Text>
 				</View>  
+				{/* Banderas inferior - Página 1 */}
+				<View style={styles.banner} fixed>
+					{Array.from({ length: 7 }).map((_, i) => (
+						<Image key={`bandera-p1-${i}`} style={styles.bannerImage} src={banderas.src} />
+					))}
+				</View>
             </Page>
 			{/********************** PAGE 2 ********************/}
             <Page size="A4" style={[styles.page,{paddingHorizontal:65}]}>
@@ -288,11 +333,11 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 					
 				</View>
 				<Text style={{fontSize: 14, textAlign: 'center', fontFamily: 'Dancing Script', marginTop: 5, marginBottom: 20}}>Curso Concluido : {fecha_conclusion}</Text>
-				{/* Espacio para firma digital */}
-				<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 100}}>
+				
+				<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 40}}>
 
 				</View>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 25 }}>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10 }}>
 					<View style={{ fontSize: 10 }}>
 						<Text style={{fontSize: 12, fontWeight: 'bold', fontFamily : 'Roboto-Bold'}}>IMPORTANTE:</Text>
 						<Text>La nota mínima aprobatoria es de 75 puntos</Text>
@@ -319,13 +364,34 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 					</View>
 				</View>
 				<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10 }}>
-					<Image style={{ width: 140 }} src={logoCiunac.src} />
+					<Image style={{ width: 100, marginTop: 10 }} src={QRCode} />
+					<Link src={url} style={{ fontSize: 10, marginTop: 4, color: '#0659A7', textDecoration: 'underline' }}>{url}</Link>
 					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold'}}>
 						Av. Juan Pablo II N° 310 Bellavista - Callao
 					</Text>
-					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold'}}>
-						ciunac.unac.edu.pe - ciunac.certificados@unac.edu.pe
-					</Text>
+					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 4}}>
+						{/* Teléfono */}
+						<View style={{flexDirection: 'row', alignItems: 'center', marginRight: 12}}>
+							<Image src={"https://img.icons8.com/ios-filled/50/000000/phone.png"} style={{ width: 10, height: 10 }} />
+							<Text style={{fontSize: 12, fontFamily: 'Roboto-Bold', marginLeft: 4}}>(01) 4291931</Text>
+						</View>
+						{/* Web */}
+						<View style={{flexDirection: 'row', alignItems: 'center', marginRight: 12}}>
+							<Image src={"https://img.icons8.com/ios-filled/50/000000/internet.png"} style={{ width: 10, height: 10 }} />
+							<Text style={{fontSize: 12, fontFamily: 'Roboto-Bold', marginLeft: 4}}>ciunac.unac.edu.pe</Text>
+						</View>
+						{/* Correo */}
+						<View style={{flexDirection: 'row', alignItems: 'center'}}>
+							<Image src={"https://img.icons8.com/ios-filled/50/000000/new-post.png"} style={{ width: 10, height: 10 }} />
+							<Text style={{fontSize: 12, fontFamily: 'Roboto-Bold', marginLeft: 4}}>ciunac.certificados@unac.edu.pe</Text>
+						</View>
+					</View>
+				</View>
+				{/* Banderas inferior - Página 2 */}
+				<View style={styles.banner} fixed>
+					{Array.from({ length: 7 }).map((_, i) => (
+						<Image key={`bandera-p2-${i}`} style={styles.bannerImage} src={banderas.src} />
+					))}
 				</View>
             </Page>
         </Document>

@@ -38,9 +38,14 @@ export default function CertificateNew({ session }: { session: Session | null })
             // Convert dayjs objects to JavaScript Date objects
             const formattedValues = {
                 ...values,
+                aceptacion: false,
+                impreso: false,
+                duplicado: false,
+                url:'',
                 elaborador: session?.user?.email,
                 fecha_emision: dayjs(values.fecha_emision).toDate(),
-                fecha_conclusion: dayjs(values.fecha_conclusion).toDate()
+                fecha_conclusion: dayjs(values.fecha_conclusion).toDate(),
+                fecha_aceptacion: dayjs(values.fecha_aceptacion).toDate(),
             } as Icertificado;
             
             const id = await CertificadosService.newItem(Collection.Certificados, formattedValues)
@@ -54,6 +59,7 @@ export default function CertificateNew({ session }: { session: Session | null })
     React.useEffect(() => {
         formik.setFieldValue('id_solicitud', dataRequest?.id)
         formik.setFieldValue('alumno', dataRequest?.nombres ?  dataRequest?.apellidos + ' ' +  dataRequest?.nombres  : '')
+        formik.setFieldValue('dni', dataRequest?.dni)
         formik.setFieldValue('idioma', dataRequest?.idioma)
         formik.setFieldValue('nivel', dataRequest?.nivel)
         formik.setFieldValue('elaborador', session?.user?.email)

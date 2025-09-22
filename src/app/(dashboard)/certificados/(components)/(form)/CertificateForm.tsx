@@ -55,6 +55,21 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                 />
             </Grid>
             <Grid size={{xs: 12, sm: 3}}>
+            <TextField
+                    autoFocus
+                    value={formik.values.dni}
+                    name='dni'
+                    disabled={id !== 'nuevo'}
+                    label="Documento de Identidad"
+                    error={formik.touched.dni && Boolean(formik.errors.dni)}
+                    type="number"
+                    fullWidth
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    helperText={formik.touched.dni && formik.errors.dni}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
                 <SelectSubjects 
                     disabled={id !== 'nuevo'}
                     error={formik.touched.idioma && Boolean(formik.errors.idioma)}
@@ -184,6 +199,34 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                 />
             </Grid>
             <Grid size={{xs: 12, sm: 3}}>
+                <MySwitch 
+                    label='Aceptado'
+                    name='aceptacion'
+                    disabled={id !== 'nuevo' && !edit}
+                    checked={formik.values.aceptacion as boolean}
+                    handleChange={formik.handleChange}
+                    sx={{mt:1}}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
+                    <DatePicker 
+                        label="Fecha Aceptación"
+                        value={dayjs(formik.values.fecha_aceptacion)} 
+                        onChange={(date)=>formik.setFieldValue('fecha_aceptacion',dayjs(date))} 
+                        disabled={id !== 'nuevo' && !edit}
+                        maxDate={dayjs(new Date())}
+                        slotProps={{
+                            textField:{
+                                fullWidth:true,
+                                error: Boolean(formik.touched.fecha_aceptacion) && Boolean(formik.errors.fecha_aceptacion),
+                                helperText: (formik.touched.fecha_aceptacion && formik.errors.fecha_aceptacion) as string
+                            }
+                        }}
+                    />
+                </LocalizationProvider>
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
                 <TextField
                     autoFocus
                     disabled={!formik.values.duplicado as boolean}
@@ -211,6 +254,21 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                     variant="outlined"
                     onChange={formik.handleChange}
                     helperText={formik.touched.elaborador && formik.errors.elaborador}
+                />
+            </Grid>
+            <Grid size={{xs: 12, sm: 3}}>
+                <TextField
+                    autoFocus
+                    disabled
+                    value={formik.values.url}
+                    name='url'
+                    label="URL"
+                    error={formik.touched.url && Boolean(formik.errors.url)}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    helperText={formik.touched.url && formik.errors.url}
                 />
             </Grid>
         </Grid>
