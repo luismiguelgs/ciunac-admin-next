@@ -5,6 +5,7 @@ const msgReq = 'Campo requerido'
 
 const validationSchema = yup.object<Icertificado>({
     alumno: yup.string().required(msgReq),
+    tipo: yup.string().trim().required(msgReq),
     dni: yup.string().required(msgReq),
     fecha_emision: yup.date().required(msgReq),
     fecha_conclusion: yup.date().required(msgReq),
@@ -15,6 +16,11 @@ const validationSchema = yup.object<Icertificado>({
     elaborador: yup.string().trim(),
     curricula_antigua: yup.boolean(),
     duplicado : yup.boolean(),
+    url : yup.string().trim().when('tipo', {
+        is: 'fisico',
+        then: (schema:yup.Schema) => schema.optional().nullable(),
+        otherwise: (schema:yup.Schema)=> schema.required(msgReq),
+    }),
     id_solicitud: yup.string(),
     certificado_anterior: yup.string().trim().when('duplicado', {
         is: true,
@@ -38,7 +44,8 @@ const initialValues:Icertificado ={
     curricula_antigua: false,
     duplicado: false,
     certificado_anterior: '',
-    id_solicitud: ''
+    id_solicitud: '',
+    url: ''
 }
 
 export { initialValues, validationSchema }
