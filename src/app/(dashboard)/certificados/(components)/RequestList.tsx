@@ -8,6 +8,8 @@ import LanguageIcon from '@mui/icons-material/Language';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import useStore from '@/hooks/useStore';
 import { useSubjectsStore } from '@/store/types.stores';
+import PrintIcon from '@mui/icons-material/Print';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 type Props = {
     setRequest: React.Dispatch<React.SetStateAction<Isolicitud | undefined>>,
@@ -38,7 +40,7 @@ export default function RequestList({setOpenDialogFull, setRequest, setReload, f
         {
             field: 'manual',
             type: 'boolean',
-            headerName: '',
+            headerName: 'ONLINE',
             renderCell(params) {
                 if(params.value){
                     return <KeyboardIcon color="secondary"/>
@@ -46,12 +48,23 @@ export default function RequestList({setOpenDialogFull, setRequest, setReload, f
                     return <LanguageIcon color="primary"/>
                 }
             },
+        },{
+            field: 'digital',
+            type: 'boolean',
+            headerName: 'DIGITAL',
+            renderCell(params) {
+                if(params.value){
+                    return <PictureAsPdfIcon color="secondary"/>
+                }else{
+                    return <PrintIcon color="primary"/>
+                }
+            },
         },
         {
             field: 'periodo',
             headerName: 'PERIODO',
             type: 'string',
-            width: 100
+            width: 110
         },
         {
             field: 'creado',

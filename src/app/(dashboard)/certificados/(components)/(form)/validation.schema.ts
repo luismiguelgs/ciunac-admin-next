@@ -5,6 +5,7 @@ const msgReq = 'Campo requerido'
 
 const validationSchema = yup.object<Icertificado>({
     alumno: yup.string().required(msgReq),
+    dni: yup.string().required(msgReq),
     fecha_emision: yup.date().required(msgReq),
     fecha_conclusion: yup.date().required(msgReq),
     idioma: yup.string().trim().required(msgReq),
@@ -24,6 +25,7 @@ const validationSchema = yup.object<Icertificado>({
 
 const initialValues:Icertificado ={
     alumno: '',
+    dni: '',
     idioma: '',
     impreso: false,
     nivel : '',

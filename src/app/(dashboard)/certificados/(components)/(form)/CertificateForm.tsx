@@ -47,7 +47,7 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                     error={formik.touched.id_solicitud && Boolean(formik.errors.id_solicitud)}
                     type="text"
                     fullWidth
-                    disabled={true}
+                    disabled={id !== 'nuevo' && !edit}
                     slotProps={{inputLabel: { shrink: true, }}}
                     variant="outlined"
                     onChange={formik.handleChange}
@@ -59,11 +59,12 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                     autoFocus
                     value={formik.values.dni}
                     name='dni'
-                    disabled={id !== 'nuevo'}
+                    disabled={id !== 'nuevo' && !edit}
                     label="Documento de Identidad"
                     error={formik.touched.dni && Boolean(formik.errors.dni)}
                     type="number"
                     fullWidth
+                    slotProps={{inputLabel: { shrink: true, }}}
                     variant="outlined"
                     onChange={formik.handleChange}
                     helperText={formik.touched.dni && formik.errors.dni}
@@ -158,7 +159,7 @@ export default function CertificateForm({formik, id, edit=false}:Props)
             </Grid>
             <Grid size={{xs: 12, sm: 3}}>
             <MySelect 
-                    data={[{label:'Físico', value:'fisico'},{label:'Virtual', value:'virtual'}]}
+                    data={[{label:'Físico', value:'fisico'},{label:'Digital', value:'digital'}]}
                     handleChange={formik.handleChange}
                     label='Tipo de Certificado'
                     name='tipo'
@@ -202,7 +203,7 @@ export default function CertificateForm({formik, id, edit=false}:Props)
                 <MySwitch 
                     label='Aceptado'
                     name='aceptacion'
-                    disabled={id !== 'nuevo' && !edit}
+                    disabled={true}
                     checked={formik.values.aceptacion as boolean}
                     handleChange={formik.handleChange}
                     sx={{mt:1}}
@@ -259,13 +260,14 @@ export default function CertificateForm({formik, id, edit=false}:Props)
             <Grid size={{xs: 12, sm: 3}}>
                 <TextField
                     autoFocus
-                    disabled
                     value={formik.values.url}
                     name='url'
                     label="URL"
                     error={formik.touched.url && Boolean(formik.errors.url)}
                     type="text"
                     fullWidth
+                    slotProps={{inputLabel: { shrink: true, }}}
+                    disabled={id !== 'nuevo' && !edit}
                     variant="outlined"
                     onChange={formik.handleChange}
                     helperText={formik.touched.url && formik.errors.url}

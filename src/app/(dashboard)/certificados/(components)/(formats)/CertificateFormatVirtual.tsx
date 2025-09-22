@@ -2,7 +2,6 @@
 import { StyleSheet, Document, Page, View, Text, Font, Image, Link } from '@react-pdf/renderer'
 import QRCode from 'qrcode'
 import waterMark from '@/assets/unac-logo.png'
-import firmaDirector from '@/assets/firma-director.png'
 import logoCiunac from '@/assets/logo-ciunac-trans.png'
 import logoUnac from '@/assets/unac-logo.png'
 import { IcertificadoDetalle } from '@/interfaces/certificado.interface'
@@ -261,14 +260,11 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 						{/*<Image style={{marginBottom: 10, marginHorizontal: 20, width: 150, marginTop: 30}} src={selloDirector.src}/>*/}
 	  				</View>
 				</View>
-				{/* Firma */}
-				<View style={{ alignItems: 'flex-start', marginTop: 5, paddingLeft:55 }}>
+				{/* Firma reemplazada por QR */}
+				<View style={{ alignItems: 'flex-start', marginTop: 25, paddingLeft:55 }}>
 					<View style={{ width: 200, alignItems: 'center', marginBottom: 6 }}>
-						<Image style={{ width: 80 }} src={firmaDirector.src} />
+						<Image style={{ width: 100 }} src={QRCode} />
 					</View>
-					<View style={{ width: 200, borderBottomWidth: 1, borderBottomColor: 'black' }} />
-					<Text style={{ width: 200, fontSize: 12, fontFamily: 'Roboto-Bold', marginTop: 6, textAlign: 'center' }}>Dr. Nestor Gomero Ostos</Text>
-					<Text style={{ width: 200, fontSize: 10, textAlign: 'center' }}>Director del Centro de Idiomas</Text>
 				</View>
 				{/* Espacio para firma digital */}
 				<View style={{marginTop: 10}}>
@@ -364,12 +360,11 @@ export default function CertificateFormatVirtual({certificado_anterior, curricul
 					</View>
 				</View>
 				<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10 }}>
-					<Image style={{ width: 100, marginTop: 10 }} src={QRCode} />
-					<Link src={url} style={{ fontSize: 10, marginTop: 4, color: '#0659A7', textDecoration: 'underline' }}>{url}</Link>
-					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold'}}>
+					<Link src={url} style={{ fontSize: 10, marginTop: 15, color: '#0659A7', textDecoration: 'underline' }}>{url}</Link>
+					<Text style={{fontSize: 12, textAlign: 'center', fontFamily: 'Roboto-Bold', marginTop: 15}}>
 						Av. Juan Pablo II N° 310 Bellavista - Callao
 					</Text>
-					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 4}}>
+					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 5}}>
 						{/* Teléfono */}
 						<View style={{flexDirection: 'row', alignItems: 'center', marginRight: 12}}>
 							<Image src={"https://img.icons8.com/ios-filled/50/000000/phone.png"} style={{ width: 10, height: 10 }} />

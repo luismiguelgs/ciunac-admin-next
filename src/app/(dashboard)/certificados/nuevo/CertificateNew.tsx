@@ -72,6 +72,11 @@ export default function CertificateNew({ session }: { session: Session | null })
                 formik.setFieldValue('numero_registro', 'IA00 -Folio')
             }
         }
+        if(dataRequest?.digital){
+            formik.setFieldValue('tipo', 'digital')
+        }else{
+            formik.setFieldValue('tipo', 'fisico')
+        }
     }, [reload])
   
 	return (

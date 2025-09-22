@@ -15,6 +15,8 @@ import { IBaseData } from '@/interfaces/types.interface';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useRouter } from 'next/navigation';
 import { getIconByCode } from '@/lib/common';
+import PrintIcon from '@mui/icons-material/Print';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 function MyCustomToolbar(props: GridToolbarContainerProps){
     return(
@@ -41,7 +43,7 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
     const columns: GridColDef[] = [
         {
             field: 'manual',
-            width: 80,
+            width: 75,
             type: 'boolean',
             headerName: 'ONLINE',
                 renderCell(params) {
@@ -49,6 +51,19 @@ export function RequestState(props:{state:string, documents:IBaseData[]|undefine
                         return <KeyboardIcon color="secondary"/>
                     }else{
                         return <LanguageIcon color="primary"/>
+                    }
+                }
+        },
+        {
+            field: 'digital',
+            width: 75,
+            type: 'boolean',
+            headerName: 'DIGITAL',
+                renderCell(params) {
+                    if(params.value){
+                        return <PictureAsPdfIcon color="secondary"/>
+                    }else{
+                        return <PrintIcon color="primary"/>
                     }
                 }
         },

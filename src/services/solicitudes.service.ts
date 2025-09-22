@@ -47,7 +47,7 @@ export default class SolicitudesService
         let itemQuery: Query
         const condicionesBecas = ['BECA']
         const condicionesExamen = ['EXAMEN_DE_UBICACION'];
-        const condicionesCertificados = ['CERTIFICADO_DE_ESTUDIO', 'DUPLICADO_DE_CERTIFICADO'];
+        const condicionesCertificados = ['CERTIFICADO_DE_ESTUDIO', 'DUPLICADO_DE_CERTIFICADO','CERTIFICADO_DIGITAL','CERTIFICADO_DIGITAL_COPIA'];
         const condicionesConstancias = ['CONSTANCIA_DE_MATRICULA', 'CONSTANCIA_DE_NOTAS'];
 
         switch(tipoSolicitud){

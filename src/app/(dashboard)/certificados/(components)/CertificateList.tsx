@@ -11,8 +11,10 @@ import { useRouter } from 'next/navigation'
 import CertificadosService, { Collection } from '@/services/certificados.service'
 import { NIVEL } from '@/lib/constants'
 import PrintIcon from '@mui/icons-material/Print';
-import { PDFViewer } from '@react-pdf/renderer'
+import { PDFViewer, pdf } from '@react-pdf/renderer'
 import CertificateFormat from './(formats)/CertificateFormat'
+import CertificateFormatVirtual from './(formats)/CertificateFormatVirtual'
+import DownloadIcon from '@mui/icons-material/Download';
 import dayjs from 'dayjs'
 import SolicitudesService from '@/services/solicitudes.service'
 import useSubjects from '@/hooks/useSubjects'
@@ -83,6 +85,70 @@ export default function CertificateList({rows, setRows, printed}:Props)
         setOpenPrint(true)
         //alert(JSON.stringify(selectData))
     }
+    const buildFileName = (row: Icertificado) => {
+        const alumno = (row.alumno || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9-_ ]/g, '').replace(/\s+/g, '_');
+        const idioma = (row.idioma || '').toString();
+        const nivel = (row.nivel || '').toString();
+        const folio = (row.numero_registro || '').toString();
+        const fecha = dayjs(row.fecha_emision).format('YYYYMMDD');
+        const parts = [
+            'Certificado',
+            alumno || 'Alumno',
+            idioma || 'Idioma',
+            nivel || 'Nivel',
+            folio || (row.id as string)
+        ].filter(Boolean);
+        return `${parts.join('_')}_${fecha}.pdf`;
+    }
+    const handleDownload = async (id: GridRowId) => {
+        const row = rows.find(r => r.id === id);
+        if (!row) return;
+        const isDigital = row.tipo !== 'fisico';
+        const doc = isDigital ? (
+            <CertificateFormatVirtual
+                duplicado={row.duplicado as boolean}
+                curricula_antigua={row.curricula_antigua as boolean}
+                certificado_anterior={row.certificado_anterior}
+                id={row.id as string}
+                formato={row.idioma === 'INGLES' && row.nivel === 'BASICO' ? 1 : 0}
+                fecha_emision={dayjs(row.fecha_emision).format('D [de] MMMM [de] YYYY')}
+                fecha_conclusion={dayjs(row.fecha_conclusion).format('D [de] MMMM [de] YYYY')}
+                idioma={subjects?.filter(item=>item.value === row.idioma)[0]?.label}
+                nivel={NIVEL.filter(item=>item.value === row.nivel)[0]?.label}
+                url={`https://ciunac.unac.edu.pe/validacion-certificado/?url=${row.id}`}
+                alumno={row.alumno as string}
+                horas={row.horas as number}
+                elaborador={row.elaborador}
+                numero_folio={row.numero_registro as string}
+            />
+        ) : (
+            <CertificateFormat
+                duplicado={row.duplicado as boolean}
+                curricula_antigua={row.curricula_antigua as boolean}
+                certificado_anterior={row.certificado_anterior}
+                id={row.id as string}
+                formato={row.idioma === 'INGLES' && row.nivel === 'BASICO' ? 1 : 0}
+                fecha_emision={dayjs(row.fecha_emision).format('D [de] MMMM [de] YYYY')}
+                fecha_conclusion={dayjs(row.fecha_conclusion).format('D [de] MMMM [de] YYYY')}
+                idioma={subjects?.filter(item=>item.value === row.idioma)[0]?.label}
+                nivel={NIVEL.filter(item=>item.value === row.nivel)[0]?.label}
+                url={`https://ciunac.unac.edu.pe/validacion-certificado/?url=${row.id}`}
+                alumno={row.alumno as string}
+                horas={row.horas as number}
+                elaborador={row.elaborador}
+                numero_folio={row.numero_registro as string}
+            />
+        );
+        const blob = await pdf(doc).toBlob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = buildFileName(row);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    }
     
 	//Columnas ***************
     const columns: GridColDef[] = [
@@ -94,7 +160,9 @@ export default function CertificateList({rows, setRows, printed}:Props)
             renderCell: (params) =>{
                 switch(params.value){
                     case 'virtual':
-                        return <Chip label='VIRTUAL' color="secondary" />
+                        return <Chip label='DIGITAL' color="secondary" />
+                    case 'digital':
+                        return <Chip label='DIGITAL' color="secondary" />
                     case 'fisico':
                         return <Chip label='FISICO' color="primary" />
                     default:
@@ -142,14 +210,28 @@ export default function CertificateList({rows, setRows, printed}:Props)
 					cols={columns}
 					handleDetails={handleDetails}
 					handleDelete={handleDelete}
-                    extraActions={(id:GridRowId) => [
-                        <GridActionsCellItem
-                            key='print'
-                            icon={<PrintIcon />}
-                            label='Imprimir'
-                            onClick={() => handlePrint(id)}
-                        />
-                    ]}
+                    extraActions={(id:GridRowId) => {
+                        const row = rows.find(r => r.id === id);
+                        
+                        if (row?.tipo !== 'fisico' ) {
+                            return [
+                                <GridActionsCellItem
+                                    key='download'
+                                    icon={<DownloadIcon />}
+                                    label='Descargar'
+                                    onClick={() => handleDownload(id)}
+                                />
+                            ]
+                        }
+                        return [
+                            <GridActionsCellItem
+                                key='print'
+                                icon={<PrintIcon />}
+                                label='Imprimir'
+                                onClick={() => handlePrint(id)}
+                            />
+                        ]
+                    }}
 				/>
 			}
 			</Grid>

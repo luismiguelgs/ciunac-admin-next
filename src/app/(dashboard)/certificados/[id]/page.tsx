@@ -42,6 +42,7 @@ export default function CertificateDetailPage()
             formik.setValues({
                 alumno: data?.alumno || initialValues.alumno,
                 impreso: data?.impreso || false,
+                dni: data?.dni || initialValues.dni,
                 id_solicitud: data?.id_solicitud || initialValues.id_solicitud,
                 idioma: data?.idioma || initialValues.idioma,
                 nivel : data?.nivel || initialValues.nivel,
@@ -53,8 +54,8 @@ export default function CertificateDetailPage()
                 numero_registro: data?.numero_registro || initialValues.numero_registro,
                 curricula_antigua: data?.curricula_antigua || initialValues.curricula_antigua,
                 duplicado: data?.duplicado || initialValues.duplicado,
-                certificado_anterior: data?.certificado_anterior || initialValues.certificado_anterior
-                
+                certificado_anterior: data?.certificado_anterior || initialValues.certificado_anterior,
+                url: data?.url || initialValues.url
             })
             setLoading(false)
         }
@@ -100,7 +101,7 @@ export default function CertificateDetailPage()
                         formik={formik} 
                         id={id as string} 
                         data={detalle} 
-                        virtual={formik.values.tipo === 'virtual'}
+                        virtual={formik.values.tipo !== 'fisico'}
                         cursos={subjects} />
 				</Grid>
                 <Grid size={{xs:12}}>
